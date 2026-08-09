@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1280px; height: 640px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+    background: radial-gradient(120% 140% at 12% 0%, #14181f 0%, #0a0c0f 60%, #07080a 100%);
+    color: #f4f4f2;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* honed-edge blade motif, right side */
+  .blade { position: absolute; right: -60px; top: -80px; width: 720px; height: 800px; opacity: .9; }
+
+  /* faint grid of "checks" texture, very subtle */
+  .grain {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.020) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.020) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(80% 80% at 20% 30%, #000 0%, transparent 75%);
+  }
+
+  .wrap { position: absolute; inset: 0; padding: 96px 100px; display: flex; flex-direction: column; }
+
+  .top { display: flex; align-items: center; gap: 14px; color: #7f8792; font-size: 22px; letter-spacing: .2px; }
+  .top .dot { width: 8px; height: 8px; border-radius: 50%; background: #e9b665; box-shadow: 0 0 14px 2px rgba(233,182,101,.6); }
+  .top .path { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 20px; }
+
+  .mid { margin-top: auto; margin-bottom: auto; }
+  .mark {
+    font-size: 138px; font-weight: 800; letter-spacing: -5px; line-height: .92;
+    color: #f6f6f4;
+  }
+  .edge {
+    width: 470px; height: 8px; margin: 26px 0 30px; border-radius: 8px;
+    background: linear-gradient(90deg, #4a5058 0%, #e9b665 55%, #ffffff 100%);
+    box-shadow: 0 0 22px 1px rgba(233,182,101,.35);
+  }
+  .tag { font-size: 40px; font-weight: 600; color: #eceef1; letter-spacing: -.3px; }
+  .sub { margin-top: 14px; font-size: 25px; color: #9aa2ab; font-weight: 400; }
+
+  .chips { display: flex; gap: 14px; }
+  .chip {
+    font-size: 22px; color: #d5dae0; padding: 11px 20px; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.03);
+    display: flex; align-items: center; gap: 9px;
+  }
+  .chip b { color: #e9b665; font-weight: 700; }
+</style>
+</head>
+<body>
+  <svg class="blade" viewBox="0 0 720 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1b2027"/>
+        <stop offset="1" stop-color="#0c0e12"/>
+      </linearGradient>
+      <linearGradient id="hone" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+        <stop offset=".55" stop-color="#e9b665" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#ffffff"/>
+      </linearGradient>
+    </defs>
+    <!-- blade body -->
+    <polygon points="250,40 700,120 560,720 470,700" fill="url(#steel)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+    <!-- honed cutting edge -->
+    <polygon points="250,40 300,52 520,700 470,700" fill="url(#hone)"/>
+    <!-- specular glint -->
+    <line x1="262" y1="70" x2="500" y2="690" stroke="#ffffff" stroke-width="2" stroke-opacity=".55"/>
+  </svg>
+
+  <div class="grain"></div>
+
+  <div class="wrap">
+    <div class="top">
+      <span class="dot"></span>
+      <span class="path">github.com/iamakbarsha1/whetstone</span>
+    </div>
+
+    <div class="mid">
+      <div class="mark">whetstone</div>
+      <div class="edge"></div>
+      <div class="tag">Agent skills honed on real work.</div>
+      <div class="sub">A whetstone sharpens a blade. These sharpen the agent.</div>
+    </div>
+
+    <div class="chips">
+      <span class="chip"><b>19</b> skills</span>
+      <span class="chip">Claude Code plugin</span>
+      <span class="chip">distilled from real failures</span>
+      <span class="chip">CC&nbsp;BY&nbsp;4.0</span>
+    </div>
+  </div>
+</body>
+</html>
