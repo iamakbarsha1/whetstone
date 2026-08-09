@@ -203,7 +203,9 @@
     background-position: 0 0;
     -webkit-background-clip: text;
     background-clip: text;
-    animation: temper-in 1.1s cubic-bezier(0.2,0.7,0.2,1) both;
+    animation:
+      temper-in 1.1s cubic-bezier(0.2,0.7,0.2,1) both,
+      hero-heat 5.5s ease-in-out 1.1s infinite;
   }
   .hero .lede {
     margin-top: 34px;
@@ -487,6 +489,11 @@
   @keyframes temper-in {
     from { opacity: 0; background-position: 120% 0; }
     to   { opacity: 1; background-position: 0 0; }
+  }
+  /* the heat sweeps across the word and back — no hard reset */
+  @keyframes hero-heat {
+    0%, 100% { background-position: 0 0; }
+    50%      { background-position: -110% 0; }
   }
   .edge { background-size: 200% 100%; animation: temper 7s linear infinite; }
 
