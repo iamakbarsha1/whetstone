@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace-manifest.json",
+  "name": "whetstone-skills",
+  "description": "Agent skills honed on real work.",
+  "owner": {
+    "name": "akbarsha",
+    "url": "https://github.com/iamakbarsha1"
+  },
+  "plugins": [
+    {
+      "name": "whetstone",
+      "source": "./",
+      "description": "Agent skills distilled from real engineering failures: verify through the real path, cross-encoding plan review, read the real failing call, confirm the premise first, and running long background jobs.",
+      "version": "1.0.0",
+      "license": "CC-BY-4.0",
+      "homepage": "https://github.com/iamakbarsha1/whetstone",
+      "keywords": ["skills", "verification", "debugging", "planning", "background-jobs"]
+    }
+  ]
+}

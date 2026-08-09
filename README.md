@@ -19,15 +19,29 @@ A whetstone sharpens a blade. These sharpen the agent.
 
 ## Install
 
-These follow the Claude Code skill layout (`SKILL.md` with `name` +
-`description` frontmatter). To install one, copy its folder into your skills
-directory:
+### As a Claude Code plugin (recommended)
+
+Add the marketplace, then install the plugin — all skills come with it:
+
+```sh
+/plugin marketplace add iamakbarsha1/whetstone
+/plugin install whetstone@whetstone-skills
+```
+
+Run these inside Claude Code. `whetstone@whetstone-skills` is
+`plugin@marketplace` — the plugin is `whetstone`, the marketplace is
+`whetstone-skills`.
+
+### Manual copy
+
+Each skill is a self-contained folder in the Claude Code skill layout
+(`SKILL.md` with `name` + `description` frontmatter). Copy one:
 
 ```sh
 cp -R skills/verify-through-the-real-path ~/.claude/skills/
 ```
 
-Or copy them all:
+Or all of them:
 
 ```sh
 cp -R skills/* ~/.claude/skills/
@@ -35,6 +49,20 @@ cp -R skills/* ~/.claude/skills/
 
 The `description` frontmatter carries trigger phrases, so a skill-aware agent
 surfaces each one when the situation matches.
+
+### Other agents / plain reading
+
+Every `SKILL.md` is plain Markdown — the rules and pre-flight checklists read
+fine on their own. Any agent that can load a system prompt or reference file
+can use them: paste the skill body in, or point your tool's context at the
+file. Only the plugin auto-discovery above is Claude Code-specific.
+
+## Contributing
+
+New skills come from real failures, not general advice. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for the bar and the skill format, and
+[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Validate locally with
+`python3 scripts/validate_skills.py` (CI runs the same check).
 
 ## Licence
 

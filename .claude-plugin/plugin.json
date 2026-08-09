@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "whetstone",
+  "description": "Agent skills honed on real work — short, self-contained rule sets distilled from concrete engineering failures, so an agent (or human) can apply the lesson without the original context.",
+  "version": "1.0.0",
+  "author": {
+    "name": "akbarsha",
+    "email": "iamakbarsha1@gmail.com",
+    "url": "https://github.com/iamakbarsha1"
+  },
+  "homepage": "https://github.com/iamakbarsha1/whetstone",
+  "repository": "https://github.com/iamakbarsha1/whetstone",
+  "license": "CC-BY-4.0",
+  "keywords": ["skills", "verification", "debugging", "planning", "background-jobs", "code-review"]
+}

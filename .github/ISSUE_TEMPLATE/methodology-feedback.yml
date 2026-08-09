@@ -1,0 +1,39 @@
+name: Methodology feedback
+description: A rule in a skill is wrong, misleading, or needs sharpening.
+title: "[feedback] <skill-name>: <short summary>"
+labels: ["methodology"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Use this when a skill's *rule* is wrong or incomplete. If instead an
+        agent ignored a rule that is itself correct, that's an execution
+        failure, not methodology feedback.
+  - type: input
+    id: skill
+    attributes:
+      label: Which skill
+      placeholder: verify-through-the-real-path
+    validations:
+      required: true
+  - type: textarea
+    id: rule
+    attributes:
+      label: Which rule / section
+      description: Quote or name the specific check or pre-flight item.
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: The real situation where the rule proved wrong or unclear.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested change
+      description: How the rule should read instead, and why.
+    validations:
+      required: false

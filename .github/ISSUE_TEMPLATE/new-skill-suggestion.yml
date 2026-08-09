@@ -1,0 +1,39 @@
+name: New skill suggestion
+description: Propose a new skill distilled from a real failure or lesson.
+title: "[skill] <working name>"
+labels: ["new-skill"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        whetstone skills come from concrete failures, not general advice.
+        The bar: a specific thing that went wrong, and the rule that would
+        have prevented it. See CONTRIBUTING.md.
+  - type: input
+    id: name
+    attributes:
+      label: Working name
+      placeholder: confirm-the-premise-first
+    validations:
+      required: true
+  - type: textarea
+    id: failure
+    attributes:
+      label: The real failure
+      description: What actually went wrong (sanitized — no client-identifying detail).
+    validations:
+      required: true
+  - type: textarea
+    id: rule
+    attributes:
+      label: The rule that would have caught it
+      description: The generalizable check an agent could apply without the original context.
+    validations:
+      required: true
+  - type: textarea
+    id: trigger
+    attributes:
+      label: When should it fire
+      description: Trigger phrases / situations for the description frontmatter.
+    validations:
+      required: false
