@@ -929,10 +929,12 @@ actual trigger, real data...
   }
 
   // live visit total from GoatCounter (runs regardless of motion pref;
-  // leaves the "—" placeholder untouched if the fetch fails)
+  // leaves the "—" placeholder untouched if the fetch fails). Uses the "/"
+  // path counter, not TOTAL.json — TOTAL returns 0 on this account, and this
+  // single-page site's "/" hits are the real visit total.
   var visitEl = document.getElementById('visit-count');
   if (visitEl) {
-    fetch('https://whetstone.goatcounter.com/counter/TOTAL.json')
+    fetch('https://whetstone.goatcounter.com/counter/%2F.json')
       .then(function (r) { return r.json(); })
       .then(function (d) {
         var n = parseInt(String(d.count).replace(/[^0-9]/g, ''), 10); // "1,234" -> 1234
