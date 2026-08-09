@@ -10,8 +10,8 @@
     {
       "name": "whetstone",
       "source": "./",
-      "description": "Agent skills distilled from real engineering failures: verify through the real path, cross-encoding plan review, read the real failing call, confirm the premise first, and running long background jobs.",
-      "version": "1.0.0",
+      "description": "A pack of agent skills distilled from real engineering failures — verification, planning, safe contract changes, testing, debugging, and code review. Each is a short rule set ending in a pre-flight checklist.",
+      "version": "1.1.0",
       "license": "CC-BY-4.0",
       "homepage": "https://github.com/iamakbarsha1/whetstone",
       "keywords": ["skills", "verification", "debugging", "planning", "background-jobs"]

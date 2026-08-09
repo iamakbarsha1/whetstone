@@ -9,13 +9,39 @@ A whetstone sharpens a blade. These sharpen the agent.
 
 ## Skills
 
+### Verify & prove
+
 | Skill | Use it when |
 |-------|-------------|
 | [`verify-through-the-real-path`](skills/verify-through-the-real-path) | Before claiming something works, is done, safe, or fast — verify through the actual trigger, real data, and representative conditions, not a stand-in. |
-| [`plan-cross-encoding-review`](skills/plan-cross-encoding-review) | Reviewing an implementation plan or spec — catch the bug where one intent is encoded twice and the copies disagree. |
-| [`read-the-real-failing-call`](skills/read-the-real-failing-call) | Hardening against a failure mode — instrument the real failing call before and after, because a plausible hypothesis is not a diagnosis. |
-| [`confirm-the-premise-first`](skills/confirm-the-premise-first) | Designing when a choice depends on a technical property (local vs remote, reversible vs not) — state the ground truth before asking downstream questions. |
+| [`prove-the-test-can-fail`](skills/prove-the-test-can-fail) | After writing a test, or before trusting a green one — make it fail on purpose once, and confirm new branches are reachable by the mocks. |
+| [`measure-the-delta-not-the-absolute`](skills/measure-the-delta-not-the-absolute) | Judging whether your change is clean on a red or noisy baseline — prove it by stash-and-compare, not by which files appear in the failure list. |
 | [`running-long-background-jobs`](skills/running-long-background-jobs) | Launching or verifying a long-running/detached job, or reconciling a batch against a corpus other processes also write to. |
+
+### Plan & design
+
+| Skill | Use it when |
+|-------|-------------|
+| [`plan-cross-encoding-review`](skills/plan-cross-encoding-review) | Reviewing an implementation plan or spec — catch the bug where one intent is encoded twice and the copies disagree. |
+| [`confirm-the-premise-first`](skills/confirm-the-premise-first) | Designing when a choice depends on a technical property (local vs remote, reversible vs not) — state the ground truth before asking downstream questions. |
+| [`audit-before-you-build`](skills/audit-before-you-build) | Starting an implementation task from a ticket/checklist/spec — grep for what already exists first; trackers record conversations, not deliverables. |
+| [`inject-ambient-inputs`](skills/inject-ambient-inputs) | Writing logic that reads the clock, randomness, env, or handles — pass them in as parameters so the pure core tests with no mocking machinery. |
+
+### Change safely
+
+| Skill | Use it when |
+|-------|-------------|
+| [`grep-the-blast-radius`](skills/grep-the-blast-radius) | Changing a shared contract (flag, column, type, endpoint) — the retired name is your consumer index; grep the whole workspace and run cross-boundary suites. |
+| [`diff-each-side-against-merge-base`](skills/diff-each-side-against-merge-base) | Resolving a merge/rebase conflict — markers show where git gave up, not the full delta; auto-merge silently drops fields. |
+| [`verify-absence-claims`](skills/verify-absence-claims) | Acting on a "none exists / not found" claim, especially from delegated research — re-grep it; absence is only as good as the search pattern. |
+| [`negative-invariant-testing`](skills/negative-invariant-testing) | Protecting a "never does X" constraint — a behavioural test can't see an unused capability; assert structurally on the mechanism's existence. |
+
+### Diagnose & review
+
+| Skill | Use it when |
+|-------|-------------|
+| [`read-the-real-failing-call`](skills/read-the-real-failing-call) | Hardening against a failure mode — instrument the real failing call before and after, because a plausible hypothesis is not a diagnosis. |
+| [`manufacture-review-independence`](skills/manufacture-review-independence) | Reviewing your own work (author == reviewer) — replace lost independence with scoped parallel passes and adversarial re-reads of the source. |
 
 ## Install
 
