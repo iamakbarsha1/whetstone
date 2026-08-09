@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>whetstone — agent skills honed on real work</title>
+<meta name="description" content="19 agent skills, each distilled from one concrete engineering failure — short, self-contained rule sets an AI coding agent (or a human) can apply without the original context." />
+<meta name="theme-color" content="#0E1013" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230E1013'/%3E%3Cdefs%3E%3ClinearGradient id='e' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23E9B24C'/%3E%3Cstop offset='0.5' stop-color='%23C9713C'/%3E%3Cstop offset='1' stop-color='%234C6E8E'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='10,7 20,7 15,25' fill='url(%23e)'/%3E%3C/svg%3E" />
+<link rel="canonical" href="https://whetstone.akbarsha.dev/" />
+<meta property="og:title" content="whetstone — agent skills honed on real work" />
+<meta property="og:description" content="Every skill here is a scar. 19 rule sets distilled from concrete failures, each ending in a pre-flight checklist that fails loudly." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://whetstone.akbarsha.dev/" />
+<meta property="og:image" content="https://whetstone.akbarsha.dev/social-preview.png" />
+<meta property="og:image:width" content="1280" />
+<meta property="og:image:height" content="640" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="whetstone — agent skills honed on real work" />
+<meta name="twitter:description" content="Every skill here is a scar. 19 rule sets distilled from concrete failures, each ending in a pre-flight checklist that fails loudly." />
+<meta name="twitter:image" content="https://whetstone.akbarsha.dev/social-preview.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --stone-900: #0E1013;
+    --stone-850: #131619;
+    --stone-800: #181C21;
+    --stone-750: #1D222A;
+    --grit:      #262C34;
+    --grit-hi:   #38414C;
+    --bone:      #ECEAE3;
+    --slate:     #9BA3AD;
+    --slate-dim: #666E79;
+    --spark:     #E8A24A;
+
+    /* the tempered-steel edge: colors steel actually turns as it heats */
+    --edge: linear-gradient(90deg,
+      transparent 0%,
+      #E9B24C 14%,
+      #F6E7C4 26%,
+      #C9713C 46%,
+      #8A3F3A 62%,
+      #4C6E8E 82%,
+      transparent 100%);
+
+    --maxw: 1180px;
+    --font-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+    --font-body: "Hanken Grotesk", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+  body {
+    background: var(--stone-900);
+    color: var(--bone);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* stone grit — a faint grain over everything */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* a cold light bleeding from the top, like a workshop window */
+  body::after {
+    content: "";
+    position: fixed;
+    top: -30vh; left: 50%;
+    width: 120vw; height: 80vh;
+    transform: translateX(-50%);
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(90,120,150,0.10), transparent 62%);
+  }
+
+  main, header, footer { position: relative; z-index: 1; }
+
+  a { color: inherit; text-decoration: none; }
+
+  ::selection { background: rgba(232,162,74,0.28); color: var(--bone); }
+
+  :focus-visible {
+    outline: 2px solid var(--spark);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: 28px; }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--slate-dim);
+  }
+
+  /* the honed edge — signature rule */
+  .edge {
+    height: 2px;
+    width: 100%;
+    background: var(--edge);
+    border: 0;
+  }
+
+  /* ---------- header ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(14,16,19,0.72);
+    border-bottom: 1px solid var(--grit);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 62px;
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand .glyph {
+    width: 15px; height: 15px;
+    background: var(--edge);
+    transform: skewX(-20deg);
+    display: inline-block;
+  }
+  .nav-links { display: flex; gap: 30px; align-items: center; }
+  .nav-links a { font-size: 0.82rem; color: var(--slate); transition: color 0.18s; }
+  .nav-links a:hover { color: var(--bone); }
+  .nav-links .gh {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    border: 1px solid var(--grit-hi);
+    padding: 7px 13px;
+    color: var(--bone);
+    transition: border-color 0.18s, background 0.18s;
+  }
+  .nav-links .gh:hover { border-color: var(--spark); background: rgba(232,162,74,0.08); }
+  @media (max-width: 720px) { .nav-links a:not(.gh) { display: none; } }
+
+  /* ---------- section rhythm ---------- */
+  .section { padding-block: clamp(72px, 11vw, 132px); }
+  .section-head { margin-bottom: 52px; }
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.9rem, 4.4vw, 3rem);
+    line-height: 0.98;
+    letter-spacing: 0.005em;
+    margin-top: 14px;
+  }
+  .section-head p { color: var(--slate); max-width: 60ch; margin-top: 18px; }
+
+  /* ---------- hero ---------- */
+  .hero { padding-top: clamp(64px, 10vw, 116px); padding-bottom: clamp(52px, 8vw, 96px); }
+  .hero .eyebrow { margin-bottom: 30px; }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(3.1rem, 10.5vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    max-width: 15ch;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: transparent;
+    background: var(--edge);
+    background-size: 100% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .hero .lede {
+    margin-top: 34px;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    line-height: 1.5;
+    color: var(--slate);
+    max-width: 56ch;
+  }
+  .hero .lede b { color: var(--bone); font-weight: 500; }
+  .hero-edge { margin: 44px 0 40px; max-width: 640px; }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch; }
+
+  .cmd {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--stone-800);
+    border: 1px solid var(--grit-hi);
+    padding: 13px 15px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--bone);
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s;
+    text-align: left;
+  }
+  .cmd:hover { border-color: var(--spark); }
+  .cmd .prompt { color: var(--spark); }
+  .cmd .copy {
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--slate-dim);
+    border-left: 1px solid var(--grit-hi);
+    padding-left: 12px;
+    text-transform: uppercase;
+  }
+  .cmd.copied .copy { color: #7FB27F; }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    padding: 13px 22px;
+    border: 1px solid var(--grit-hi);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--slate);
+    transition: color 0.18s, border-color 0.18s;
+  }
+  .btn-ghost:hover { color: var(--bone); border-color: var(--bone); }
+
+  .stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    margin-top: 58px;
+  }
+  .stat .n {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 2.4rem;
+    line-height: 1;
+  }
+  .stat .l { margin-top: 8px; }
+
+  /* ---------- tenets ---------- */
+  .tenets { border-top: 1px solid var(--grit); border-bottom: 1px solid var(--grit); background: var(--stone-850); }
+  .tenet-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--grit);
+  }
+  .tenet {
+    background: var(--stone-850);
+    padding: 40px 34px;
+  }
+  .tenet .k { color: var(--spark); margin-bottom: 20px; }
+  .tenet h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.55rem;
+    line-height: 1.02;
+    margin-bottom: 14px;
+  }
+  .tenet p { color: var(--slate); font-size: 0.96rem; }
+  @media (max-width: 820px) { .tenet-grid { grid-template-columns: 1fr; } }
+
+  .pull {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 56px;
+    text-align: center;
+  }
+  .pull q {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3.6vw, 2.35rem);
+    line-height: 1.14;
+    quotes: none;
+    display: block;
+  }
+  .pull q b { color: var(--spark); font-weight: 700; }
+
+  /* ---------- skills ---------- */
+  .cat { margin-bottom: 68px; }
+  .cat:last-child { margin-bottom: 0; }
+  .cat-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 26px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--grit);
+  }
+  .cat-head h3 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 0.01em;
+  }
+  .cat-head .count { margin-left: auto; }
+
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
+    gap: 14px;
+  }
+  .skill {
+    position: relative;
+    background: var(--stone-800);
+    border: 1px solid var(--grit);
+    padding: 22px 22px 22px 26px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s, background 0.2s;
+  }
+  /* the dull edge that sharpens on hover — honing */
+  .skill::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--grit-hi);
+    transition: background 0.25s;
+  }
+  .skill:hover {
+    border-color: var(--grit-hi);
+    background: var(--stone-750);
+    transform: translateY(-2px);
+  }
+  .skill:hover::before { background: var(--edge); }
+  .skill:focus-within::before { background: var(--edge); }
+  .skill .slug {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--spark);
+    letter-spacing: 0.01em;
+  }
+  .skill h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.28rem;
+    line-height: 1.05;
+    margin: 12px 0 12px;
+    letter-spacing: 0.01em;
+  }
+  .skill p { color: var(--slate); font-size: 0.9rem; line-height: 1.52; }
+  .skill .arrow { color: var(--slate-dim); transition: color 0.2s, transform 0.2s; }
+  .skill:hover .arrow { color: var(--spark); }
+
+  /* ---------- anatomy ---------- */
+  .anatomy { border-top: 1px solid var(--grit); background: var(--stone-850); }
+  .anatomy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .anatomy-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .anatomy-list { list-style: none; }
+  .anatomy-list li {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--grit);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: baseline;
+  }
+  .anatomy-list li:first-child { padding-top: 0; }
+  .anatomy-list .step {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--spark);
+    white-space: nowrap;
+  }
+  .anatomy-list h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: 4px;
+  }
+  .anatomy-list p { color: var(--slate); font-size: 0.9rem; }
+
+  .code {
+    background: var(--stone-900);
+    border: 1px solid var(--grit);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.75;
+    padding: 24px 24px;
+    overflow-x: auto;
+    color: var(--slate);
+    white-space: pre;
+    tab-size: 2;
+  }
+  .code .fm { color: var(--slate-dim); }
+  .code .key { color: var(--spark); }
+  .code .h { color: var(--bone); font-weight: 500; }
+  .code .c { color: #5F7C6B; }
+
+  /* ---------- install ---------- */
+  .install-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--grit);
+    border: 1px solid var(--grit);
+  }
+  @media (max-width: 820px) { .install-grid { grid-template-columns: 1fr; } }
+  .install-col { background: var(--stone-850); padding: 34px 32px; }
+  .install-col .k { color: var(--spark); margin-bottom: 8px; }
+  .install-col h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+  .install-col > p { color: var(--slate); font-size: 0.92rem; margin-bottom: 22px; }
+  .term {
+    background: var(--stone-900);
+    border: 1px solid var(--grit);
+    padding: 16px 16px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.9;
+    color: var(--bone);
+    cursor: pointer;
+    transition: border-color 0.18s;
+    position: relative;
+  }
+  .term:hover { border-color: var(--grit-hi); }
+  .term + .term { margin-top: 12px; }
+  .term .p { color: var(--spark); user-select: none; }
+  .term .hint {
+    position: absolute; top: 10px; right: 12px;
+    font-size: 0.6rem; letter-spacing: 0.1em; color: var(--slate-dim);
+    text-transform: uppercase;
+  }
+  .term.copied .hint { color: #7FB27F; }
+
+  /* ---------- footer ---------- */
+  footer { border-top: 1px solid var(--grit); padding-block: 54px 40px; }
+  .foot-top { display: flex; flex-wrap: wrap; gap: 28px; justify-content: space-between; align-items: flex-end; }
+  .foot-brand { font-family: var(--font-display); font-weight: 800; font-size: 1.9rem; }
+  .foot-brand + p { color: var(--slate); font-size: 0.9rem; margin-top: 8px; max-width: 42ch; }
+  .foot-links { display: flex; gap: 26px; }
+  .foot-links a { color: var(--slate); font-size: 0.84rem; transition: color 0.18s; }
+  .foot-links a:hover { color: var(--bone); }
+  .foot-bottom {
+    margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--grit);
+    display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between;
+    color: var(--slate-dim); font-size: 0.78rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><span class="glyph" aria-hidden="true"></span>whetstone</a>
+    <nav class="nav-links">
+      <a href="#skills">Skills</a>
+      <a href="#anatomy">Anatomy</a>
+      <a href="#install">Install</a>
+      <a class="gh" href="https://github.com/iamakbarsha1/whetstone" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow mono">Whetstone · 19 skills · CC&nbsp;BY&nbsp;4.0</div>
+      <h1>Every skill<br>here is a <em>scar</em>.</h1>
+      <p class="lede">
+        Agent skills honed on real work. Each one is a short, self-contained rule set
+        distilled from <b>one concrete failure</b> — written so an AI coding agent
+        (or a human) can apply the lesson without the original context.
+      </p>
+      <hr class="edge hero-edge" />
+      <div class="cta-row">
+        <button class="cmd" data-copy="/plugin marketplace add iamakbarsha1/whetstone">
+          <span><span class="prompt">&gt;</span> /plugin marketplace add iamakbarsha1/whetstone</span>
+          <span class="copy">Copy</span>
+        </button>
+        <a class="btn-ghost" href="#skills">Browse the 19 &darr;</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="n">19</div><div class="l mono">Skills</div></div>
+        <div class="stat"><div class="n">1</div><div class="l mono">Failure each</div></div>
+        <div class="stat"><div class="n">0</div><div class="l mono">Blog posts</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TENETS -->
+  <section class="tenets">
+    <div class="wrap section">
+      <div class="section-head" style="margin-bottom:44px">
+        <div class="mono">What makes a whetstone skill</div>
+        <h2>Not general advice. A scar.</h2>
+      </div>
+      <div class="tenet-grid">
+        <div class="tenet">
+          <div class="k mono">01 / From a real failure</div>
+          <h3>It happened.</h3>
+          <p>Every skill names the sanitized case it was distilled from — a check that
+          passed against a stand-in, a merge that dropped a field, a green test that
+          could never fail. No hypotheticals.</p>
+        </div>
+        <div class="tenet">
+          <div class="k mono">02 / Client-agnostic</div>
+          <h3>It generalizes.</h3>
+          <p>No project or company detail survives. The lesson is stripped to its
+          mechanism so it transfers to your codebase, your stack, your next incident.</p>
+        </div>
+        <div class="tenet">
+          <div class="k mono">03 / Fails loudly</div>
+          <h3>It has an edge.</h3>
+          <p>Each ends in a pre-flight checklist that fails loudly when a box is
+          unchecked — a gate on "done," not a suggestion you can wave through.</p>
+        </div>
+      </div>
+      <div class="pull">
+        <q>If it reads like a blog post, it doesn't belong. If it reads like a checklist
+        a tired engineer would thank you for at <b>3am</b>, it does.</q>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section" id="skills">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="mono">The collection</div>
+        <h2>Nineteen edges,<br>grouped by grind.</h2>
+        <p>Each links to its <code style="font-family:var(--font-mono);font-size:0.82em;color:var(--bone)">SKILL.md</code> — the full rule set, the sanitized case, and the pre-flight check.</p>
+      </div>
+
+      <!-- Verify & prove -->
+      <div class="cat">
+        <div class="cat-head">
+          <h3>Verify &amp; prove</h3>
+          <span class="count mono">06 skills</span>
+        </div>
+        <div class="skill-grid">
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/verify-through-the-real-path" target="_blank" rel="noopener">
+            <div class="slug">verify-through-the-real-path <span class="arrow">↗</span></div>
+            <h4>Verify Through the Real Path</h4>
+            <p>Before claiming something works, is done, safe, or fast — verify through the actual trigger, real data, and representative conditions, not a stand-in.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/prove-the-test-can-fail" target="_blank" rel="noopener">
+            <div class="slug">prove-the-test-can-fail <span class="arrow">↗</span></div>
+            <h4>Prove the Test Can Fail</h4>
+            <p>After writing a test, or before trusting a green one — make it fail on purpose once, and confirm new branches are reachable by the mocks.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/measure-the-delta-not-the-absolute" target="_blank" rel="noopener">
+            <div class="slug">measure-the-delta-not-the-absolute <span class="arrow">↗</span></div>
+            <h4>Measure the Delta, Not the Absolute</h4>
+            <p>Judging whether your change is clean on a red or noisy baseline — prove it by stash-and-compare, not by which files appear in the failure list.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/test-fixture-realism" target="_blank" rel="noopener">
+            <div class="slug">test-fixture-realism <span class="arrow">↗</span></div>
+            <h4>Test-Fixture Realism</h4>
+            <p>Writing tests against a shared store or fabricated fixtures — make fixtures mirror data reality and assertions unable to pass trivially.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/know-your-aggregate-command-scope" target="_blank" rel="noopener">
+            <div class="slug">know-your-aggregate-command-scope <span class="arrow">↗</span></div>
+            <h4>Know Your Aggregate Command's Scope</h4>
+            <p>Before citing a test / lint / type-check / build script as proof — confirm what it actually runs, how it forwards args, and whether it caches.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/running-long-background-jobs" target="_blank" rel="noopener">
+            <div class="slug">running-long-background-jobs <span class="arrow">↗</span></div>
+            <h4>Running Long Background Jobs</h4>
+            <p>Launching or verifying a long-running / detached job, or reconciling a batch against a corpus other processes also write to.</p>
+          </a>
+        </div>
+      </div>
+
+      <!-- Plan & design -->
+      <div class="cat">
+        <div class="cat-head">
+          <h3>Plan &amp; design</h3>
+          <span class="count mono">06 skills</span>
+        </div>
+        <div class="skill-grid">
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/plan-cross-encoding-review" target="_blank" rel="noopener">
+            <div class="slug">plan-cross-encoding-review <span class="arrow">↗</span></div>
+            <h4>Plan Cross-Encoding Review</h4>
+            <p>Reviewing a plan or spec — catch the bug where one intent is encoded twice and the copies quietly disagree.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/confirm-the-premise-first" target="_blank" rel="noopener">
+            <div class="slug">confirm-the-premise-first <span class="arrow">↗</span></div>
+            <h4>Confirm the Premise First</h4>
+            <p>Designing when a choice depends on a technical property — state the ground truth (local vs remote, reversible vs not) before asking downstream questions.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/audit-before-you-build" target="_blank" rel="noopener">
+            <div class="slug">audit-before-you-build <span class="arrow">↗</span></div>
+            <h4>Audit Before You Build</h4>
+            <p>Starting from a ticket, checklist, or spec — grep for what already exists first; trackers record conversations, not deliverables.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/inject-ambient-inputs" target="_blank" rel="noopener">
+            <div class="slug">inject-ambient-inputs <span class="arrow">↗</span></div>
+            <h4>Inject Ambient Inputs</h4>
+            <p>Writing logic that reads the clock, randomness, env, or handles — pass them in as parameters so the pure core tests with no mocking machinery.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/consistency-is-local-first" target="_blank" rel="noopener">
+            <div class="slug">consistency-is-local-first <span class="arrow">↗</span></div>
+            <h4>Consistency Is Local First</h4>
+            <p>Adding code to an existing module — match the nearest sibling's pattern; a repo-wide convention is the default only when the module has none.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/validate-the-users-proposed-mechanism" target="_blank" rel="noopener">
+            <div class="slug">validate-the-users-proposed-mechanism <span class="arrow">↗</span></div>
+            <h4>Validate the User's Proposed Mechanism</h4>
+            <p>A user names a platform, tool, or library — treat it as a proposed mechanism; grep the artifact for disqualifiers before agreeing.</p>
+          </a>
+        </div>
+      </div>
+
+      <!-- Change safely -->
+      <div class="cat">
+        <div class="cat-head">
+          <h3>Change safely</h3>
+          <span class="count mono">04 skills</span>
+        </div>
+        <div class="skill-grid">
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/grep-the-blast-radius" target="_blank" rel="noopener">
+            <div class="slug">grep-the-blast-radius <span class="arrow">↗</span></div>
+            <h4>Grep the Blast Radius</h4>
+            <p>Changing a shared contract (flag, column, type, endpoint) — the retired name is your consumer index; grep the whole workspace and run cross-boundary suites.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/diff-each-side-against-merge-base" target="_blank" rel="noopener">
+            <div class="slug">diff-each-side-against-merge-base <span class="arrow">↗</span></div>
+            <h4>Diff Each Side Against the Merge Base</h4>
+            <p>Resolving a merge or rebase conflict — markers show where git gave up, not the full delta; auto-merge silently drops fields.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/verify-absence-claims" target="_blank" rel="noopener">
+            <div class="slug">verify-absence-claims <span class="arrow">↗</span></div>
+            <h4>Verify Absence Claims</h4>
+            <p>Acting on a "none exists / not found" claim, especially from delegated research — re-grep it; absence is only as good as the search pattern.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/negative-invariant-testing" target="_blank" rel="noopener">
+            <div class="slug">negative-invariant-testing <span class="arrow">↗</span></div>
+            <h4>Negative-Invariant Testing</h4>
+            <p>Protecting a "never does X" constraint — a behavioural test can't see an unused capability; assert structurally on the mechanism's existence.</p>
+          </a>
+        </div>
+      </div>
+
+      <!-- Diagnose & review -->
+      <div class="cat">
+        <div class="cat-head">
+          <h3>Diagnose &amp; review</h3>
+          <span class="count mono">03 skills</span>
+        </div>
+        <div class="skill-grid">
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/read-the-real-failing-call" target="_blank" rel="noopener">
+            <div class="slug">read-the-real-failing-call <span class="arrow">↗</span></div>
+            <h4>Read the Real Failing Call</h4>
+            <p>Hardening against a failure mode — instrument the real failing call before and after, because a plausible hypothesis is not a diagnosis.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/manufacture-review-independence" target="_blank" rel="noopener">
+            <div class="slug">manufacture-review-independence <span class="arrow">↗</span></div>
+            <h4>Manufacture Review Independence</h4>
+            <p>Reviewing your own work (author == reviewer) — replace lost independence with scoped parallel passes and adversarial re-reads of the source.</p>
+          </a>
+          <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/findings-list-is-not-a-todo-list" target="_blank" rel="noopener">
+            <div class="slug">findings-list-is-not-a-todo-list <span class="arrow">↗</span></div>
+            <h4>A Findings List Is Not a To-Do List</h4>
+            <p>Acting on a review or audit list — re-read each item's disposition and bucket them; some are marked no-fix, some need a human decision.</p>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ANATOMY -->
+  <section class="anatomy section" id="anatomy">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="mono">Anatomy of a skill</div>
+        <h2>Same shape,<br>every time.</h2>
+        <p>One folder, one <code style="font-family:var(--font-mono);font-size:0.82em;color:var(--bone)">SKILL.md</code>. Plain Markdown, so any agent that can load a system prompt can use it — the plugin auto-discovery is the only Claude&nbsp;Code-specific part.</p>
+      </div>
+      <div class="anatomy-grid">
+        <ul class="anatomy-list">
+          <li>
+            <span class="step">frontmatter</span>
+            <div>
+              <h4>name + description</h4>
+              <p>The description carries the trigger phrases, so a skill-aware agent surfaces the right skill when the situation matches.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step">the rule</span>
+            <div>
+              <h4>The core rule</h4>
+              <p>One paragraph. The whole lesson, stated once, before any elaboration.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step">the cases</span>
+            <div>
+              <h4>Checks</h4>
+              <p>Each rule paired with the sanitized real case it came from — the scar that earned it.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step">the gate</span>
+            <div>
+              <h4>Pre-flight check</h4>
+              <p>The checklist that gates "done" and fails loudly when a box is unchecked.</p>
+            </div>
+          </li>
+        </ul>
+        <div class="code"><span class="fm">---</span>
+<span class="key">name</span>: verify-through-the-real-path
+<span class="key">description</span>: &gt;
+  Use before claiming something works,
+  is done, is safe, or is fast — verify
+  through the actual trigger, real data...
+<span class="fm">---</span>
+<span class="h"># Verify Through the Real Path</span>
+
+<span class="c">## The core rule</span>
+A convenient stand-in is not the thing
+you claimed works. Verify through the
+actual trigger, real data...
+
+<span class="c">## Checks</span>
+- <span class="h">Real trigger, not a direct call.</span> ...
+- <span class="h">Smoke test = throughput floor.</span> ...
+
+<span class="c">## Pre-flight check</span>
+- [ ] Fired through the real trigger?
+- [ ] Real data, representative load?
+- [ ] Observed the end effect?</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALL -->
+  <section class="section" id="install">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="mono">Put an edge on it</div>
+        <h2>Install</h2>
+        <p>Two ways in. The plugin gives you auto-discovery; the manual copy is just folders.</p>
+      </div>
+      <div class="install-grid">
+        <div class="install-col">
+          <div class="k mono">Recommended</div>
+          <h3>Claude Code plugin</h3>
+          <p>Add the marketplace, then install the plugin — all 19 skills come with it. Run both inside Claude&nbsp;Code.</p>
+          <div class="term" data-copy="/plugin marketplace add iamakbarsha1/whetstone"><span class="hint">Copy</span><span class="p">&gt; </span>/plugin marketplace add iamakbarsha1/whetstone</div>
+          <div class="term" data-copy="/plugin install whetstone@whetstone-skills"><span class="hint">Copy</span><span class="p">&gt; </span>/plugin install whetstone@whetstone-skills</div>
+        </div>
+        <div class="install-col">
+          <div class="k mono">Any agent</div>
+          <h3>Manual copy</h3>
+          <p>Each skill is a self-contained folder in the Claude&nbsp;Code skill layout. Copy one, or all of them.</p>
+          <div class="term" data-copy="cp -R skills/verify-through-the-real-path ~/.claude/skills/"><span class="hint">Copy</span><span class="p">$ </span>cp -R skills/verify-through-the-real-path ~/.claude/skills/</div>
+          <div class="term" data-copy="cp -R skills/* ~/.claude/skills/"><span class="hint">Copy</span><span class="p">$ </span>cp -R skills/* ~/.claude/skills/</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">whetstone</div>
+        <p>A whetstone sharpens a blade. These sharpen the agent.</p>
+      </div>
+      <nav class="foot-links">
+        <a href="https://github.com/iamakbarsha1/whetstone" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/iamakbarsha1/whetstone/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a>
+        <a href="https://github.com/iamakbarsha1/whetstone/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a>
+        <a href="https://github.com/iamakbarsha1/whetstone/blob/main/LICENSE" target="_blank" rel="noopener">Licence</a>
+      </nav>
+    </div>
+    <hr class="edge" style="margin-top:40px" />
+    <div class="foot-bottom">
+      <span>Released under CC BY 4.0 — share and adapt with credit.</span>
+      <span>Built by <a href="https://github.com/iamakbarsha1" target="_blank" rel="noopener" style="color:var(--slate)">akbarsha</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // copy-to-clipboard for every element carrying data-copy
+  function flash(el) {
+    el.classList.add('copied');
+    var label = el.querySelector('.copy, .hint');
+    var prev = label ? label.textContent : null;
+    if (label) label.textContent = 'Copied';
+    setTimeout(function () {
+      el.classList.remove('copied');
+      if (label && prev !== null) label.textContent = prev;
+    }, 1400);
+  }
+  document.querySelectorAll('[data-copy]').forEach(function (el) {
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    function go() {
+      var text = el.getAttribute('data-copy');
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function () { flash(el); }, function () {});
+      }
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+    });
+  });
+</script>
+</body>
+</html>
