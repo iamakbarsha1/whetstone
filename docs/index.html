@@ -551,6 +551,7 @@
         <div class="stat"><div class="n">19</div><div class="l mono">Skills</div></div>
         <div class="stat"><div class="n">1</div><div class="l mono">Failure each</div></div>
         <div class="stat"><div class="n">0</div><div class="l mono">Blog posts</div></div>
+        <div class="stat"><div class="n" id="visit-count">&mdash;</div><div class="l mono">Visits</div></div>
       </div>
     </div>
   </section>
@@ -904,22 +905,45 @@ actual trigger, real data...
     io.observe(document.querySelector('.stat-row'));
   }
 
+  function animateNum(el, target, fmt) {
+    var start = null, dur = 850;
+    el.textContent = '0';
+    function step(t) {
+      if (start === null) start = t;
+      var p = Math.min((t - start) / dur, 1);
+      var eased = p * p * (3 - 2 * p); // smoothstep
+      var val = p < 1 ? Math.round(eased * target) : target;
+      el.textContent = fmt ? val.toLocaleString() : val;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
   function countRow(row) {
     row.querySelectorAll('.n').forEach(function (el) {
+      if (el.id === 'visit-count') return; // handled by the live fetch below
       var target = parseInt(el.textContent, 10);
       if (isNaN(target)) return;
-      var start = null, dur = 850;
-      el.textContent = '0';
-      function step(t) {
-        if (start === null) start = t;
-        var p = Math.min((t - start) / dur, 1);
-        var eased = p * p * (3 - 2 * p); // smoothstep
-        el.textContent = p < 1 ? Math.round(eased * target) : target;
-        if (p < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
+      animateNum(el, target, false);
     });
   }
+
+  // live visit total from GoatCounter (runs regardless of motion pref;
+  // leaves the "—" placeholder untouched if the fetch fails)
+  var visitEl = document.getElementById('visit-count');
+  if (visitEl) {
+    fetch('https://whetstone.goatcounter.com/counter/TOTAL.json')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var n = parseInt(String(d.count).replace(/[^0-9]/g, ''), 10); // "1,234" -> 1234
+        if (isNaN(n)) return;
+        if (still) { visitEl.textContent = n.toLocaleString(); return; }
+        animateNum(visitEl, n, true);
+      })
+      .catch(function () {});
+  }
 </script>
+<script data-goatcounter="https://whetstone.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
