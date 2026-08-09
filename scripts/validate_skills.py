@@ -52,10 +52,18 @@ def check_skills():
     names = []
     for f in skill_files:
         dir_name = f.parent.name
-        fm = parse_frontmatter(f.read_text())
+        text = f.read_text()
+        fm = parse_frontmatter(text)
         if fm is None:
             err(f"{f.relative_to(ROOT)}: missing frontmatter (--- block)")
             continue
+        # Whetstone contract: every skill declares a Type and ends in a
+        # pre-flight checklist. These are what make a skill actionable under
+        # load; enforce them so a shapeless skill can't merge.
+        if "**Type:**" not in text:
+            err(f"{f.relative_to(ROOT)}: missing `**Type:**` line")
+        if "pre-flight" not in text.lower():
+            err(f"{f.relative_to(ROOT)}: missing a pre-flight check section")
         name = fm.get("name", "")
         if not name:
             err(f"{f.relative_to(ROOT)}: frontmatter missing non-empty `name`")

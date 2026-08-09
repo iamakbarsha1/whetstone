@@ -1,11 +1,46 @@
 # whetstone
 
-Agent skills honed on real work. Each skill here is a short, self-contained
-rule set distilled from a concrete failure or hard-won lesson during real
-engineering sessions, written so an AI coding agent (or a human) can apply it
-without the original context.
+[![validate-skills](https://github.com/iamakbarsha1/whetstone/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/iamakbarsha1/whetstone/actions/workflows/validate-skills.yml)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-blue.svg)](LICENSE)
+[![skills](https://img.shields.io/badge/skills-19-brightgreen.svg)](#skills)
+
+Agent skills honed on real work. Each skill is a short, self-contained rule set
+distilled from **one concrete failure** — written so an AI coding agent (or a
+human) can apply the lesson without the original context.
 
 A whetstone sharpens a blade. These sharpen the agent.
+
+## What makes a whetstone skill
+
+Not general advice — a scar. Every skill here:
+
+- comes from a **real failure** (each names the sanitized case it was distilled from),
+- is **client-agnostic** — no project or company detail; the lesson generalizes,
+- ends in a **pre-flight checklist** that fails loudly when a box is unchecked.
+
+If it reads like a blog post, it doesn't belong. If it reads like a checklist a
+tired engineer would thank you for at 3am, it does.
+
+### Anatomy of a skill
+
+Every `SKILL.md` follows the same shape:
+
+```markdown
+---
+name: verify-through-the-real-path      # matches the folder name
+description: >
+  Use before claiming something works... Triggers on "verify",
+  "confirm it works", "is it done", "benchmark", ...   # trigger phrases
+---
+# Verify Through the Real Path, Not a Proxy
+**Type:** Open-source ...                # provenance, licence, feedback
+## The core rule                         # one paragraph
+## Checks                                # each rule + a sanitized real case
+## Pre-flight check                      # the checklist that gates "done"
+```
+
+The `description` carries the trigger phrases, so a skill-aware agent surfaces
+the right skill when the situation matches.
 
 ## Skills
 
@@ -93,11 +128,12 @@ file. Only the plugin auto-discovery above is Claude Code-specific.
 New skills come from real failures, not general advice. See
 [CONTRIBUTING.md](CONTRIBUTING.md) for the bar and the skill format, and
 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Validate locally with
-`python3 scripts/validate_skills.py` (CI runs the same check).
+`python3 scripts/validate_skills.py` (CI runs the same check on every PR).
+
+Changes are tracked in [CHANGELOG.md](CHANGELOG.md). Feedback on any skill's
+methodology is welcome as a [repository issue](../../issues/new/choose).
 
 ## Licence
 
 All skills are released under [CC BY 4.0](LICENSE) — share and adapt for any
-purpose with credit. Created by akbarsha (https://github.com/iamakbarsha1).
-
-Feedback on any skill's methodology is welcome as a repository issue.
+purpose with credit to akbarsha (https://github.com/iamakbarsha1).
