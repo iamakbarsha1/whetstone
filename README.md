@@ -16,6 +16,8 @@ A whetstone sharpens a blade. These sharpen the agent.
 | [`verify-through-the-real-path`](skills/verify-through-the-real-path) | Before claiming something works, is done, safe, or fast — verify through the actual trigger, real data, and representative conditions, not a stand-in. |
 | [`prove-the-test-can-fail`](skills/prove-the-test-can-fail) | After writing a test, or before trusting a green one — make it fail on purpose once, and confirm new branches are reachable by the mocks. |
 | [`measure-the-delta-not-the-absolute`](skills/measure-the-delta-not-the-absolute) | Judging whether your change is clean on a red or noisy baseline — prove it by stash-and-compare, not by which files appear in the failure list. |
+| [`test-fixture-realism`](skills/test-fixture-realism) | Writing tests against a shared store or fabricated fixtures — make fixtures mirror data reality and assertions unable to pass trivially. |
+| [`know-your-aggregate-command-scope`](skills/know-your-aggregate-command-scope) | Before citing a `test`/`lint`/`type-check`/`build` script as proof — confirm what it actually runs, how it forwards args, and whether it caches. |
 | [`running-long-background-jobs`](skills/running-long-background-jobs) | Launching or verifying a long-running/detached job, or reconciling a batch against a corpus other processes also write to. |
 
 ### Plan & design
@@ -26,6 +28,8 @@ A whetstone sharpens a blade. These sharpen the agent.
 | [`confirm-the-premise-first`](skills/confirm-the-premise-first) | Designing when a choice depends on a technical property (local vs remote, reversible vs not) — state the ground truth before asking downstream questions. |
 | [`audit-before-you-build`](skills/audit-before-you-build) | Starting an implementation task from a ticket/checklist/spec — grep for what already exists first; trackers record conversations, not deliverables. |
 | [`inject-ambient-inputs`](skills/inject-ambient-inputs) | Writing logic that reads the clock, randomness, env, or handles — pass them in as parameters so the pure core tests with no mocking machinery. |
+| [`consistency-is-local-first`](skills/consistency-is-local-first) | Adding code to an existing module — match the nearest sibling's pattern; a repo-wide convention is the default only when the module has none. |
+| [`validate-the-users-proposed-mechanism`](skills/validate-the-users-proposed-mechanism) | A user names a platform/tool/library — treat it as a proposed mechanism; grep the artifact for disqualifiers before agreeing, separate intent from mechanism. |
 
 ### Change safely
 
@@ -42,6 +46,7 @@ A whetstone sharpens a blade. These sharpen the agent.
 |-------|-------------|
 | [`read-the-real-failing-call`](skills/read-the-real-failing-call) | Hardening against a failure mode — instrument the real failing call before and after, because a plausible hypothesis is not a diagnosis. |
 | [`manufacture-review-independence`](skills/manufacture-review-independence) | Reviewing your own work (author == reviewer) — replace lost independence with scoped parallel passes and adversarial re-reads of the source. |
+| [`findings-list-is-not-a-todo-list`](skills/findings-list-is-not-a-todo-list) | Acting on a review/audit/recommendation list — re-read each item's disposition and bucket them; some are marked no-fix, some need a human decision. |
 
 ## Install
 
