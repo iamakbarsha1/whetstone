@@ -62,6 +62,17 @@ resolve it by reading the file that decides — never by averaging.
   let it settle the call. *(Two parallel reviewers rated the same issue High
   and Low; the truth lived in a shared module outside both their assigned
   scopes — reading it resolved the conflict decisively.)*
+- **For security/correctness-critical code, iterate adversaries until they
+  converge.** After your own tests pass, run independent adversarial passes —
+  each a distinct attack lens (encoding, casing, framing, boundary) — and
+  require each to EMPIRICALLY confirm a bypass by running the code, not
+  theorize one. Feed every confirmed bypass back as a regression test and
+  re-run; the stop condition is convergence — rounds that surface only ceilings
+  you've consciously accepted — not a single clean round. *(A fail-closed secret
+  scrubber passed all its author-written tests, but four rounds of parallel
+  adversaries each found real high-severity bypasses the tests never imagined —
+  UUID-shaped tokens, uppercase/short hex, narrow-wrapped PEM bodies — until the
+  rounds converged on documented, accepted ceilings.)*
 
 ## Pre-flight check — before you trust a self-review
 
@@ -71,6 +82,9 @@ resolve it by reading the file that decides — never by averaging.
       actual source (or was dropped).
 - [ ] Any cross-reviewer disagreement was resolved by reading the deciding
       boundary file, not by averaging severities.
+- [ ] For security/correctness-critical code, adversarial passes ran until they
+      converged on accepted ceilings — not stopped at the first clean round —
+      and each confirmed bypass became a regression test.
 
 If any box is unchecked, the review inherited the author's blind spots — go
 manufacture the independence.

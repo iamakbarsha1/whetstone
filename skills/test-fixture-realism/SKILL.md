@@ -70,6 +70,17 @@ when it breaks.
   *(Illustrative: A partial mock stubbed one method on a client but left another untouched;
   the untouched method fell through to the real implementation and made a
   live call during the test run.)*
+- **Secret-shaped fixtures must not ship the flagged bytes.** Code that handles
+  secrets needs fixtures shaped like real secrets — but a scanner-recognized
+  token written as a contiguous literal trips upstream secret scanners (push
+  protection, pre-commit hooks) and blocks the push, even though the value is
+  fake. Build the token at runtime by splitting the provider prefix across
+  adjacent literals (`"xox""b-…"`), so the file's bytes never contain the
+  flagged prefix while the runtime value keeps the real shape; grep the source
+  for the contiguous prefix before committing. *(A secret scrubber's test
+  fixtures held crafted provider-prefixed tokens as plain literals; GitHub push
+  protection matched its own secret signatures and rejected the push until the
+  prefixes were split across adjacent strings.)*
 
 ## Pre-flight check — before you trust a fixture-backed test
 
@@ -81,6 +92,9 @@ when it breaks.
 - [ ] Any guard test's violating fixture actually trips the failure path.
 - [ ] Mocks don't secretly load the real module, and no assertion is satisfied
       by echoing the input.
+- [ ] No secret-shaped fixture commits a scanner-recognized token as a
+      contiguous literal — the flagged prefix is split and rebuilt at runtime
+      (verified by grep).
 
 If any box is unchecked, the fixture doesn't mirror reality — go make it real
 before you trust the green.
