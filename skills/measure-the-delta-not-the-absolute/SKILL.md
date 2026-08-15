@@ -59,7 +59,10 @@ opened can still be yours.
   typecheck already has errors, exit code and total count are useless gates.
   Gate on "zero new errors that reference the changed code" — diff the error
   sets, don't compare pass/fail. A build that goes from 40 errors to 41 is
-  regressing even though it was never green.
+  regressing even though it was never green. *(A typecheck baseline held at
+  62 errors for weeks; a change was cleared because the total stayed at 62,
+  but diffing the error sets showed it had introduced three new errors while
+  incidentally fixing three unrelated ones.)*
 
 ## Pre-flight check — before you attribute (or clear) a failure
 

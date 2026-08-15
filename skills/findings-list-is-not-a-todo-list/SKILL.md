@@ -49,10 +49,17 @@ decisions — and say which bucket each landed in.
 - **Bucket, don't queue.** Sort the list into: actionable-now, review-blessed
   no-op (skip), needs-a-human-decision (surface, don't guess), and scale/
   condition-gated (defer with the trigger). Only the first bucket is work.
+  *(An item reading "acceptable for now, revisit once load increases" got
+  queued as an ordinary task alongside real bugs instead of being sorted into
+  the scale-gated bucket, so it was implemented before its trigger condition
+  existed.)*
 - **State the buckets back.** Report what you're doing as the buckets, not as
   "done all findings": "3 fixed, 2 were marked no-fix so skipped, 1 needs your
   call on X, 1 deferred until Y." This prevents both over-implementing and
-  silently dropping items.
+  silently dropping items. *(A summary reported "addressed all review
+  findings" while two items had actually been skipped as no-fix and one was
+  left pending a human call, and the gap surfaced only when the diff was
+  re-read by hand.)*
 
 ## Pre-flight check — before you act on a findings list
 

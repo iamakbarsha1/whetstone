@@ -51,12 +51,17 @@ plain inputs and plain assertions, no machinery.
 - **Split the pure decision from the I/O.** Separate "decide what to do given
   these values" (pure, no ambient reads, no side effects) from "gather the
   values and apply the effect" (thin, ambient, barely tested). The pure half
-  gets exhaustive cheap tests; the shell needs only a smoke test.
+  gets exhaustive cheap tests; the shell needs only a smoke test. *(A pricing
+  function fetched the customer record and computed the discount in one call,
+  so testing the discount math meant standing up a database; pulling the
+  fetch out into a thin wrapper let the pricing rules run as plain
+  input/output tests.)*
 - **The edge reads ambient state exactly once.** Resolve now/env/handles at a
   single boundary and thread them through, rather than re-reading them deep in
   the call tree. Scattered ambient reads reintroduce the untestability you
-  just removed and cause subtle drift (two `Date.now()` calls in one operation
-  disagree).
+  just removed and cause subtle drift. *(A billing job read the clock at the
+  start of the run and again inside a nested helper; a run that crossed
+  midnight between the two reads billed one day short.)*
 
 ## Pre-flight check — before you call ambient-dependent logic testable
 

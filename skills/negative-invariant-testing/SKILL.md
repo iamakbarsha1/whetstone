@@ -53,11 +53,17 @@ introduces X, before it's ever called.
 - **Name the invariant in the failure message.** A structural test that fires
   is cryptic without context ("unexpected export found"). State the invariant
   it protects and why, so the engineer who tripped it understands they've
-  crossed a designed line, not hit a lint quirk.
+  crossed a designed line, not hit a lint quirk. *(A guard against
+  reintroducing a banned network call fired with only "forbidden pattern
+  matched"; the engineer read it as flaky lint noise, silenced the check, and
+  the banned call shipped on the next release.)*
 - **Prefer the narrowest structural signal.** Trip on the specific forbidden
   construct (this import, this column, this capability), not a broad proxy
   that also flags legitimate code. A negative-invariant test that cries wolf
-  gets deleted, and then the invariant is unprotected again.
+  gets deleted, and then the invariant is unprotected again. *(A "never opens
+  a raw socket" guard matched any file containing the word "socket"; it
+  flagged a legitimate client-library import, got dismissed as noise, and was
+  deleted, leaving the real invariant unprotected.)*
 
 ## Pre-flight check — before you rely on a "never" constraint
 

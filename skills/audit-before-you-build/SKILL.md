@@ -55,7 +55,10 @@ markers, and only then decide whether the task is "build", "finish", or
 - **Pivot the verb when reality disagrees.** If the audit shows the thing
   exists, restate the task honestly — "verify the existing X and close gaps A
   and B" instead of "build X" — and say so before writing code. Duplicating
-  working code is worse than a slow start.
+  working code is worse than a slow start. *(A ticket read "build the CSV
+  export endpoint"; the audit found a working export handler behind a feature
+  flag, so the task was restated as "flip the flag and add the missing
+  filename sanitization" before any code was written.)*
 
 ## Pre-flight check — before you write implementation code from a task
 

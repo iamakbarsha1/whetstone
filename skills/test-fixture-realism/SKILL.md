@@ -67,6 +67,9 @@ when it breaks.
   test whose expected value is computed from the same call it's testing (a
   search that echoes its own query) passes trivially. Assert against an
   INDEPENDENT expectation, and confirm the mock isn't executing real code.
+  *(A partial mock stubbed one method on a client but left another untouched;
+  the untouched method fell through to the real implementation and made a
+  live call during the test run.)*
 
 ## Pre-flight check — before you trust a fixture-backed test
 
@@ -79,5 +82,5 @@ when it breaks.
 - [ ] Mocks don't secretly load the real module, and no assertion is satisfied
       by echoing the input.
 
-If any box is unchecked, the fixture doesn't mirror reality — the green is
-uninformative.
+If any box is unchecked, the fixture doesn't mirror reality — go make it real
+before you trust the green.

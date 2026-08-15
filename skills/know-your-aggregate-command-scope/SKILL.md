@@ -51,11 +51,18 @@ not evidence about the code you changed.
   intended.)* Verify the flag reached the underlying tool as intended.
 - **Confirm whether it caches, and whether the cache is stale.** A cached
   runner can report a green that reflects a previous state, not your current
-  code. Know if the command caches and force a clean run when the result must
-  reflect the latest change.
+  code. *(A lint runner's incremental cache kept a file's previous clean
+  result because its modification time hadn't changed after a rebase, so a
+  newly introduced rule violation in that file was never re-linted and the
+  run stayed green.)* Know if the command caches and force a clean run when
+  the result must reflect the latest change.
 - **Gate on new failures over a nonzero baseline.** If the aggregate already
   has errors, exit code is meaningless; gate on "zero new failures referencing
   the changed code" (see `measure-the-delta-not-the-absolute`), not on green.
+  *(A test suite already had failing tests unrelated to the change; the run's
+  exit code was nonzero before and after, so citing "the tests are red" said
+  nothing until the failing test names were diffed and one new failure traced
+  to the change turned up.)*
 
 ## Pre-flight check — before you cite an aggregate command as proof
 
