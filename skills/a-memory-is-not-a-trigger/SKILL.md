@@ -73,7 +73,7 @@ is "supposed to remember."
   into memory, a doc, a skill description — feels like closure, but the write
   is the easy half. The firing is unproven until a mechanism guarantees it;
   confirm the action actually happened, don't infer it from the note existing.
-  *(A recurring status update was treated as handled because the rule lived
+  *(Illustrative: A recurring status update was treated as handled because the rule lived
   in a config file; nobody had checked whether the update actually posted,
   and it hadn't fired in two weeks.)*
 

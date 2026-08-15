@@ -53,13 +53,13 @@ opened can still be yours.
   flags. A fresh worktree or clean checkout often DROPS untracked files
   (`.env`, local fixtures) that the check depends on, producing fake new
   failures. Copy the ambient inputs into the comparison run, or the delta is
-  noise. *(A head-vs-base run in a new worktree "found" failures that were
+  noise. *(Illustrative: A head-vs-base run in a new worktree "found" failures that were
   really just a missing untracked `.env` the base run never had.)*
 - **On a nonzero baseline, gate on NEW, not on green.** When the suite/lint/
   typecheck already has errors, exit code and total count are useless gates.
   Gate on "zero new errors that reference the changed code" — diff the error
   sets, don't compare pass/fail. A build that goes from 40 errors to 41 is
-  regressing even though it was never green. *(A typecheck baseline held at
+  regressing even though it was never green. *(Illustrative: A typecheck baseline held at
   62 errors for weeks; a change was cleared because the total stayed at 62,
   but diffing the error sets showed it had introduced three new errors while
   incidentally fixing three unrelated ones.)*

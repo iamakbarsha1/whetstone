@@ -53,7 +53,7 @@ imports it.
   the shared thing is used by three apps and an e2e script, a passing unit
   test in the shared library is the least informative signal available. Run
   the cross-boundary suites, or state explicitly which you could not run.
-  *(A shared function's failure mode changed from throwing to returning
+  *(Illustrative: A shared function's failure mode changed from throwing to returning
   null; the library's own suite passed, but the one consumer app's e2e
   suite, which depended on the throw, was never run before merge, and the
   null passed through unnoticed.)*

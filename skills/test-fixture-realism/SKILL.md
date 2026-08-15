@@ -67,7 +67,7 @@ when it breaks.
   test whose expected value is computed from the same call it's testing (a
   search that echoes its own query) passes trivially. Assert against an
   INDEPENDENT expectation, and confirm the mock isn't executing real code.
-  *(A partial mock stubbed one method on a client but left another untouched;
+  *(Illustrative: A partial mock stubbed one method on a client but left another untouched;
   the untouched method fell through to the real implementation and made a
   live call during the test run.)*
 

@@ -51,7 +51,7 @@ against the merge base by symbol/field inventory.
   deletes what the other extends (a field, a case, a param), auto-merge or a
   careless resolution will usually keep the delete and lose the extension —
   silently. Whenever the base had X, one side removed it, and the other built
-  on it, stop and confirm intent explicitly. *(A base switch-case was removed
+  on it, stop and confirm intent explicitly. *(Illustrative: A base switch-case was removed
   on one branch while the other branch added new handling inside that same
   case; auto-merge kept the removal and silently discarded the added
   handling, with no conflict marker raised.)*
@@ -59,7 +59,7 @@ against the merge base by symbol/field inventory.
   resolving, diff the result against BOTH parents and confirm every field/
   symbol that either parent intended to add is present, and every one either
   intended to remove is gone. A conflict "resolved" cleanly can still be
-  missing content that never conflicted. *(After a conflict resolved with
+  missing content that never conflicted. *(Illustrative: After a conflict resolved with
   zero markers on a given function, diffing the merged file against both
   parent branches showed that function had existed in one parent and was
   silently missing from the merge output.)*

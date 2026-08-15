@@ -44,7 +44,7 @@ resolve it by reading the file that decides — never by averaging.
   over everything, review in separate scoped passes (security, correctness,
   contract-boundaries, tests) each blind to the others' conclusions, then
   merge. Different scopes surface what a single sympathetic read glosses over.
-  *(A combined pass over a multi-tenant export feature missed a missing
+  *(Illustrative: A combined pass over a multi-tenant export feature missed a missing
   tenant-scoping check; rerunning the same diff as a dedicated security-only
   pass caught it immediately, because that pass wasn't also weighing style.)*
 - **Adversarially re-read source for every high-severity claim.** For each
@@ -52,7 +52,7 @@ resolve it by reading the file that decides — never by averaging.
   reading the actual code, and default to "not real" if the source doesn't
   confirm it. This kills both the author's blind spots and plausible-but-false
   findings. A claim that survives a genuine refutation attempt is worth
-  acting on. *(A finding claimed a race condition from the diff alone; an
+  acting on. *(Illustrative: A finding claimed a race condition from the diff alone; an
   adversarial re-read of the full function showed a mutex already guarded
   the section, and the finding was dropped.)*
 - **Disagreement points to the boundary file — go read it.** When two

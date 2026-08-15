@@ -49,13 +49,13 @@ markers, and only then decide whether the task is "build", "finish", or
   immediately, turning a "build" into a small gap-closing task.)*
 - **Cross-check the tracker against code and spec status, both ways.** "Closed"
   does not mean "built" and "open" does not mean "absent". Read the spec's own
-  Status headers and the code stubs together. *(An "all issues closed"
+  Status headers and the code stubs together. *(Illustrative: An "all issues closed"
   milestone hid two entire layers that were never implemented — the tracker
   said done, the code said empty.)*
 - **Pivot the verb when reality disagrees.** If the audit shows the thing
   exists, restate the task honestly — "verify the existing X and close gaps A
   and B" instead of "build X" — and say so before writing code. Duplicating
-  working code is worse than a slow start. *(A ticket read "build the CSV
+  working code is worse than a slow start. *(Illustrative: A ticket read "build the CSV
   export endpoint"; the audit found a working export handler behind a feature
   flag, so the task was restated as "flip the flag and add the missing
   filename sanitization" before any code was written.)*

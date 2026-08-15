@@ -44,7 +44,7 @@ silently fragmenting the module.
 - **Read the nearest sibling before you write.** Open the file most like the
   one you're about to create, in the same directory/module, and copy its
   shape: its imports, its state approach, its error handling, its test layout.
-  The closest existing analog outranks a remembered global rule. *(A module
+  The closest existing analog outranks a remembered global rule. *(Illustrative: A module
   consistently used plain local state; applying the repo-wide
   form-library-plus-schema convention would have made the new form the single
   outlier in that module.)*
@@ -52,7 +52,7 @@ silently fragmenting the module.
   right move IS to introduce the better pattern — but that's a migration
   decision, not a drive-by. Flag it: "this module uses X; I'm introducing Y
   here and the rest should follow or it'll be inconsistent," so it's a
-  conscious choice, not an accidental outlier. *(A new file replaced a
+  conscious choice, not an accidental outlier. *(Illustrative: A new file replaced a
   module's consistent callback-based error handling with promise chaining but
   didn't flag it as an intentional upgrade; the next contributor couldn't tell
   if it was deliberate and reverted it.)*

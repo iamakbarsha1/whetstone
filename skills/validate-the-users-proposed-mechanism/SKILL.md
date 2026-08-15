@@ -51,7 +51,7 @@ away working code and ships something that can't run.
   achieve ("cheap always-on hosting", "managed persistence") apart from the
   specific tool they named. The intent is the requirement; the tool is one way
   to meet it — and often not the only or best way given what's built.
-  *(A user asked to move the job queue to a specific named message-broker
+  *(Illustrative: A user asked to move the job queue to a specific named message-broker
   service; restating the intent as "reliable retries under bursty load"
   showed the already-installed queue library met it without standing up a
   new service to operate.)*
@@ -61,7 +61,7 @@ away working code and ships something that can't run.
   needs; Y gives you the same always-on hosting without a rewrite." Don't
   silently implement the infeasible choice, and don't silently substitute your
   own without flagging it.
-  *(A user asked to swap the app's ORM for a specific named alternative that
+  *(Illustrative: A user asked to swap the app's ORM for a specific named alternative that
   dropped the transaction support the codebase relied on; the response named
   that gap directly and proposed a lighter driver that kept transactions and
   avoided a data-layer rewrite.)*

@@ -55,7 +55,7 @@ added are actually reachable given the fixtures.
   returns the happy value turns the test into a check of the mock. If the
   mock's return can't vary across cases, the test can't distinguish working
   code from broken code. Vary the mock per case, or assert on a real effect.
-  *(A payment-gateway client mock always returned `{status: "success"}`
+  *(Illustrative: A payment-gateway client mock always returned `{status: "success"}`
   regardless of the request payload, so tests for a valid charge and a
   malformed one passed identically — the test verified the mock, not the
   validation logic.)*

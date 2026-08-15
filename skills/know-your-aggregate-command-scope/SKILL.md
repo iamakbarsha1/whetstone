@@ -41,7 +41,7 @@ not evidence about the code you changed.
 
 - **Confirm which targets it covers.** In a monorepo/workspace, a top-level
   script may check only one project, or only the ones it lists, not everything
-  you touched. *(A `type-check` script exited 0 but only ran against one of the
+  you touched. *(Illustrative: A `type-check` script exited 0 but only ran against one of the
   three packages the change modified; the other two were never type-checked.)*
   Read the script and confirm it spans everything your change affects.
 - **Confirm how it forwards your args.** Wrapper scripts mangle or drop
@@ -51,7 +51,7 @@ not evidence about the code you changed.
   intended.)* Verify the flag reached the underlying tool as intended.
 - **Confirm whether it caches, and whether the cache is stale.** A cached
   runner can report a green that reflects a previous state, not your current
-  code. *(A lint runner's incremental cache kept a file's previous clean
+  code. *(Illustrative: A lint runner's incremental cache kept a file's previous clean
   result because its modification time hadn't changed after a rebase, so a
   newly introduced rule violation in that file was never re-linted and the
   run stayed green.)* Know if the command caches and force a clean run when
