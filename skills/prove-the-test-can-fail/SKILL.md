@@ -59,6 +59,16 @@ added are actually reachable given the fixtures.
   regardless of the request payload, so tests for a valid charge and a
   malformed one passed identically — the test verified the mock, not the
   validation logic.)*
+- **Pick the fixture that forces the risky path, not the one that's easy to
+  build.** When a project has a safe/native path and a custom/failure-prone one
+  (a merge, a mutation, a parser), the obvious first example often routes
+  through the native path and never runs your code at all — it proves the
+  platform works, not your logic. Confirm at least one fixture drives the custom
+  path end to end; if the natural demo bypasses it, add a minimal one that
+  doesn't. *(A plan's single seed bundle turned out to be pure external-plugin
+  installs the platform handles natively, so it never touched the custom
+  settings/config merge-installer — the code most likely to break would have
+  shipped with no end-to-end test exercising it.)*
 
 ## Pre-flight check — before you call a behaviour tested
 
@@ -66,6 +76,8 @@ added are actually reachable given the fixtures.
       under test, and the right assertion was the one that failed.
 - [ ] Every new failure/edge branch has a fixture that actually reaches it.
 - [ ] No assertion is satisfied purely by a hardcoded-success mock.
+- [ ] At least one fixture drives the custom/failure-prone path end to end, not
+      just the safe/native path the platform handles for you.
 
 If any box is unchecked, you have a green light of unknown wiring — go make it
 fail on purpose.

@@ -65,6 +65,17 @@ away working code and ships something that can't run.
   dropped the transaction support the codebase relied on; the response named
   that gap directly and proposed a lighter driver that kept transactions and
   avoided a data-layer rewrite.)*
+- **An earlier user choice isn't locked — resurface it when analysis reverses
+  it.** A preference the user picked earlier (in brainstorming, a prior turn) is
+  provisional until its risks are known. When a later red-team, critique, or
+  benchmark shows that exact choice is harmful, don't silently comply against
+  the evidence, and don't silently override the user — resurface it as a
+  decision: the concrete failure scenario, why it reverses the earlier pick, and
+  the recommended alternative, then re-ask. *(A user had chosen
+  auto-merge-on-scrub and an SSR web stack during brainstorming; a design
+  red-team found both were critical risks for a trust-branded install tool —
+  auto-merging installable hooks is a malware channel — and, shown the
+  reasoning, the user reversed both.)*
 
 ## Pre-flight check — before you implement a user-named tool/platform
 
@@ -74,6 +85,9 @@ away working code and ships something that can't run.
       they named.
 - [ ] Any real conflict was raised explicitly, with a feasible alternative
       that serves the same intent.
+- [ ] Any earlier user choice that later analysis contradicts was resurfaced as
+      a decision with the evidence — not silently implemented, nor silently
+      overridden.
 
 If any box is unchecked, you may be building on an infeasible premise — check
 the artifact against the mechanism first.
