@@ -2,7 +2,7 @@
 
 [![validate-skills](https://github.com/iamakbarsha1/whetstone/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/iamakbarsha1/whetstone/actions/workflows/validate-skills.yml)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-blue.svg)](LICENSE)
-[![skills](https://img.shields.io/badge/skills-20-brightgreen.svg)](#skills)
+[![skills](https://img.shields.io/badge/skills-21-brightgreen.svg)](#skills)
 
 Agent skills honed on real work. Each skill is a short, self-contained rule set
 distilled from **one concrete failure** — written so an AI coding agent (or a
@@ -88,6 +88,7 @@ the right skill when the situation matches.
 | Skill | Use it when |
 |-------|-------------|
 | [`distill-the-scar`](skills/distill-the-scar) | Turning a real failure into a reusable skill — capture the scar, extract one transferable invariant, write it in the anatomy, and gate it with the validator. The method that forged every skill here, made repeatable. |
+| [`a-memory-is-not-a-trigger`](skills/a-memory-is-not-a-trigger) | Relying on a stored memory, a recalled note, a session-start banner, or a description-matched skill to make a required action fire every run. Passive context is read, not executed — gate must-dos with a deterministic hook or forced invocation, not a note you hope gets recalled. |
 
 ## Install
 

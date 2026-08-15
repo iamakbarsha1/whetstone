@@ -11,7 +11,7 @@
       "name": "whetstone",
       "source": "./",
       "description": "A pack of agent skills distilled from real engineering failures — verification, planning, safe contract changes, testing, debugging, and code review. Each is a short rule set ending in a pre-flight checklist.",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "license": "CC-BY-4.0",
       "homepage": "https://github.com/iamakbarsha1/whetstone",
       "keywords": ["skills", "verification", "debugging", "planning", "background-jobs"]
