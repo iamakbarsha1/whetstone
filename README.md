@@ -35,7 +35,7 @@ description: >
 # Verify Through the Real Path, Not a Proxy
 **Type:** Open-source ...                # provenance, licence, feedback
 ## The core rule                         # one paragraph
-## Checks                                # each rule + a sanitized real case
+## Checks                                # each rule + a grounding case (real, or *(Illustrative:)*)
 ## Pre-flight check                      # the checklist that gates "done"
 ```
 

@@ -62,18 +62,20 @@ is "supposed to remember."
   in the path, classify the action as "may not happen" and design accordingly.
   *(A per-session logging step named in both a recalled memory and a startup
   banner was read every session and skipped anyway.)*
-- **Gate must-dos deterministically.** For an action that must happen every
-  time, put it where execution isn't optional: a hook that runs the action, or
-  an always-loaded config instruction that forces a skill invocation — not a
-  note filed in passive memory that depends on recall plus goodwill to fire.
 - **Split "remind" from "perform".** A hook that only injects a reminder is
   still advisory. If the mechanism can execute the deterministic half of the
   work itself, execute it there and leave only the judgment to the agent — a
   reminder to do X is weaker than a step that does X.
+  *(A startup hook printed a reminder to log daily changes on every run; the
+  log stayed empty for weeks because the hook only echoed the reminder text
+  and never wrote the entry itself.)*
 - **Don't upgrade "I stored it" to "it'll happen".** Writing the rule down —
   into memory, a doc, a skill description — feels like closure, but the write
   is the easy half. The firing is unproven until a mechanism guarantees it;
   confirm the action actually happened, don't infer it from the note existing.
+  *(Illustrative: A recurring status update was treated as handled because the rule lived
+  in a config file; nobody had checked whether the update actually posted,
+  and it hadn't fired in two weeks.)*
 
 ## Pre-flight check — before you trust a recurring action to fire
 

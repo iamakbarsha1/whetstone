@@ -89,5 +89,8 @@ intended:
       upper bound.
 - [ ] Any "safe/unreachable/cosmetic" verdict names its invariant and states
       whether that invariant is locally enforced or only empirically true.
+- [ ] Any unfamiliar CLI probed for its flags used a guaranteed-safe route
+      (`--version`, a confirmed dry-run, or reading source), never `--help` on a
+      mutating subcommand whose arg parser might execute it.
 
 If any box is unchecked, the claim is not verified — go back and check it.

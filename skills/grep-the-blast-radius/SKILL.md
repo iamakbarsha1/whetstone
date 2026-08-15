@@ -53,6 +53,10 @@ imports it.
   the shared thing is used by three apps and an e2e script, a passing unit
   test in the shared library is the least informative signal available. Run
   the cross-boundary suites, or state explicitly which you could not run.
+  *(Illustrative: A shared function's failure mode changed from throwing to returning
+  null; the library's own suite passed, but the one consumer app's e2e
+  suite, which depended on the throw, was never run before merge, and the
+  null passed through unnoticed.)*
 - **Mirrored and duplicated encodings count as consumers.** If the same
   intent is written in more than one place — an array whose order mirrors an
   enum, a hardcoded list that must match a DB column set, a client copy of a

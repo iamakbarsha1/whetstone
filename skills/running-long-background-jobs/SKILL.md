@@ -17,9 +17,10 @@ description: >
 
 **Created by akbarsha — https://github.com/iamakbarsha1**
 
-Distilled from field lessons about launching and verifying long-running,
-detached, and background jobs against corpora that other processes also
-write to.
+Distilled from a case where a detached backfill resolved a relative config path
+against a working directory it never inherited, silently ran for hours on
+default settings, and then reported success against a start-time target a
+concurrent hook had already moved.
 
 **Licence:** Released under CC BY 4.0 — share and adapt for any purpose
 with credit. Full text: `LICENSE` at the repository root.
@@ -30,99 +31,80 @@ at the profile link above with what happened and what you expected. If the probl
 following a rule below rather than the rule itself, that's an execution
 failure — acknowledge and correct it, don't file it as methodology feedback.
 
-## Trigger
+## The core rule
 
-Before backgrounding or detaching any job expected to run unattended for
-more than a few minutes. Before declaring such a job "done." Before trusting
-a smoke test's timing. Before reconciling a batch job's results against a
-corpus other processes can also modify.
-
-## Inputs Required
-
-- The command being launched, and every config/input/output path it reads —
-  know which of these are relative vs. absolute.
-- Whether anything else (a hook, cron, another agent, a scheduler) reads or
-  writes the same corpus/output location during the run.
-- The target count or completion criterion for the job, and how it's
-  currently measured (a counter, a file count, a commit, a log line).
-
-## Process
-
-### Step 1 — Make every input absolute at launch time
-
-A backgrounded or detached process is not guaranteed to inherit the cwd, env,
-or shell state of the session that launched it. If the job resolves any
-input from a relative path (`./config.json`, `../data`), it can silently
-fall back to a built-in default when the inherited cwd differs — with no
-error, discovered only much later via wrong behavior or degraded throughput.
-
-Convert every cwd-relative input to an absolute path explicitly at the
-command line (e.g. `--config /abs/path/to/config.json`, not reliance on
-"run it from the right directory"). Do this for every path-like flag, not
-just the one you're actively changing.
-
-### Step 2 — Keep the host awake for unattended multi-hour runs
-
-Host sleep or power-saving throttling (macOS App Nap, laptop suspend) can
-pause or slow a detached process for hours without killing it, and this
-looks identical to the job "just running" if you're not watching. For any
-run expected to span an unattended stretch (overnight, multi-hour), wrap it
-in the platform's keep-awake mechanism — `caffeinate` on macOS,
-`systemd-inhibit` on Linux, `powercfg /requestsoverride` on Windows — rather
-than trusting the machine to stay responsive on its own.
-
-### Step 3 — Verify the config is live at runtime, not just correct on disk
-
-A correct config file proves nothing about what the running process actually
-loaded. Before walking away, confirm the intended setting is ACTIVE via an
-early runtime signal: a logged effective-config line, a process/worker count
-matching the setting, or an observed throughput consistent with it. Checking
-the file is not verification; checking the process's observed behavior is.
-
-### Step 4 — Treat any smoke test as a throughput floor, not an ETA
-
-A short smoke run only measures steady-state throughput on a small,
-unrepresentative sample. It does not see host sleep, per-item size variance,
-or time-of-day throttling — all of which dominate wall time on a real
-multi-hour run and can multiply the naive `smoke_rate × N` estimate several
-times over. Report smoke-test extrapolations as a floor ("at least this
-long"), not a deadline, and re-measure the instantaneous completion rate
-periodically during the real run instead of trusting the initial estimate.
-
-### Step 5 — Reconcile completion by three buckets, not by subtraction
-
-If the job's corpus is shared — anything else can add, remove, or modify
-items in it while the job runs — then `remaining = target − done` stops
-being true partway through. The residual is genuine failures PLUS items
-that arrived (or changed) during the run. Reconcile explicitly into three
-buckets: **processed-ok**, **failed** (with reasons), and **arrived/changed
-during run**. Don't report or act on a raw subtraction against the
-job's start-time target.
-
-Also expect external committers: a hook or scheduled process watching the
-same corpus may commit the job's own partial output incrementally as a
-side effect of its normal behavior. When that happens, the job's own final
-commit or log will show fewer items than were actually processed — that's
-the external committer's doing, not a sign of data loss.
-
-### Step 6 — Verify completeness by per-item state, not job-time arithmetic
-
-Confirm completion against the CURRENT state of the corpus, not the
-snapshot the job started with. A reliable invariant: working tree / output
-location is clean (no uncommitted or unprocessed diffs) AND every item's
-current state matches its expected post-processing state (a hash, a status
-field, a timestamp) — checked live, not assumed from the job's self-reported
+A detached job does not inherit the session that launched it — not its working
+directory, not its environment, not its wakefulness — and the moment anything
+else writes the same corpus, `remaining = target − done` stops being true.
+Launch with every input absolute and the host kept awake, confirm the config is
+live from the running process's behaviour (not the file on disk), and verify
+completion against the corpus's current per-item state, not the job's own
 counters.
 
-### Step 7 — Plan a mop-up pass
+## Checks
 
-Anything landing in the "arrived/changed during run" bucket from Step 5
-needs its own follow-up pass. Don't fold it silently into "failed," and
-don't consider the job complete until it's scheduled or run.
+- **Make every path absolute at launch.** A backgrounded or detached process is
+  not guaranteed the launcher's cwd, env, or shell state; a relative input
+  (`./config.json`, `../data`) can silently fall back to a built-in default when
+  the inherited cwd differs. Pass every path-like flag absolute at the command
+  line, not by "run it from the right directory". If a scheduler sets its own
+  cwd you can't control, log the resolved absolute path of every input at
+  process start so a wrong fallback shows up in the log instead of silently.
+  *(A detached run resolved `./config` against a cwd it never inherited, used
+  defaults with no error, and ran ~6 hours on the wrong settings — found only
+  later by degraded throughput.)*
+- **Keep the host awake for unattended runs.** Sleep and power throttling
+  (macOS App Nap, laptop suspend) can pause or slow a detached process for hours
+  without killing it, indistinguishable from "still running" if you aren't
+  watching. Wrap any multi-hour unattended run in the platform keep-awake —
+  `caffeinate`, `systemd-inhibit`, `powercfg /requestsoverride`. *(A ~17h
+  unattended run lost roughly 40% of its wall time — about 7 hours — to host
+  sleep the process couldn't prevent; a keep-awake wrapper would have cut it to
+  ~6–7h.)*
+- **Confirm the config is live at runtime, not correct on disk.** A correct file
+  proves nothing about what the running process loaded. Confirm the intended
+  setting is ACTIVE from an early runtime signal — a logged effective-config
+  line, a worker count matching the setting, an observed rate consistent with
+  it. *(A run whose config was fixed on disk kept using the old value the
+  already-started process had loaded; the file check passed while behaviour
+  didn't.)*
+- **A smoke test is a throughput floor, not an ETA.** A short sample can't see
+  host sleep, per-item size variance, or time-of-day throttling — all of which
+  dominate a multi-hour wall time and can multiply a naive `smoke_rate × N`
+  estimate several times over. Report the extrapolation as "at least this long"
+  and re-measure the live rate mid-run. (Overlaps `verify-through-the-real-path`'s
+  smoke check; kept here for the background-job flow.) *(A 17-item smoke at
+  ~6s/item projected ~6h; the real ~4,300-item run took ~17h once host sleep,
+  per-item variance, and rate-limit windows were in play.)*
+- **Reconcile a shared corpus in three buckets, not by subtraction.** If
+  anything else can add, remove, or change items mid-run, `remaining = target −
+  done` is false: the residual is real failures PLUS items that arrived or
+  changed during the run. Split it into **processed-ok** / **failed** (with
+  reasons) / **arrived-during-run**, and expect an external committer — a hook
+  watching the corpus — to commit the job's partial output as a side effect, so
+  the job's own final count reads low with no data loss. (If nothing else writes
+  the corpus, this collapses to two buckets — still verify by per-item state,
+  not arithmetic.) *(A backfill's residual of 151 was first read as 151
+  failures, but only 43 were real — the other ~108 items had arrived mid-run,
+  and a Stop-hook's 16 incremental commits had obscured the job's true
+  processed count.)*
+- **Verify completeness by per-item state, not job arithmetic.** Confirm against
+  the corpus's CURRENT state, not the start-time snapshot: the working
+  tree/output location is clean AND every item's live state (a hash, a status
+  field, a timestamp) matches its expected post-processing state — checked live,
+  not assumed from the job's self-reported counters. *(Completion was confirmed
+  per-item by a content hash, not the job's counter — items the counter called
+  done carried no hash and were caught only by the live state check.)*
+- **Schedule the mop-up before calling it done.** Everything in the
+  arrived/changed-during-run bucket needs its own follow-up pass. Don't fold it
+  into "failed", and don't call the job complete until that pass is run or
+  scheduled. *(A mop-up pass over all 151 residuals — not just the 43 real
+  failures — cleared them to zero; folding the ~108 mid-run arrivals into
+  "failed" would have miscounted them permanently.)*
 
-### Pre-flight check — before declaring the job done
+## Pre-flight check — before declaring the job done
 
-Re-read Steps 1–6 against what actually happened, not what was intended:
+Re-read the checks above against what actually happened, not what was intended:
 
 - [ ] Every path-like input was passed absolute, not relied on via cwd.
 - [ ] The effective config was confirmed live at runtime (not just read
@@ -139,43 +121,3 @@ Re-read Steps 1–6 against what actually happened, not what was intended:
 
 If any box is unchecked, the job is not verified — go back and check it
 before reporting success.
-
-## Output Format
-
-A completion report with:
-
-1. **Processed-ok** — count, with the verification evidence used (per-item
-   state check, not a job-reported counter alone).
-2. **Failed** — count and reasons, if any.
-3. **Arrived/changed during run** — count, and whether they're covered by
-   an already-run or scheduled mop-up pass.
-4. **Runtime evidence** — the early signal that confirmed the intended
-   config was actually active (not just present on disk).
-5. **Timing note** — if a pre-run smoke-test estimate was given, whether
-   actual wall time matched, exceeded, or was flagged mid-run as running
-   long.
-
-## Tools Used
-
-Whatever backgrounding mechanism the platform provides (`nohup`, `disown`,
-`tmux`/`screen`, a job scheduler, or a managed background-task API); a
-host keep-awake utility for unattended runs; access to the corpus's
-per-item state (file hashes, DB rows, status fields) to reconcile against.
-No specific vendor or product is required — the methodology applies to any
-detached/background execution mechanism.
-
-## Notes
-
-- **Closed corpus (no other writers):** the three-bucket reconciliation in
-  Step 5 collapses to two (processed-ok, failed). Still verify by per-item
-  state rather than arithmetic — a stale or off-by-one target count is just
-  as easy to hide behind subtraction as a concurrent writer is.
-- **cwd cannot be controlled** (e.g., a managed scheduler that sets its own
-  working directory): add an explicit debug/print step that logs the
-  resolved absolute path for every input at process start, so a wrong
-  fallback is visible in logs rather than silent.
-- This skill governs launching and verifying background jobs specifically.
-  General claims-need-evidence discipline for any completion claim (tests,
-  builds, PRs) belongs to a broader verification skill if the environment
-  has one — this skill only adds the parts specific to detached/background
-  execution and shared-corpus reconciliation.

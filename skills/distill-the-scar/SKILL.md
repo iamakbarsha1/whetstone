@@ -58,25 +58,39 @@ get shapeless "best practice" that reads well and changes nothing:
      triggers is dead weight.
    - `**Type:**`, author, "Distilled from a case where …", licence, and
      feedback lines.
-   - `## The core rule` — the invariant, then a **"Real case (sanitized):"**
-     paragraph grounding it in the actual scar from move 1.
+   - `## The core rule` — the invariant, in one paragraph.
+   - `## Checks` — for a multi-rule skill, each rule as a bullet ending in a
+     one-line sanitized **`*(real case)*`** grounding it in an actual scar.
+     Ground each case against the record (the incident log, git history); if a
+     check has no separate lived incident behind it, mark its example
+     **`*(Illustrative: …)*`** rather than fabricating a scar — the validator
+     checks the marker exists, not that it is real. A
+     single-rule skill may instead fold that one rule and its case into `## The
+     core rule` (as a **"Real case (sanitized):"** paragraph) and omit
+     `## Checks`.
    - `## Pre-flight check` — a checklist the agent runs *before* it claims the
-     work is done, phrased so an unchecked box means "not finished."
+     work is done, with one checkbox per check, phrased so an unchecked box
+     means "not finished."
 4. **Name it for the invariant, not the story.** A plain imperative that
    states the rule — `verify-absence-claims`, `measure-the-delta-not-the-
    absolute` — beats a clever title. The name is a handle the agent greps for
    under pressure; match the local convention of the skills already present.
 5. **Gate it.** Run `python3 scripts/validate_skills.py`. It enforces the
-   frontmatter, the `**Type:**` line, the pre-flight section, and that the
-   directory name matches. A skill that fails the validator does not merge —
-   the shape is not decoration, it is what makes the skill usable under load.
+   frontmatter, the `**Type:**` line, `## The core rule`, the pre-flight
+   section, the directory-name match, and — when a `## Checks` section is
+   present — that every check carries a grounding case (`*(real case)*` or
+   `*(Illustrative: …)*`) and the pre-flight has a
+   checkbox for each. A skill that fails the validator does not merge — the
+   shape is not decoration, it is what makes the skill usable under load.
 
 **Real case (sanitized):** A skills repository grew to nineteen entries, each
 genuinely distilled from a real failure. But the distilling itself was tacit —
 captured live by an observer step, then hand-shaped by whoever was at the
-keyboard. The method was never a written artifact, so a new contributor (or an
-agent) had no way to produce a twentieth skill that matched the first nineteen,
-and the founder was the single point of failure for the repo's whole premise.
+keyboard. The plausible-but-wrong move was to trust that the observer log already
+*was* the method; that it wasn't became provable the moment a new contributor,
+handed only that log, could not produce a twentieth skill that matched the first
+nineteen. The method was never a written artifact, so the founder was the single
+point of failure for the repo's whole premise.
 Writing the method down as this skill — capture, extract, shape, name, gate —
 turned "how we make skills" from tribal knowledge into a step anyone can run,
 and made the repository self-hosting: the skill that forges the skills now
@@ -90,8 +104,11 @@ lives beside the ones it forged.
       a second invariant became a second skill.
 - [ ] The `description` opens with "Use when …" and carries a concrete
       "Triggers on …" list — it will actually fire when the situation recurs.
-- [ ] There is a **"Real case (sanitized):"** paragraph and a **pre-flight
-      checklist**; names and secrets are sanitized, mechanics kept exact.
+- [ ] Every check carries a sanitized real case grounded against the record —
+      or, when none exists, an example marked `*(Illustrative: …)*` instead of a
+      fabricated scar (or, for a single-rule skill, the core rule does), and
+      there is a **pre-flight checklist**; names and secrets are sanitized,
+      mechanics kept exact.
 - [ ] `python3 scripts/validate_skills.py` prints `OK` — the skill passes the
       same gate as every other skill in the repository.
 

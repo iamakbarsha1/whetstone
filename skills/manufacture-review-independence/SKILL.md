@@ -44,12 +44,17 @@ resolve it by reading the file that decides — never by averaging.
   over everything, review in separate scoped passes (security, correctness,
   contract-boundaries, tests) each blind to the others' conclusions, then
   merge. Different scopes surface what a single sympathetic read glosses over.
+  *(Illustrative: A combined pass over a multi-tenant export feature missed a missing
+  tenant-scoping check; rerunning the same diff as a dedicated security-only
+  pass caught it immediately, because that pass wasn't also weighing style.)*
 - **Adversarially re-read source for every high-severity claim.** For each
   High/Critical finding, run a pass whose explicit goal is to REFUTE it by
   reading the actual code, and default to "not real" if the source doesn't
   confirm it. This kills both the author's blind spots and plausible-but-false
   findings. A claim that survives a genuine refutation attempt is worth
-  acting on.
+  acting on. *(Illustrative: A finding claimed a race condition from the diff alone; an
+  adversarial re-read of the full function showed a mutex already guarded
+  the section, and the finding was dropped.)*
 - **Disagreement points to the boundary file — go read it.** When two
   reviewers (or two passes) assign conflicting severity to the same fact, that
   gap is not noise to average away; it means the deciding evidence lives in a

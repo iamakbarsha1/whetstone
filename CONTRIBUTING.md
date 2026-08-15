@@ -9,7 +9,9 @@ it — written so an agent (or human) can apply it without the original context.
 A skill belongs here if it is:
 
 - **Distilled from a concrete failure** — not "best practices in general." Every
-  skill states the real case it came from.
+  skill names the real case it came from; where a check adds an example not
+  drawn from a logged incident, it is marked `*(Illustrative: …)*` rather than
+  dressed up as a lived one.
 - **Client-agnostic** — no client/project/personal detail. The lesson
   generalizes; scrub identifying specifics.
 - **Actionable under load** — a short rule set an agent can actually follow
@@ -40,8 +42,20 @@ Match the structure of the existing skills:
 2. `**Created by**` attribution
 3. `**Licence:**` (CC BY 4.0) and `**Feedback & Support:**` lines
 4. **The core rule** — one paragraph
-5. **Checks** — the individual rules, each with a one-line sanitized real case
-6. **Pre-flight check** — a checklist that must all pass before claiming done
+5. **Checks** — the individual rules, each ending in a one-line sanitized real
+   case in the form `*(what went wrong)*`. A single-rule skill may fold that one
+   rule and its case into **The core rule** and omit the `## Checks` section
+   (see `confirm-the-premise-first`).
+6. **Pre-flight check** — a checklist that must all pass before claiming done.
+   Every check above needs a matching checkbox; an ungated check is a silent
+   hole in the "fail loudly" guarantee.
+
+CI enforces the load-bearing parts of this contract (`scripts/validate_skills.py`):
+`## The core rule` is present, every `## Checks` bullet carries a grounding case
+`*(…)*` — a real one, or one marked `*(Illustrative: …)*` — and the pre-flight
+has at least one checkbox per check. A skill that skips them can't merge. (CI
+checks the marker is present; it cannot tell a real case from a fabricated one,
+so honesty about which is which is on the author — see `distill-the-scar`.)
 
 Copy an existing skill as a template — `verify-through-the-real-path` is a good
 reference.

@@ -35,27 +35,27 @@ module has no established pattern of its own. A module that is internally
 uniform — even in an "outdated" style — is more maintainable than one where a
 new file conforms to the global rule while every sibling around it does
 something else. Don't import a global convention into a module that has
-locally settled on another.
+locally settled on another. When the two genuinely conflict and the local
+pattern is consistent, match local and note the divergence rather than
+silently fragmenting the module.
 
 ## Checks
 
 - **Read the nearest sibling before you write.** Open the file most like the
   one you're about to create, in the same directory/module, and copy its
   shape: its imports, its state approach, its error handling, its test layout.
-  The closest existing analog outranks a remembered global rule. *(A module
+  The closest existing analog outranks a remembered global rule. *(Illustrative: A module
   consistently used plain local state; applying the repo-wide
   form-library-plus-schema convention would have made the new form the single
   outlier in that module.)*
-- **Global convention is the fallback, not the override.** Reach for the
-  repo-wide standard only when the local module is greenfield or genuinely
-  mixed. When the local pattern and the global rule conflict and the local one
-  is consistent, match local and note the divergence rather than silently
-  fragmenting the module.
 - **If you're deliberately breaking local consistency, say so.** Sometimes the
   right move IS to introduce the better pattern — but that's a migration
   decision, not a drive-by. Flag it: "this module uses X; I'm introducing Y
   here and the rest should follow or it'll be inconsistent," so it's a
-  conscious choice, not an accidental outlier.
+  conscious choice, not an accidental outlier. *(Illustrative: A new file replaced a
+  module's consistent callback-based error handling with promise chaining but
+  didn't flag it as an intentional upgrade; the next contributor couldn't tell
+  if it was deliberate and reverted it.)*
 
 ## Pre-flight check — before you add code to an existing module
 

@@ -53,9 +53,15 @@ see.
   only report what their search covered. Rephrase their "X does not exist" as
   "X not found by <their method>" and check whether their scope even included
   where X would live (other packages, generated code, inline copies, tests).
+  *(Illustrative: A subagent reported no rate limiter existed after searching the
+  application code only; the limiter lived in a shared middleware package
+  outside its search path.)*
 - **Label unverified absences as such.** When you must pass an absence claim
   onward without re-checking, mark it "verify: none found" rather than stating
   it as fact, so the next reader knows it's a search result, not a guarantee.
+  *(Illustrative: A handoff note stated "no retry logic exists" as settled fact instead of
+  as unverified; the next engineer wrapped calls in a new retry layer around
+  code that already retried internally, doubling the delay.)*
 
 ## Pre-flight check — before you build on "X doesn't exist"
 
