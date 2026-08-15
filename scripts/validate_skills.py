@@ -5,6 +5,10 @@ Checks, per skill under skills/*/SKILL.md:
   - frontmatter block present (opening/closing ---)
   - `name` and `description` keys present and non-empty
   - directory name matches frontmatter `name`
+  - `**Type:**` line and a pre-flight check section present
+  - `## The core rule` section present
+  - every `## Checks` bullet carries a `*(real case)*` marker
+  - pre-flight has at least one checkbox per check (no ungated check)
 
 Checks manifests:
   - .claude-plugin/marketplace.json and plugin.json parse as JSON
@@ -44,6 +48,20 @@ def parse_frontmatter(text):
     return fields
 
 
+def check_bullets(text):
+    """Return the top-level check bullets under the `## Checks` section.
+
+    Each bullet starts `- **` and runs until the next such bullet or the next
+    `## ` heading; indented sub-bullets stay attached to their parent. A skill
+    that folds its single rule into `## The core rule` has no `## Checks` and
+    returns []."""
+    m = re.search(r"(?ms)^## Checks\b.*?(?=^## |\Z)", text)
+    if not m:
+        return []
+    parts = re.split(r"(?m)^- \*\*", m.group(0))[1:]
+    return ["- **" + p for p in parts]
+
+
 def check_skills():
     skill_files = sorted(ROOT.glob("skills/*/SKILL.md"))
     if not skill_files:
@@ -51,31 +69,50 @@ def check_skills():
         return []
     names = []
     for f in skill_files:
+        rel = f.relative_to(ROOT)
         dir_name = f.parent.name
         text = f.read_text()
         fm = parse_frontmatter(text)
         if fm is None:
-            err(f"{f.relative_to(ROOT)}: missing frontmatter (--- block)")
+            err(f"{rel}: missing frontmatter (--- block)")
             continue
         # Whetstone contract: every skill declares a Type and ends in a
         # pre-flight checklist. These are what make a skill actionable under
         # load; enforce them so a shapeless skill can't merge.
         if "**Type:**" not in text:
-            err(f"{f.relative_to(ROOT)}: missing `**Type:**` line")
+            err(f"{rel}: missing `**Type:**` line")
         if "pre-flight" not in text.lower():
-            err(f"{f.relative_to(ROOT)}: missing a pre-flight check section")
+            err(f"{rel}: missing a pre-flight check section")
+        # A skill states one core rule, then either folds its single rule into
+        # that paragraph (no `## Checks`) or lists checks — and then every check
+        # must carry a `*(real case)*` and be gated by a pre-flight checkbox.
+        # See CONTRIBUTING.md "Skill format".
+        if "## The core rule" not in text:
+            err(f"{rel}: missing `## The core rule` section")
+        bullets = check_bullets(text)
+        for cb in bullets:
+            if "*(" not in cb:
+                head = cb.splitlines()[0].strip()[:70]
+                err(f"{rel}: Check lacks a `*(real case)*` — {head}")
+        if bullets:
+            nbox = len(re.findall(r"(?m)^\s*- \[ \]", text))
+            if nbox < len(bullets):
+                err(
+                    f"{rel}: {nbox} pre-flight checkbox(es) for {len(bullets)} "
+                    f"checks — every check must be gated"
+                )
         name = fm.get("name", "")
         if not name:
-            err(f"{f.relative_to(ROOT)}: frontmatter missing non-empty `name`")
+            err(f"{rel}: frontmatter missing non-empty `name`")
         elif name != dir_name:
-            err(f"{f.relative_to(ROOT)}: `name: {name}` != directory `{dir_name}`")
+            err(f"{rel}: `name: {name}` != directory `{dir_name}`")
         # description may be a folded scalar (`>`), so value on the key line is
         # empty but the block is non-empty; treat presence of the key as enough
         # only when it carries a value or a block indicator.
         if "description" not in fm:
-            err(f"{f.relative_to(ROOT)}: frontmatter missing `description`")
+            err(f"{rel}: frontmatter missing `description`")
         elif fm["description"] in ("", None):
-            err(f"{f.relative_to(ROOT)}: `description` is empty")
+            err(f"{rel}: `description` is empty")
         if name:
             names.append(name)
     return names

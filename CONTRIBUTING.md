@@ -40,8 +40,18 @@ Match the structure of the existing skills:
 2. `**Created by**` attribution
 3. `**Licence:**` (CC BY 4.0) and `**Feedback & Support:**` lines
 4. **The core rule** — one paragraph
-5. **Checks** — the individual rules, each with a one-line sanitized real case
-6. **Pre-flight check** — a checklist that must all pass before claiming done
+5. **Checks** — the individual rules, each ending in a one-line sanitized real
+   case in the form `*(what went wrong)*`. A single-rule skill may fold that one
+   rule and its case into **The core rule** and omit the `## Checks` section
+   (see `confirm-the-premise-first`).
+6. **Pre-flight check** — a checklist that must all pass before claiming done.
+   Every check above needs a matching checkbox; an ungated check is a silent
+   hole in the "fail loudly" guarantee.
+
+CI enforces the load-bearing parts of this contract (`scripts/validate_skills.py`):
+`## The core rule` is present, every `## Checks` bullet carries a `*(real case)*`,
+and the pre-flight has at least one checkbox per check. A skill that skips them
+can't merge.
 
 Copy an existing skill as a template — `verify-through-the-real-path` is a good
 reference.
