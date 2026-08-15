@@ -2,7 +2,7 @@
 
 [![validate-skills](https://github.com/iamakbarsha1/whetstone/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/iamakbarsha1/whetstone/actions/workflows/validate-skills.yml)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-blue.svg)](LICENSE)
-[![skills](https://img.shields.io/badge/skills-23-brightgreen.svg)](#skills)
+[![skills](https://img.shields.io/badge/skills-24-brightgreen.svg)](#skills)
 
 Agent skills honed on real work. Each skill is a short, self-contained rule set
 distilled from **one concrete failure** — written so an AI coding agent (or a
@@ -83,6 +83,7 @@ the right skill when the situation matches.
 | [`read-the-real-failing-call`](skills/read-the-real-failing-call) | Hardening against a failure mode — instrument the real failing call before and after, because a plausible hypothesis is not a diagnosis. |
 | [`manufacture-review-independence`](skills/manufacture-review-independence) | Reviewing your own work (author == reviewer) — replace lost independence with scoped parallel passes and adversarial re-reads of the source. |
 | [`findings-list-is-not-a-todo-list`](skills/findings-list-is-not-a-todo-list) | Acting on a review/audit/recommendation list — re-read each item's disposition and bucket them; some are marked no-fix, some need a human decision. |
+| [`scan-generated-files-for-artifacts`](skills/scan-generated-files-for-artifacts) | Reviewing or signing off a file an agent wrote with a tool — grep its head and tail for leaked harness residue (stray tags, fence fragments, content past EOF); passing tests don't cover non-code bytes. |
 
 ### Author & distill
 
