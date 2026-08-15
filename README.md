@@ -2,7 +2,7 @@
 
 [![validate-skills](https://github.com/iamakbarsha1/whetstone/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/iamakbarsha1/whetstone/actions/workflows/validate-skills.yml)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-blue.svg)](LICENSE)
-[![skills](https://img.shields.io/badge/skills-21-brightgreen.svg)](#skills)
+[![skills](https://img.shields.io/badge/skills-23-brightgreen.svg)](#skills)
 
 Agent skills honed on real work. Each skill is a short, self-contained rule set
 distilled from **one concrete failure** — written so an AI coding agent (or a
@@ -74,6 +74,7 @@ the right skill when the situation matches.
 | [`diff-each-side-against-merge-base`](skills/diff-each-side-against-merge-base) | Resolving a merge/rebase conflict — markers show where git gave up, not the full delta; auto-merge silently drops fields. |
 | [`verify-absence-claims`](skills/verify-absence-claims) | Acting on a "none exists / not found" claim, especially from delegated research — re-grep it; absence is only as good as the search pattern. |
 | [`negative-invariant-testing`](skills/negative-invariant-testing) | Protecting a "never does X" constraint — a behavioural test can't see an unused capability; assert structurally on the mechanism's existence. |
+| [`safe-data-export`](skills/safe-data-export) | Exporting sensitive or large data into a path inside a git tree — make the destination uncommittable and verify it (gitignore first, then `git check-ignore` + `git status`) before the data exists on disk. |
 
 ### Diagnose & review
 
@@ -89,6 +90,7 @@ the right skill when the situation matches.
 |-------|-------------|
 | [`distill-the-scar`](skills/distill-the-scar) | Turning a real failure into a reusable skill — capture the scar, extract one transferable invariant, write it in the anatomy, and gate it with the validator. The method that forged every skill here, made repeatable. |
 | [`a-memory-is-not-a-trigger`](skills/a-memory-is-not-a-trigger) | Relying on a stored memory, a recalled note, a session-start banner, or a description-matched skill to make a required action fire every run. Passive context is read, not executed — gate must-dos with a deterministic hook or forced invocation, not a note you hope gets recalled. |
+| [`publish-oss-repo`](skills/publish-oss-repo) | Publishing a repo, or auditing one that has working code but still reads as neglected — signal maintenance with a canonical (machine-detected) license, tagged releases, topics, and CI that enforces the artifact's contract, each verified through the platform's own API. |
 
 ## Install
 
