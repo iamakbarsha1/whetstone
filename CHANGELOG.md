@@ -4,6 +4,12 @@ All notable changes to whetstone are recorded here. Versions track the plugin
 manifest (`.claude-plugin/plugin.json`) and follow [SemVer](https://semver.org):
 new skills are a minor bump, rule changes to an existing skill are a patch.
 
+## [1.5.0] — 2026-09-08
+
+Added 1 skill (24 → 25).
+
+- `spike-falsification` — validate a third-party dependency by executing against the real deployed artifact and trying to falsify design assumptions, not demoing the happy path. (Onchain origin; gotchas marked as the pattern, not universal rules.)
+
 ## [1.4.0] — 2026-08-16
 
 Added 1 skill (23 → 24).
@@ -49,6 +55,7 @@ First distributable release.
 - Added the plugin marketplace (`.claude-plugin/`), a dependency-free skill validator,
   CI, and contributor docs.
 
+[1.5.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.5.0
 [1.4.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.4.0
 [1.3.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.3.0
 [1.2.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.2.0
