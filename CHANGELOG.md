@@ -4,6 +4,15 @@ All notable changes to whetstone are recorded here. Versions track the plugin
 manifest (`.claude-plugin/plugin.json`) and follow [SemVer](https://semver.org):
 new skills are a minor bump, rule changes to an existing skill are a patch.
 
+## [1.6.0] — 2026-10-17
+
+Added 2 skills (25 → 27), promoted from a weekly skill review.
+
+- `enumerate-artifacts-not-references` — a completeness gate that scrapes references out of prose has an unbounded input set and floods on any document about the thing it matches; enumerate the real artifacts instead, and keep a separate bounded pass for truncation.
+- `name-the-boundary-between-siblings` — keyword coverage makes a skill discoverable, not selectable; grep your trigger words against the installed set and write a reciprocal boundary line into both files.
+
+Also: added reciprocal boundary lines to `verify-absence-claims` and `distill-the-scar` (the siblings the new skills compete with), and brought `docs/index.html` back in sync — it was still showing 24 skills and missing the `spike-falsification` card from 1.5.0.
+
 ## [1.5.0] — 2026-09-08
 
 Added 1 skill (24 → 25).
@@ -55,6 +64,7 @@ First distributable release.
 - Added the plugin marketplace (`.claude-plugin/`), a dependency-free skill validator,
   CI, and contributor docs.
 
+[1.6.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.6.0
 [1.5.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.5.0
 [1.4.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.4.0
 [1.3.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.3.0

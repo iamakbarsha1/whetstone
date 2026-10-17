@@ -75,6 +75,9 @@ get shapeless "best practice" that reads well and changes nothing:
    states the rule — `verify-absence-claims`, `measure-the-delta-not-the-
    absolute` — beats a clever title. The name is a handle the agent greps for
    under pressure; match the local convention of the skills already present.
+   Separating it from a sibling that already claims its trigger words is a
+   different job — use `name-the-boundary-between-siblings` before the
+   description hardens.
 5. **Gate it.** Run `python3 scripts/validate_skills.py`. It enforces the
    frontmatter, the `**Type:**` line, `## The core rule`, the pre-flight
    section, the directory-name match, and — when a `## Checks` section is

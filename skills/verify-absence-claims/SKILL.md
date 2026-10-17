@@ -40,6 +40,11 @@ found by <specific search>", and re-run a broader search before you rely on it �
 especially when the claim came from a delegated agent whose search you can't
 see.
 
+This is about trusting a negative result someone already produced. Choosing
+which direction a check *you* are writing should enumerate in — scrape
+references and test each resolves, or list the real artifacts and test each is
+referenced — is a different problem: use `enumerate-artifacts-not-references`.
+
 ## Checks
 
 - **Re-grep every load-bearing "none exists".** Before you act on an absence
