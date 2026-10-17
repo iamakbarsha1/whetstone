@@ -57,6 +57,14 @@ has at least one checkbox per check. A skill that skips them can't merge. (CI
 checks the marker is present; it cannot tell a real case from a fabricated one,
 so honesty about which is which is on the author — see `distill-the-scar`.)
 
+It also checks that a new skill actually reaches the catalogue: every
+`skills/*/` directory needs a README table row and a card in `docs/index.html`,
+every row and card must point at a directory that exists, and every declared
+skill count — the README badge, the site's meta tags, hero, spelled-out section
+header and per-section counts — must equal the number of directories. The count
+lives in eight places, so adding a skill without propagating it is a drift the
+validator now fails on rather than a release catching it later.
+
 Copy an existing skill as a template — `verify-through-the-real-path` is a good
 reference.
 
