@@ -42,6 +42,16 @@ direction.
   hardcoded a Unix epoch and its human date as an unchecked pair; the date was
   wrong, and the same pair reused across tasks would have multiplied the bug —
   a failing test caught it just before it shipped.)*
+- **Count-across-surfaces agreement.** A quantity published in more than one
+  place is one intent with N encodings, and it does not appear only as a digit:
+  the same count shows up spelled out in a heading, and as per-section
+  subtotals that have to sum to the whole. A grep for the old number proves
+  none of those. Close it with a structural invariant — enumerate the real
+  items, assert each section's declared count matches its contents and that the
+  sections sum to the total — plus a sweep for the word form of both the old
+  and the new count. *(A catalogue's count was propagated by grepping the
+  digit; the badge, meta tags and install line all updated, while a spelled-out
+  heading and one per-section subtotal kept the old value and shipped.)*
 - **Prose-vs-code agreement.** When a task gives both a prose description of
   an edge case and the code, and they disagree, the implementer transcribes
   the code and silently ignores the prose. For every edge-case behaviour you
@@ -68,6 +78,8 @@ direction.
 
 - [ ] Every pair of related hardcoded values is computed or explicitly
       verified against each other.
+- [ ] Every published count is closed by a structural invariant (parts sum to
+      the whole) and a word-form sweep, not by a grep for the digit.
 - [ ] Every prose edge-case claim names the code line that implements it.
 - [ ] Every guard matches a structure, not bare keywords, and validates
       before advancing durable state.
