@@ -45,9 +45,10 @@ monorepo, and especially when you passed the command a filter.
 
 **The case this came from.** A `--testPathPattern` passed through a wrapper
 script was dropped, so the command ran the entire suite from cache instead of
-the one file intended, and the green said nothing about the change. Same
-family: a top-level `type-check` exiting 0 while covering one of the three
-packages the change had modified.
+the one file intended, and the green said nothing about the change. In a
+second case the suite already had unrelated failures, so its exit code was
+nonzero before and after — "the tests are red" meant nothing until the failing
+names were diffed and one new failure traced back to the change.
 
 **Another shape it takes.** *(Illustrative: A monorepo `build` script fans out
 across packages and swallows child exit codes. One package's compile failure

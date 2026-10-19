@@ -47,10 +47,8 @@ typecheck errors, a CI job with a flake history.
 
 **The case this came from.** A red suite was about to be blamed on a diff.
 Running the identical command against the untouched base produced the same
-reds: the change had added zero failures. The mirror case is quieter — a
-typecheck baseline sat at 62 errors for weeks, a change was cleared because
-the total stayed at 62, and diffing the error sets showed three new errors
-masked by three unrelated fixes.
+reds: the change had added zero failures. Nothing about the failure list said
+so — it named files the diff had touched, for reasons that predated it.
 
 **Another shape it takes.** *(Illustrative: A nightly job starts failing the
 morning after a deploy, and the deploy is rolled back on the coincidence. The

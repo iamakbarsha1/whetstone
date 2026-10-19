@@ -19,15 +19,33 @@ skill format, and backfills it across all 27.
   `**Another shape it takes.**`, a different domain marked
   `*(Illustrative: …)*`. The frontmatter `description` tells a router when to
   surface a skill; this tells a reader who already has it open where it applies.
-- `scripts/validate_skills.py` enforces the section and all three of its lines,
-  and now requires every README catalogue row to carry a non-empty Example cell.
-- The README catalogue tables gained an `Example` column — one condensed line
-  per skill, drawn from that skill's own distilled case.
+- `scripts/validate_skills.py` enforces the section: the three lead-ins appear
+  in order *inside* the section body, each followed by text, the section sits
+  between the core rule and the pre-flight, and the second example carries its
+  `*(Illustrative: …)*` marker. Heading lookups are anchored to line starts,
+  because skills quote their own anatomy in prose and an unanchored search
+  finds the mention instead of the heading.
+- All three catalogue surfaces now carry the example and CI requires it on each:
+  a non-empty Example cell per README row, and a `<p class="eg">` line per
+  `docs/index.html` card.
 - `CONTRIBUTING.md` and the README's "Anatomy of a skill" block record the new
-  section.
+  section; the site's own anatomy list and code sample, which had been
+  describing the 1.6.1 shape, were updated to match.
+- `CONTRIBUTING.md` states the provenance rule outright: a case is lived or it
+  is marked `*(Illustrative: …)*`, and a file may not claim both of the same
+  case.
 
-Known limitation: the example now lives in both `SKILL.md` and the README table,
-maintained by hand. CI checks both are present; it cannot check they still agree.
+Known limitation: the example lives in three hand-maintained places — the
+`SKILL.md` section, the README row, and the site card. CI checks all three are
+present; it cannot check they still agree, and no mechanical check can.
+
+Fixed while writing this release: five skills had a header calling a case lived
+while their own `## Checks` bullet marked the same case `*(Illustrative: …)*`.
+The first drafts of the new section inherited the header's side and restated it
+on two more surfaces. The sections now draw only on material the file treats as
+lived. The underlying header-vs-bullet contradiction in
+`findings-list-is-not-a-todo-list` and `consistency-is-local-first` is older
+than this release and still open — those two have no unmarked case to stand on.
 
 ## [1.6.1] — 2026-10-19
 

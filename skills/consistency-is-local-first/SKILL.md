@@ -45,10 +45,11 @@ silently fragmenting the module.
 endpoint, or test in a module that already has several of its kind — and
 holding a style guide or a remembered "we always do it this way" in mind.
 
-**The case this came from.** A module consistently used plain local state.
-Applying the repo-wide form-library-plus-schema convention to the new file
-would have made it the single outlier in that module: globally conformant,
-locally foreign, and harder to maintain than the "outdated" pattern around it.
+**The case this came from.** A module had settled on one way of doing a thing,
+and the repo-wide convention said another. Applying the convention would have
+made the new code the odd one out in that module — globally conformant,
+locally foreign, and harder to maintain than the "outdated" pattern every file
+around it already used.
 
 **Another shape it takes.** *(Illustrative: A service directory handles errors
 by returning a result object everywhere. A new handler throws instead, because

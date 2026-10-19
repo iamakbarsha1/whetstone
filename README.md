@@ -45,7 +45,8 @@ the right skill when the situation matches. `## When this fires` is for the
 reader who already has the skill open and needs to place it: one line on the
 kind of work it belongs to, then the situation twice — once as the failure the
 skill was distilled from, once in a different domain so the shape generalizes.
-CI checks that every skill has all three.
+CI checks all three are present, in order, inside the section, and that the
+second one carries its `*(Illustrative: …)*` marker.
 
 ## Skills
 
@@ -56,7 +57,7 @@ CI checks that every skill has all three.
 | [`verify-through-the-real-path`](skills/verify-through-the-real-path) | Before claiming something works, is done, safe, or fast — verify through the actual trigger, real data, and representative conditions, not a stand-in. | A direct-call check passed; the real hook ran from another working directory, never found the config, and silently never fired. |
 | [`prove-the-test-can-fail`](skills/prove-the-test-can-fail) | After writing a test, or before trusting a green one — make it fail on purpose once, and confirm new branches are reachable by the mocks. | A green end-to-end test stayed green after a load-bearing step was disabled — it was asserting on the wrong layer. |
 | [`spike-falsification`](skills/spike-falsification) | Validating a third-party dependency (API, SDK, contract, protocol) before building on it — execute against the real deployed artifact and try to falsify your design assumptions, don't just demo the happy path. | Research returned correct signatures; the deployed bytecode had 1-based indexing, and the "soulbound" token transferred. |
-| [`measure-the-delta-not-the-absolute`](skills/measure-the-delta-not-the-absolute) | Judging whether your change is clean on a red or noisy baseline — prove it by stash-and-compare, not by which files appear in the failure list. | A typecheck held at 62 errors so the change was cleared; diffing the sets showed three new errors and three unrelated fixes. |
+| [`measure-the-delta-not-the-absolute`](skills/measure-the-delta-not-the-absolute) | Judging whether your change is clean on a red or noisy baseline — prove it by stash-and-compare, not by which files appear in the failure list. | A red suite was about to be blamed on a diff; the identical command on the untouched base produced the same reds. |
 | [`test-fixture-realism`](skills/test-fixture-realism) | Writing tests against a shared store or fabricated fixtures — make fixtures mirror data reality and assertions unable to pass trivially. | A fixture's hardcoded parent id made the join return nothing, and the test happily asserted on the empty result. |
 | [`know-your-aggregate-command-scope`](skills/know-your-aggregate-command-scope) | Before citing a `test`/`lint`/`type-check`/`build` script as proof — confirm what it actually runs, how it forwards args, and whether it caches. | A `--testPathPattern` was dropped by the wrapper, so the green came from the whole suite, served from cache. |
 | [`enumerate-artifacts-not-references`](skills/enumerate-artifacts-not-references) | Writing or reviewing a completeness gate — enumerate the real artifacts and check each is referenced, rather than scraping references out of prose and checking each resolves; keep a separate bounded pass for truncation. | A gate scraped nineteen illustrative paths out of a document's prose and reported each MISSING, burying the two real findings. |

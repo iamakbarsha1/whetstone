@@ -46,10 +46,10 @@ checklist line, milestone item, or spec row — before any design work, and
 before the first new file exists.
 
 **The case this came from.** A milestone item turned out to be roughly 90%
-implemented already, as a side effect of an earlier change; grepping the
+implemented already, as a side effect of an earlier change. Grepping the
 feature's route name surfaced it immediately and turned "build" into a small
-gap-closing task. The reverse bit too — an "all issues closed" milestone hid
-two whole layers that were never implemented.
+gap-closing task — but only because the grep came before the design. The
+tracker still had the item open, and said nothing about the code.
 
 **Another shape it takes.** *(Illustrative: A sprint item reads "add
 pagination to the orders list". The endpoint already accepts `limit` and

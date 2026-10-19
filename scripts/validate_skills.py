@@ -72,6 +72,64 @@ def check_bullets(text):
     return ["- **" + p for p in parts]
 
 
+# The three lead-ins of `## When this fires`, in the order they must appear.
+WHEN_LEADS = (
+    "**Where:**",
+    "**The case this came from.**",
+    "**Another shape it takes.**",
+)
+
+
+def section_body(text, heading):
+    """Return the body under `## <heading>`, or None when it is absent.
+
+    Runs to the next `## ` heading or EOF — the same bounding `check_bullets`
+    uses. Callers must search THIS, not the whole file: every lead-in below is
+    ordinary prose that occurs elsewhere in a skill, so a whole-file substring
+    test passes a section that is empty, reordered, or parked after the
+    pre-flight."""
+    m = re.search(rf"(?ms)^## {re.escape(heading)}\b.*?(?=^## |\Z)", text)
+    return m.group(0) if m else None
+
+
+def check_when_this_fires(rel, text):
+    """Check `## When this fires` carries its three lead-ins, in order, each
+    with content, and that the second example is marked illustrative."""
+    body = section_body(text, "When this fires")
+    if body is None:
+        err(f"{rel}: missing `## When this fires` section")
+        return
+    seen_at = -1
+    for lead in WHEN_LEADS:
+        at = body.find(lead)
+        if at < 0:
+            err(f"{rel}: `## When this fires` missing `{lead}`")
+            continue
+        if at < seen_at:
+            err(f"{rel}: `{lead}` is out of order in `## When this fires`")
+        seen_at = at
+        # Content up to the next bold lead-in. A bare label is not an example.
+        if not body[at + len(lead):].split("\n**")[0].strip():
+            err(f"{rel}: `{lead}` in `## When this fires` has no content")
+    # The second example is invented by construction, so the marker is the only
+    # thing keeping it from reading as a lived one. Same honesty rule the
+    # `## Checks` bullets get — see CONTRIBUTING.md "The bar".
+    tail = body.partition(WHEN_LEADS[2])[2]
+    if tail and "*(Illustrative:" not in tail:
+        err(f"{rel}: `{WHEN_LEADS[2]}` must carry an `*(Illustrative: …)*` marker")
+    # It explains the rule, so it sits after the rule and before the gate.
+    # Anchor every heading lookup to a line start: skills quote their own
+    # anatomy inline (distill-the-scar names `## Pre-flight check` in prose),
+    # and an unanchored search finds the mention instead of the heading.
+    at = re.search(r"(?m)^## When this fires\b", text).start()
+    core = re.search(r"(?m)^## The core rule\b", text)
+    if core and at < core.start():
+        err(f"{rel}: `## When this fires` must come after `## The core rule`")
+    pre = re.search(r"(?mi)^## Pre-flight", text)
+    if pre and at > pre.start():
+        err(f"{rel}: `## When this fires` must come before the pre-flight check")
+
+
 def check_skills():
     skill_files = sorted(ROOT.glob("skills/*/SKILL.md"))
     if not skill_files:
@@ -97,22 +155,15 @@ def check_skills():
         # that paragraph (no `## Checks`) or lists checks — and then every check
         # must carry a `*(real case)*` and be gated by a pre-flight checkbox.
         # See CONTRIBUTING.md "Skill format".
-        if "## The core rule" not in text:
+        # Anchored: distill-the-scar quotes `## The core rule` in its own prose,
+        # so a substring test would pass a file that lost the actual heading.
+        if not re.search(r"(?m)^## The core rule\b", text):
             err(f"{rel}: missing `## The core rule` section")
         # A rule the reader cannot place is a rule they skip. `## When this
         # fires` is where the skill says what kind of work it belongs to and
         # shows the situation twice — once from the scar it was distilled
         # from, once from a different domain so the shape generalizes.
-        if "## When this fires" not in text:
-            err(f"{rel}: missing `## When this fires` section")
-        else:
-            for lead, label in (
-                ("**Where:**", "a `**Where:**` line"),
-                ("**The case this came from.**", "the distilled-case example"),
-                ("**Another shape it takes.**", "the second, illustrative example"),
-            ):
-                if lead not in text:
-                    err(f"{rel}: `## When this fires` missing {label}")
+        check_when_this_fires(rel, text)
         bullets = check_bullets(text)
         for cb in bullets:
             if "*(" not in cb:
@@ -225,9 +276,17 @@ def check_cross_surface():
         if label != target:
             err(f"README.md: row labelled `{label}` links to skills/{target}")
         # The catalogue carries the example too, so a row with an empty third
-        # cell is a skill the reader can place only by opening its file.
+        # cell is a skill the reader can place only by opening its file. A row
+        # ends in `|`, so a well-formed one splits to [use-it-when, example,
+        # ""] — any other count is a missing column or a literal pipe in a
+        # cell, and indexing blind would silently read the wrong one.
         cells = [c.strip() for c in rest.split("|")]
-        if len(cells) < 2 or not cells[1]:
+        if len(cells) != 3:
+            err(
+                f"README.md: row for skills/{target} has {len(cells) - 1} cells "
+                f"after the link, expected 2 (escape any literal `|` as `\\|`)"
+            )
+        elif not cells[1]:
             err(f"README.md: row for skills/{target} has an empty Example cell")
     readme_listed = {t for _, t, _ in rows}
 
@@ -241,6 +300,17 @@ def check_cross_surface():
         if href != slug:
             err(f"docs/index.html: card slug `{slug}` links to skills/{href}")
     site_listed = {h for h, _ in cards}
+
+    # The site is the third surface carrying the example, and the most public
+    # one — a reader here has not opened the SKILL.md. Presence only: whether a
+    # condensed line still AGREES with the section it was drawn from is not
+    # mechanically decidable, so CI cannot speak to it. See CONTRIBUTING.md.
+    for block in re.findall(r'<a class="skill"[\s\S]*?</a>', site):
+        slug = re.search(r'<div class="slug">([a-z0-9-]+) ', block)
+        eg = re.search(r'<p class="eg">\s*(\S[\s\S]*?)</p>', block)
+        if slug and not eg:
+            err(f"docs/index.html: card for skills/{slug.group(1)} has no "
+                f'`<p class="eg">` example line')
 
     # Pass 1 — presence: every real skill reaches both catalogues.
     for name in real:

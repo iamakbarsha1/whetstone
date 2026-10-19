@@ -62,11 +62,12 @@ nineteen illustrative paths and reported every one MISSING, burying the two
 true findings. Inverting it to an orphan-only pass then went green on the
 original truncation bug, because there was nothing staged to iterate.
 
-**Another shape it takes.** *(Illustrative: A docs CI job extracts every
-URL-shaped string from Markdown and pings each one. A page documenting the URL
-format fills the build log with failures for `https://example.com/<id>`, the
-team marks the job advisory, and a genuinely dead link ships two releases
-later.)*
+**Another shape it takes.** *(Illustrative: A dependency audit greps every
+`import` in the source and checks each one resolves in the lockfile. Imports
+inside commented-out code and inside a docstring's example block are candidates
+too, so it reports four packages as missing — while a package that sits in the
+lockfile and is imported nowhere goes unmentioned, because nothing ever
+enumerates the lockfile.)*
 
 ## Checks
 
