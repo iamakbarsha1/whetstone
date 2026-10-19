@@ -2,7 +2,7 @@
 
 [![validate-skills](https://github.com/iamakbarsha1/whetstone/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/iamakbarsha1/whetstone/actions/workflows/validate-skills.yml)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-blue.svg)](LICENSE)
-[![skills](https://img.shields.io/badge/skills-30-brightgreen.svg)](#skills)
+[![skills](https://img.shields.io/badge/skills-31-brightgreen.svg)](#skills)
 
 Agent skills honed on real work. Each skill is a short, self-contained rule set
 distilled from **one concrete failure** — written so an AI coding agent (or a
@@ -75,6 +75,7 @@ second one carries its `*(Illustrative: …)*` marker.
 | [`consistency-is-local-first`](skills/consistency-is-local-first) | Adding code to an existing module — match the nearest sibling's pattern; a repo-wide convention is the default only when the module has none. | Illustrative: applying the repo-wide convention would have made the new code the only outlier in a module that had settled on another way. |
 | [`validate-the-users-proposed-mechanism`](skills/validate-the-users-proposed-mechanism) | A user names a platform/tool/library — treat it as a proposed mechanism; grep the artifact for disqualifiers before agreeing, separate intent from mechanism. | The requested serverless platform kills the long-lived `setInterval` workers the app depends on — one grep surfaced it. |
 | [`harness-config-audit`](skills/harness-config-audit) | Applying an external write-up to a configuration you already run — produce a per-surface COVERED/PARTIAL/MISSING delta, and verify every name, version and command the guide cites against the installed build. | An improvised audit against an article found zero permission rules defined while the prompt gating unrestricted execution was off — and the article named a model id the install did not have. |
+| [`diff-the-install-footprint`](skills/diff-the-install-footprint) | Deciding whether to adopt a tool that installs into a shared environment — read the config its installer writes and map every slot it claims onto whatever already holds it. | The config a framework's init wizard writes held nine hooks, four on events already owned; its feature list netted to three things not already running. |
 
 ### Change safely
 

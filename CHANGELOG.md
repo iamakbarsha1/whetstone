@@ -8,6 +8,33 @@ skill format contract itself — a new required section, a new CI gate a
 contributor must satisfy — is a minor bump, because work written against the
 previous version no longer merges.
 
+## [1.9.0] — 2026-10-25
+
+One new skill (30 → 31).
+
+- `diff-the-install-footprint` — deciding whether to adopt a tool that
+  installs into a shared environment. A README describes capability; the
+  installer describes consequence. Fetch the config the installer actually
+  writes, enumerate the shared slots it claims — hook events, always-loaded
+  instruction files, permission entries, tool budget — map each onto what
+  already holds it, and judge the tool on the residue after subtracting
+  capability you already run.
+- Boundary lines in both directions with the five siblings that share its
+  trigger words: `spike-falsification` (a dependency your code calls, vs
+  config an installer writes), `validate-the-users-proposed-mechanism` (your
+  code on a named platform, vs your configuration), `confirm-the-premise-first`
+  (the ground truth a choice hinges on, vs what one installer lands on disk),
+  `third-party-tool-onboarding` (did the installer deliver the artifact you
+  intended, vs what it wrote into config you already run), and
+  `harness-config-audit` (an inventory of every configuration surface against
+  a reference, vs one tool's footprint). The new skill's trigger list says
+  "should we adopt X" rather than the bare "should we use X", which
+  `confirm-the-premise-first` already owned.
+- `scripts/validate_skills.py` gained the site's "Browse the N" button as a
+  count surface. The existing patterns did not match it, so it had read 24
+  since 1.6.0 while every checked surface moved. All nine declared counts are
+  now gated.
+
 ## [1.8.0] — 2026-10-25
 
 Three new skills (27 → 30), each distilled from an observation that had been
@@ -196,6 +223,8 @@ First distributable release.
 - Added the plugin marketplace (`.claude-plugin/`), a dependency-free skill validator,
   CI, and contributor docs.
 
+[1.9.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.9.0
+[1.8.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.8.0
 [1.7.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.7.0
 [1.6.1]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.6.1
 [1.6.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.6.0

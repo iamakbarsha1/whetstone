@@ -41,6 +41,11 @@ claim once you build on it; whether you can install and wire that tool up at
 all on a host that fails one of its declared constraints is a different
 problem — use `third-party-tool-onboarding`.
 
+One axis separates this from `diff-the-install-footprint`: this skill de-risks
+a dependency your code will *call*, by executing it and trying to falsify what
+the docs claim; that one reads what a tool's installer *writes* into config
+your other tools already use.
+
 ## When this fires
 
 **Where:** Evaluating a third-party dependency — an API, SDK, published

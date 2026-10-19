@@ -366,6 +366,10 @@ def check_cross_surface():
         ("docs/index.html", "hero stat", site,
          r'<div class="n">(\d+)</div><div class="l mono">Skills</div>'),
         ("docs/index.html", "install line", site, r"all (\d+) skills come with it"),
+        # Missed by the first count sweep and stale for three releases: a
+        # surface the gate does not know about drifts silently, however many
+        # of its neighbours are checked.
+        ("docs/index.html", "browse button", site, r"Browse the (\d+) &darr;"),
     ]
     for path, label, text, pattern in surfaces:
         found = re.findall(pattern, text)
