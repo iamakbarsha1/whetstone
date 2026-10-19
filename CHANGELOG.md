@@ -3,7 +3,31 @@
 All notable changes to whetstone are recorded here. Versions track the plugin
 manifest (`.claude-plugin/plugin.json`) and follow [SemVer](https://semver.org):
 new skills are a minor bump, rule changes to an existing skill are a patch, and
-repo tooling or docs that ship with the plugin are a patch.
+repo tooling or docs that ship with the plugin are a patch. A change to the
+skill format contract itself — a new required section, a new CI gate a
+contributor must satisfy — is a minor bump, because work written against the
+previous version no longer merges.
+
+## [1.7.0] — 2026-10-19
+
+No new skills (still 27). Adds a required `## When this fires` section to the
+skill format, and backfills it across all 27.
+
+- Every `SKILL.md` gained `## When this fires`: a `**Where:**` line naming the
+  kind of work the skill belongs to, then the situation twice — `**The case
+  this came from.**`, retold from the failure the skill was distilled from, and
+  `**Another shape it takes.**`, a different domain marked
+  `*(Illustrative: …)*`. The frontmatter `description` tells a router when to
+  surface a skill; this tells a reader who already has it open where it applies.
+- `scripts/validate_skills.py` enforces the section and all three of its lines,
+  and now requires every README catalogue row to carry a non-empty Example cell.
+- The README catalogue tables gained an `Example` column — one condensed line
+  per skill, drawn from that skill's own distilled case.
+- `CONTRIBUTING.md` and the README's "Anatomy of a skill" block record the new
+  section.
+
+Known limitation: the example now lives in both `SKILL.md` and the README table,
+maintained by hand. CI checks both are present; it cannot check they still agree.
 
 ## [1.6.1] — 2026-10-19
 
@@ -80,6 +104,7 @@ First distributable release.
 - Added the plugin marketplace (`.claude-plugin/`), a dependency-free skill validator,
   CI, and contributor docs.
 
+[1.7.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.7.0
 [1.6.1]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.6.1
 [1.6.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.6.0
 [1.5.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.5.0

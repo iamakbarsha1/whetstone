@@ -40,6 +40,23 @@ fails on the mere existence of the mechanism — introspect the schema, the AST,
 the exports, the dependency list — so the guard trips the moment someone
 introduces X, before it's ever called.
 
+## When this fires
+
+**Where:** Hardening a property stated as a "never" — never holds funds,
+never logs secrets, never calls that API, never writes to that table — where
+the risk is a future edit adding the capability, not today's code using it.
+
+**The case this came from.** A load-bearing "the system never takes custody of
+funds" property had no test at all. Nothing exercises custody today, so no
+behavioural test could cover it; a structural check that fails if a
+balance-holding field or a transfer-out capability ever appears would trip on
+the first line of the violation rather than the first execution.
+
+**Another shape it takes.** *(Illustrative: A service promises it never writes
+to the analytics database. A refactor imports the analytics client "just for
+reads", the write method comes along with it, and six months later a cleanup
+job uses it — no test could have gone red before that call existed.)*
+
 ## Checks
 
 - **Assert on existence, not on execution.** Write the test against the

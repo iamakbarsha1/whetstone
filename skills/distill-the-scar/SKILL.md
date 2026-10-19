@@ -99,6 +99,23 @@ turned "how we make skills" from tribal knowledge into a step anyone can run,
 and made the repository self-hosting: the skill that forges the skills now
 lives beside the ones it forged.
 
+## When this fires
+
+**Where:** Immediately after a real failure you do not want to repeat — a
+wrong fix, a wasted hour, a bug whose cause was nothing like its symptom —
+and before the mechanics fade into "I'll remember this next time".
+
+**The case this came from.** The case above: nineteen skills, each genuinely
+distilled from a real failure, and a distilling method that existed only in
+one person's head. It became provable the moment a new contributor handed the
+observation log could not produce a twentieth skill matching the first
+nineteen.
+
+**Another shape it takes.** *(Illustrative: A team writes a thorough
+postmortem per incident, and each one is read once. The same class of failure
+recurs twice more, because no postmortem ever became a rule that fires at the
+moment the mistake is about to be made again.)*
+
 ## Pre-flight check — before you call a skill distilled
 
 - [ ] You can name the **single concrete failure** it came from — what broke,

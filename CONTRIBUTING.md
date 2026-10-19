@@ -42,23 +42,31 @@ Match the structure of the existing skills:
 2. `**Created by**` attribution
 3. `**Licence:**` (CC BY 4.0) and `**Feedback & Support:**` lines
 4. **The core rule** — one paragraph
-5. **Checks** — the individual rules, each ending in a one-line sanitized real
+5. **When this fires** — a `**Where:**` line naming the kind of work the skill
+   belongs to, then the same situation twice: `**The case this came from.**`
+   (retold from the failure the skill was distilled from) and `**Another shape
+   it takes.**` (a different domain, marked `*(Illustrative: …)*`). Two
+   examples, because one case reads as a story about someone else's stack and
+   two read as a shape.
+6. **Checks** — the individual rules, each ending in a one-line sanitized real
    case in the form `*(what went wrong)*`. A single-rule skill may fold that one
    rule and its case into **The core rule** and omit the `## Checks` section
    (see `confirm-the-premise-first`).
-6. **Pre-flight check** — a checklist that must all pass before claiming done.
+7. **Pre-flight check** — a checklist that must all pass before claiming done.
    Every check above needs a matching checkbox; an ungated check is a silent
    hole in the "fail loudly" guarantee.
 
 CI enforces the load-bearing parts of this contract (`scripts/validate_skills.py`):
-`## The core rule` is present, every `## Checks` bullet carries a grounding case
-`*(…)*` — a real one, or one marked `*(Illustrative: …)*` — and the pre-flight
+`## The core rule` is present, `## When this fires` is present with all three of
+its lines, every `## Checks` bullet carries a grounding case `*(…)*` — a real
+one, or one marked `*(Illustrative: …)*` — and the pre-flight
 has at least one checkbox per check. A skill that skips them can't merge. (CI
 checks the marker is present; it cannot tell a real case from a fabricated one,
 so honesty about which is which is on the author — see `distill-the-scar`.)
 
 It also checks that a new skill actually reaches the catalogue: every
-`skills/*/` directory needs a README table row and a card in `docs/index.html`,
+`skills/*/` directory needs a README table row — with a non-empty Example cell —
+and a card in `docs/index.html`,
 every row and card must point at a directory that exists, and every declared
 skill count — the README badge, the site's meta tags, hero, spelled-out section
 header and per-section counts — must equal the number of directories. The count

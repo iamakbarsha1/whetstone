@@ -46,6 +46,24 @@ which direction a check *you* are writing should enumerate in — scrape
 references and test each resolves, or list the real artifacts and test each is
 referenced — is a different problem: use `enumerate-artifacts-not-references`.
 
+## When this fires
+
+**Where:** Acting on a negative finding you did not produce yourself — a
+subagent's research handoff, a teammate's summary, a ticket claiming nothing
+handles this, a "safe to delete".
+
+**The case this came from.** Delegated research reported that no independent
+implementation of a calculation existed, so the build started writing one.
+Grepping the operation rather than the function name found six inline copies;
+the task was extraction, not authoring. In a second case a cache directory
+carrying an "orphaned at" timestamp was called dead weight, while the lease
+directory beside it still named three running processes.
+
+**Another shape it takes.** *(Illustrative: A migration is planned around "no
+callers outside this service", proven by grepping the repo. The one consumer
+is a scheduled job in a different repository that builds the request path by
+string concatenation, so the symbol appears in no search anywhere.)*
+
 ## Checks
 
 - **Re-grep every load-bearing "none exists".** Before you act on an absence

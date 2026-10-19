@@ -38,6 +38,22 @@ have yet. Before acting, re-read each item's own verdict and bucket the list;
 then do the actionable ones, skip the blessed no-ops, and surface the
 decisions — and say which bucket each landed in.
 
+## When this fires
+
+**Where:** Being handed a review, audit, or recommendation list with "fix the
+rest" or "action these" — including a list you produced yourself earlier in
+the same session.
+
+**The case this came from.** "Fix the rest of the findings" was nearly
+satisfied by implementing every remaining item, several of which the review
+itself had explicitly marked as requiring no change. Implementing a finding
+the review deliberately closed is wrong, not merely wasted work.
+
+**Another shape it takes.** *(Illustrative: A security audit lists "rotate the
+signing key" beside "consider rate limiting at 10k RPS — not needed at current
+volume". Both are ticketed as work. The rate limiter ships a year early and
+the key rotation slips, because the queue flattened the dispositions away.)*
+
 ## Checks
 
 - **Re-read each item's disposition before touching anything.** Findings often

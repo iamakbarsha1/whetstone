@@ -7,6 +7,8 @@ Checks, per skill under skills/*/SKILL.md:
   - directory name matches frontmatter `name`
   - `**Type:**` line and a pre-flight check section present
   - `## The core rule` section present
+  - `## When this fires` section present, with its Where / case / illustrative
+    lines
   - every `## Checks` bullet carries a `*(real case)*` marker
   - pre-flight has at least one checkbox per check (no ungated check)
 
@@ -19,6 +21,7 @@ Checks manifests:
 Checks cross-surface consistency (the skill count is encoded in ~8 places):
   - every skills/*/ directory has a README table row and a docs/index.html card
   - every README row and docs card points at a directory that exists
+  - every README row carries a non-empty Example cell
   - every declared count (badges, meta tags, hero, section headers) equals the
     real directory count
 
@@ -96,6 +99,20 @@ def check_skills():
         # See CONTRIBUTING.md "Skill format".
         if "## The core rule" not in text:
             err(f"{rel}: missing `## The core rule` section")
+        # A rule the reader cannot place is a rule they skip. `## When this
+        # fires` is where the skill says what kind of work it belongs to and
+        # shows the situation twice — once from the scar it was distilled
+        # from, once from a different domain so the shape generalizes.
+        if "## When this fires" not in text:
+            err(f"{rel}: missing `## When this fires` section")
+        else:
+            for lead, label in (
+                ("**Where:**", "a `**Where:**` line"),
+                ("**The case this came from.**", "the distilled-case example"),
+                ("**Another shape it takes.**", "the second, illustrative example"),
+            ):
+                if lead not in text:
+                    err(f"{rel}: `## When this fires` missing {label}")
         bullets = check_bullets(text)
         for cb in bullets:
             if "*(" not in cb:
@@ -200,12 +217,19 @@ def check_cross_surface():
     readme = (ROOT / "README.md").read_text()
     site = (ROOT / "docs" / "index.html").read_text()
 
-    # README catalogue rows: | [`name`](skills/name) | ... |
-    rows = re.findall(r"(?m)^\|\s*\[`([a-z0-9-]+)`\]\(skills/([a-z0-9-]+)\)", readme)
-    for label, target in rows:
+    # README catalogue rows: | [`name`](skills/name) | use it when | example |
+    rows = re.findall(
+        r"(?m)^\|\s*\[`([a-z0-9-]+)`\]\(skills/([a-z0-9-]+)\)\s*\|(.*)$", readme
+    )
+    for label, target, rest in rows:
         if label != target:
             err(f"README.md: row labelled `{label}` links to skills/{target}")
-    readme_listed = {t for _, t in rows}
+        # The catalogue carries the example too, so a row with an empty third
+        # cell is a skill the reader can place only by opening its file.
+        cells = [c.strip() for c in rest.split("|")]
+        if len(cells) < 2 or not cells[1]:
+            err(f"README.md: row for skills/{target} has an empty Example cell")
+    readme_listed = {t for _, t, _ in rows}
 
     # docs cards: an anchor to the skill tree plus a matching slug line.
     cards = re.findall(

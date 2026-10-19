@@ -33,6 +33,24 @@ other before shipping the plan. Divergence between two representations of the
 same intent is a latent bug that the implementer will resolve in the wrong
 direction.
 
+## When this fires
+
+**Where:** Reviewing an implementation plan, spec, or task breakdown before an
+implementer picks it up — especially one carrying hardcoded fixture pairs, a
+count published in several places, or prose sitting next to a code block.
+
+**The case this came from.** A plan's prose promised that a failed retry would
+roll back its partial write; the pasted code skipped that step, and the
+implementer transcribed the code. Same family: a fixture hardcoded a Unix
+epoch and its human-readable date as an unchecked pair and the date was wrong,
+and a catalogue count propagated by grepping the digit left a spelled-out
+heading and one per-section subtotal still on the old value.
+
+**Another shape it takes.** *(Illustrative: A plan states a rate limit as "60
+requests per minute" in prose and `limit: 600` in the config snippet below it.
+The implementer ships the snippet, the prose becomes the published
+documentation, and support spends a quarter explaining the mismatch.)*
+
 ## Checks
 
 - **Redundant-value agreement.** Any two hardcoded values related by a pure

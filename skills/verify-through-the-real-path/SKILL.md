@@ -31,6 +31,23 @@ A convenient stand-in is not the thing you claimed works. Verify through the
 actual trigger, real data, and representative conditions — not a shortcut
 that inherits your ambient context or hides the tail.
 
+## When this fires
+
+**Where:** The moment before you say "works", "done", "safe", or "fast" —
+signing off a hook- or cron-driven feature, quoting an ETA, citing a
+benchmark, calling an edge case unreachable, or probing an unfamiliar CLI.
+
+**The case this came from.** A sync-triggered feature was checked by calling
+its function directly, and the check passed. The real event hook runs from a
+different working directory, so it never resolved the relative config path and
+silently never fired. The direct call had inherited the operator's cwd; the
+trigger never had it.
+
+**Another shape it takes.** *(Illustrative: A nightly report is "verified" by
+running the generator in a terminal where the operator's cloud credentials are
+already exported. Under the scheduler there is no such session, so every
+nightly run fails auth and writes a zero-row file nobody opens for a month.)*
+
 ## Checks
 
 - **Real trigger, not a direct call.** A feature fired by a hook, cron, or

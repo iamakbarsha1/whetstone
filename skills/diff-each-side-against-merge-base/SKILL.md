@@ -37,6 +37,23 @@ sides edited near the same region. Resolving a conflict by reading ONLY the
 non-trivial conflict, reconstruct the real change by comparing each side
 against the merge base by symbol/field inventory.
 
+## When this fires
+
+**Where:** In the middle of a merge or rebase with conflicts open, and again
+when reviewing a merge commit someone else resolved — especially where both
+branches edited the same file for different reasons.
+
+**The case this came from.** A 3-way auto-merge dropped several struct fields
+that existed on both the base and one side, because the other side had
+rewritten the surrounding block. Nothing appeared between conflict markers, so
+resolving only the marked regions would have shipped a file quietly missing
+content.
+
+**Another shape it takes.** *(Illustrative: A long-lived branch is rebased
+after main reorganised an imports block. Every hunk auto-resolves, the build
+is green, and a feature-flag check that main had added inside the reorganised
+region is simply gone from the result.)*
+
 ## Checks
 
 - **Inventory ours, theirs, and base — not just the markers.** For a

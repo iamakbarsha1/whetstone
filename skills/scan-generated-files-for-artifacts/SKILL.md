@@ -41,6 +41,21 @@ only the test suite misses this whole class. So for every file an agent produced
 with a write tool, spend one cheap grep on its head and tail before sign-off,
 and confirm it ends exactly where it should.
 
+## When this fires
+
+**Where:** Signing off a change that includes files an agent wrote through a
+write tool — docs, READMEs, configs, fixtures, data files — where no test in
+the suite ever reads those bytes.
+
+**The case this came from.** A review approved a generated markdown file that
+compiled and tested clean. Its tail carried a leaked tool-call closing tag,
+and it shipped as visible garbage on the last screen any reader sees.
+
+**Another shape it takes.** *(Illustrative: A generated OpenAPI file picks up
+a stray closing fence after its final block. The local linter parses only the
+first document in the file and ignores the trailing bytes, so CI is green and
+the published portal renders the tail as a literal line of markup.)*
+
 ## Checks
 
 - **Grep the head and tail of every agent-written file for harness residue.**

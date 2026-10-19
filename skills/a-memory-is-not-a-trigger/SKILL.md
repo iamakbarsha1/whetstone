@@ -54,6 +54,23 @@ plus a hook that performs the deterministic half instead of merely mentioning
 it. The lesson generalizes to any recurring guardrail, log, or cleanup an agent
 is "supposed to remember."
 
+## When this fires
+
+**Where:** Any must-do that recurs every session or run — a log entry, a
+bookkeeping step, a cleanup, a guardrail check — where the plan for making it
+happen is "it's in the instructions" or "there's a memory for it".
+
+**The case this came from.** The case above: a required per-session
+bookkeeping step wired two passive ways at once, a recalled memory and a
+session-start hook that printed a reminder. Both fired every session and the
+step still went undone for the whole session, because nothing in the loop
+executed it.
+
+**Another shape it takes.** *(Illustrative: A project instruction file says to
+run the linter before every commit. It is loaded at the start of every session
+and agreed to each time. Six commits later nothing has been linted, because no
+hook runs the linter and nothing rejects a commit that skipped it.)*
+
 ## Checks
 
 - **Separate advisory context from control flow.** A memory, a recalled note,

@@ -37,6 +37,26 @@ topics, and CI that enforces the artifact's actual contract — and each of
 those signals has to be verified through the platform's own API, not assumed
 true because the file that's supposed to produce it exists.
 
+## When this fires
+
+**Where:** Taking a working repo public, or auditing one that already has code
+and green CI but still looks abandoned to a stranger browsing it — and to
+GitHub's own UI, which judges on machine-detectable facts.
+
+**The case this came from.** A skills repository had a LICENSE file, a
+changelog and passing CI, and still read as neglected. The LICENSE was a
+hand-written CC BY 4.0 summary, so GitHub displayed "Other" and the repo fell
+out of license-filtered search; several manifest bumps had shipped with no git
+tags and no Releases behind them; topics were unset, so topic search never
+surfaced it; and the validator checked frontmatter keys while ignoring the
+body contract it was supposed to protect.
+
+**Another shape it takes.** *(Illustrative: A library publishes every release
+to the package registry from CI, and the registry page is current. The GitHub
+repo has no tags, so anyone arriving from a search result sees a last release
+date of "never" and a README badge pointing at a branch, and concludes the
+project is dead.)*
+
 ## Checks
 
 - **Fetch the canonical license text; never paraphrase it.** GitHub's license

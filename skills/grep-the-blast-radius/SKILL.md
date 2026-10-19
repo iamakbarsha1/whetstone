@@ -38,6 +38,24 @@ call the change done, and run every suite that crosses the changed boundary.
 A green suite in the package you edited proves nothing about the package that
 imports it.
 
+## When this fires
+
+**Where:** Editing anything more than one module depends on — a shared type,
+enum or union, a DB column, an exported symbol, an endpoint's shape, a feature
+flag, a config key — and deciding how far verification has to reach.
+
+**The case this came from.** A shared union gained a member. The editing
+package's tests stayed green, while an exhaustive `switch` and a
+`Record<Union, ...>` in a sibling package silently lost exhaustiveness. A
+related one: an endpoint's field list was mirrored in a hand-maintained client
+array, so a server-side addition left the client one field short with no type
+error anywhere to catch it.
+
+**Another shape it takes.** *(Illustrative: A status enum drops a value that
+no code references any more. Nothing breaks at compile time, and the rows
+already carrying that value in production start falling through every
+`switch` into the default branch.)*
+
 ## Checks
 
 - **Grep the retired name across everything, then delete it last.** Before

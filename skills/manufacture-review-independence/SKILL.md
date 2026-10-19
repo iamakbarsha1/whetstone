@@ -38,6 +38,25 @@ scoped sub-reviews, run an adversarial pass whose job is to refute each
 high-severity claim by re-reading the source, and when two views disagree,
 resolve it by reading the file that decides — never by averaging.
 
+## When this fires
+
+**Where:** Review time with no second pair of eyes — you reviewing your own
+diff, one agent reviewing what it just wrote, or an author-equals-reviewer
+guard deliberately overridden to unblock a merge.
+
+**The case this came from.** Two parallel reviewers rated the same issue High
+and Low. The deciding evidence lived in a shared module outside both their
+assigned scopes, and reading that one file settled it outright. Separately, a
+fail-closed secret scrubber passed every author-written test, and four rounds
+of parallel adversaries each found real high-severity bypasses — UUID-shaped
+tokens, uppercase short hex, narrow-wrapped PEM bodies — before the rounds
+finally converged on accepted ceilings.
+
+**Another shape it takes.** *(Illustrative: An agent writes a migration and
+then reviews it, rating its own rollback path sound. A pass scoped only to
+data loss, run without the implementation notes in context, asks what happens
+to rows inserted between the backfill and the swap — and there is no answer.)*
+
 ## Checks
 
 - **Split into independently-scoped sub-reviews.** Instead of one lenient pass

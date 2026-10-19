@@ -39,6 +39,22 @@ locally settled on another. When the two genuinely conflict and the local
 pattern is consistent, match local and note the divergence rather than
 silently fragmenting the module.
 
+## When this fires
+
+**Where:** Adding a file beside existing files — a new component, form,
+endpoint, or test in a module that already has several of its kind — and
+holding a style guide or a remembered "we always do it this way" in mind.
+
+**The case this came from.** A module consistently used plain local state.
+Applying the repo-wide form-library-plus-schema convention to the new file
+would have made it the single outlier in that module: globally conformant,
+locally foreign, and harder to maintain than the "outdated" pattern around it.
+
+**Another shape it takes.** *(Illustrative: A service directory handles errors
+by returning a result object everywhere. A new handler throws instead, because
+the top-level guide says to. Callers now need both styles, and the next person
+copies whichever file they happened to open first.)*
+
 ## Checks
 
 - **Read the nearest sibling before you write.** Open the file most like the
