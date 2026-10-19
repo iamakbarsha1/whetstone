@@ -79,7 +79,8 @@ so honesty about which is which is on the author — see `distill-the-scar`.)
 
 It also checks that a new skill actually reaches the catalogue: every
 `skills/*/` directory needs a README table row — with a non-empty Example cell —
-and a card in `docs/index.html` carrying a `<p class="eg">` example line,
+and a card in `docs/index.html` carrying a `<p class="eg">` example line that
+matches the README cell word for word,
 every row and card must point at a directory that exists, and every declared
 skill count — the README badge, the site's meta tags, hero, spelled-out section
 header and per-section counts — must equal the number of directories. The count

@@ -42,8 +42,8 @@ plain inputs and plain assertions, no machinery.
 ## When this fires
 
 **Where:** Writing or refactoring logic that branches on the clock, a random
-pick, an environment variable, the current user, or a live handle — and any
-time "this is hard to test without mocking" comes out of your mouth.
+pick, an environment variable, the current user, or a live handle — and at the
+point where testing it starts to look like it needs a mocking framework.
 
 **The case this came from.** Business rules called the clock directly, which
 would have forced fake-timer setup into every test that touched them. Taking

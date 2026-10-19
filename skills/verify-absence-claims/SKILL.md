@@ -60,9 +60,9 @@ carrying an "orphaned at" timestamp was called dead weight, while the lease
 directory beside it still named three running processes.
 
 **Another shape it takes.** *(Illustrative: A migration is planned around "no
-callers outside this service", proven by grepping the repo. The one consumer
-is a scheduled job in a different repository that builds the request path by
-string concatenation, so the symbol appears in no search anywhere.)*
+callers outside this service", proven by grepping the service's own repo. The
+one consumer is a scheduled job in a sibling repo that was never searched —
+the same grep, run one directory higher, returns it immediately.)*
 
 ## Checks
 

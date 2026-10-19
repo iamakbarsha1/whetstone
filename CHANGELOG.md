@@ -35,9 +35,11 @@ skill format, and backfills it across all 27.
   is marked `*(Illustrative: …)*`, and a file may not claim both of the same
   case.
 
-Known limitation: the example lives in three hand-maintained places — the
-`SKILL.md` section, the README row, and the site card. CI checks all three are
-present; it cannot check they still agree, and no mechanical check can.
+Known limitation, narrowed: the example lives in three hand-maintained places —
+the `SKILL.md` section, the README row, and the site card. The README cell and
+the card are the same condensed sentence, so CI requires them to match exactly.
+The `SKILL.md` section is a longer retelling and cannot be compared
+mechanically; keeping that one honest is still on the author.
 
 Fixed while writing this release: five skills had a header calling a case lived
 while their own `## Checks` bullet marked the same case `*(Illustrative: …)*`.

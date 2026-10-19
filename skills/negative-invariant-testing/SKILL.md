@@ -46,11 +46,13 @@ introduces X, before it's ever called.
 never logs secrets, never calls that API, never writes to that table — where
 the risk is a future edit adding the capability, not today's code using it.
 
-**The case this came from.** A load-bearing "the system never takes custody of
-funds" property had no test at all. Nothing exercises custody today, so no
-behavioural test could cover it; a structural check that fails if a
-balance-holding field or a transfer-out capability ever appears would trip on
-the first line of the violation rather than the first execution.
+**The case this came from.** A design rested on the system never taking
+custody of funds — it was the reason the thing needed no money-transmitter
+posture at all. The test suite was thorough and every test passed, and none of
+them touched the property, because nothing in the code could hold a balance
+for a test to exercise. The guarantee the whole design leaned on was the one
+thing with no test behind it, and that only surfaced when someone asked which
+test would fail if it stopped being true.
 
 **Another shape it takes.** *(Illustrative: A service promises it never writes
 to the analytics database. A refactor imports the analytics client "just for

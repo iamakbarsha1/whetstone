@@ -51,10 +51,11 @@ related one: an endpoint's field list was mirrored in a hand-maintained client
 array, so a server-side addition left the client one field short with no type
 error anywhere to catch it.
 
-**Another shape it takes.** *(Illustrative: A status enum drops a value that
-no code references any more. Nothing breaks at compile time, and the rows
-already carrying that value in production start falling through every
-`switch` into the default branch.)*
+**Another shape it takes.** *(Illustrative: A config key is renamed, and the
+rename is done by the editor's project-wide refactor. That covers the source
+and misses the deployment chart, the `.env.example`, and the onboarding doc
+that tells a new hire to set it — none of which the refactor indexes, all of
+which a grep for the retired name returns on the first try.)*
 
 ## Checks
 

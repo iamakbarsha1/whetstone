@@ -50,9 +50,10 @@ email address, an organization name and GitHub handles, so the file sat
 trackable — one `git add -A` from being published — until the rule landed.
 
 **Another shape it takes.** *(Illustrative: A debugging session writes a
-production response capture to `./tmp/` for inspection. `tmp/` is ignored but
-`./tmp` was created at the repo root where the pattern does not match, and the
-capture — bearer token in the headers — lands in the next commit.)*
+production response capture to a `tmp/` directory at the repo root. The author
+remembers seeing `tmp/` in a `.gitignore` and does not check which one — it is
+`packages/api/.gitignore`, which governs nothing above itself. The capture,
+bearer token in its headers, is staged by the next `git add -A`.)*
 
 ## Checks
 

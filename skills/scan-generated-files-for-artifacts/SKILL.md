@@ -51,10 +51,11 @@ the suite ever reads those bytes.
 compiled and tested clean. Its tail carried a leaked tool-call closing tag,
 and it shipped as visible garbage on the last screen any reader sees.
 
-**Another shape it takes.** *(Illustrative: A generated OpenAPI file picks up
-a stray closing fence after its final block. The local linter parses only the
-first document in the file and ignores the trailing bytes, so CI is green and
-the published portal renders the tail as a literal line of markup.)*
+**Another shape it takes.** *(Illustrative: An agent writes a CSV of seed
+data and prefixes it with the one-line explanation it would normally put in
+chat. Every importer treats line one as the header, so the columns are named
+after that sentence and each row lands one field out — a file that is valid
+CSV, parses without complaint, and is wrong in every row.)*
 
 ## Checks
 

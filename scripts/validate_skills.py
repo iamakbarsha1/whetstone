@@ -7,8 +7,9 @@ Checks, per skill under skills/*/SKILL.md:
   - directory name matches frontmatter `name`
   - `**Type:**` line and a pre-flight check section present
   - `## The core rule` section present
-  - `## When this fires` section present, with its Where / case / illustrative
-    lines
+  - `## When this fires` present between the core rule and the pre-flight, its
+    three lead-ins in order inside the section body and each followed by text,
+    and the second example carrying its `*(Illustrative: …)*` marker
   - every `## Checks` bullet carries a `*(real case)*` marker
   - pre-flight has at least one checkbox per check (no ungated check)
 
@@ -21,12 +22,14 @@ Checks manifests:
 Checks cross-surface consistency (the skill count is encoded in ~8 places):
   - every skills/*/ directory has a README table row and a docs/index.html card
   - every README row and docs card points at a directory that exists
-  - every README row carries a non-empty Example cell
+  - every README row carries a non-empty Example cell, every docs card carries
+    a `<p class="eg">` line, and the two say the same thing
   - every declared count (badges, meta tags, hero, section headers) equals the
     real directory count
 
 Exit 0 = clean, 1 = one or more failures (printed). Run locally or in CI.
 """
+import html
 import json
 import re
 import sys
@@ -269,6 +272,7 @@ def check_cross_surface():
     site = (ROOT / "docs" / "index.html").read_text()
 
     # README catalogue rows: | [`name`](skills/name) | use it when | example |
+    readme_examples = {}
     rows = re.findall(
         r"(?m)^\|\s*\[`([a-z0-9-]+)`\]\(skills/([a-z0-9-]+)\)\s*\|(.*)$", readme
     )
@@ -281,6 +285,8 @@ def check_cross_surface():
         # ""] — any other count is a missing column or a literal pipe in a
         # cell, and indexing blind would silently read the wrong one.
         cells = [c.strip() for c in rest.split("|")]
+        if len(cells) == 3 and cells[1]:
+            readme_examples[target] = cells[1]
         if len(cells) != 3:
             err(
                 f"README.md: row for skills/{target} has {len(cells) - 1} cells "
@@ -302,15 +308,26 @@ def check_cross_surface():
     site_listed = {h for h, _ in cards}
 
     # The site is the third surface carrying the example, and the most public
-    # one — a reader here has not opened the SKILL.md. Presence only: whether a
-    # condensed line still AGREES with the section it was drawn from is not
-    # mechanically decidable, so CI cannot speak to it. See CONTRIBUTING.md.
+    # one — a reader here has not opened the SKILL.md. The README cell and the
+    # card are the SAME condensed sentence, so that pair is checkable and is
+    # checked. The SKILL.md section is a longer retelling of the same case and
+    # cannot be compared mechanically; that copy is on the author.
     for block in re.findall(r'<a class="skill"[\s\S]*?</a>', site):
         slug = re.search(r'<div class="slug">([a-z0-9-]+) ', block)
         eg = re.search(r'<p class="eg">\s*(\S[\s\S]*?)</p>', block)
-        if slug and not eg:
-            err(f"docs/index.html: card for skills/{slug.group(1)} has no "
+        if not slug:
+            continue
+        name = slug.group(1)
+        if not eg:
+            err(f"docs/index.html: card for skills/{name} has no "
                 f'`<p class="eg">` example line')
+        elif name in readme_examples:
+            card_text = html.unescape(eg.group(1)).strip()
+            if card_text != readme_examples[name]:
+                err(
+                    f"docs/index.html: card example for skills/{name} does not "
+                    f"match its README Example cell"
+                )
 
     # Pass 1 — presence: every real skill reaches both catalogues.
     for name in real:

@@ -49,10 +49,12 @@ rewritten the surrounding block. Nothing appeared between conflict markers, so
 resolving only the marked regions would have shipped a file quietly missing
 content.
 
-**Another shape it takes.** *(Illustrative: A long-lived branch is rebased
-after main reorganised an imports block. Every hunk auto-resolves, the build
-is green, and a feature-flag check that main had added inside the reorganised
-region is simply gone from the result.)*
+**Another shape it takes.** *(Illustrative: Two branches each add a key to the
+same config map, in different places. Git merges both cleanly — no markers,
+nothing lost — but one branch also changed the map's default, and the other
+wrote its new key assuming the old one. The result is textually perfect and
+semantically wrong, which an inventory of symbols would not show either; only
+reading each side's intent against the base does.)*
 
 ## Checks
 

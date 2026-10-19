@@ -66,10 +66,11 @@ session-start hook that printed a reminder. Both fired every session and the
 step still went undone for the whole session, because nothing in the loop
 executed it.
 
-**Another shape it takes.** *(Illustrative: A project instruction file says to
-run the linter before every commit. It is loaded at the start of every session
-and agreed to each time. Six commits later nothing has been linted, because no
-hook runs the linter and nothing rejects a commit that skipped it.)*
+**Another shape it takes.** *(Illustrative: An incident review ends with
+"rotate the signing key every 90 days", written into the runbook and agreed by
+everyone present. The runbook is read during incidents, which is the one time
+nobody is rotating keys. Nothing expires the key and nothing refuses the old
+one, so it is still in use when the next review asks.)*
 
 ## Checks
 
