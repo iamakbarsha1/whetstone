@@ -2,7 +2,23 @@
 
 All notable changes to whetstone are recorded here. Versions track the plugin
 manifest (`.claude-plugin/plugin.json`) and follow [SemVer](https://semver.org):
-new skills are a minor bump, rule changes to an existing skill are a patch.
+new skills are a minor bump, rule changes to an existing skill are a patch, and
+repo tooling or docs that ship with the plugin are a patch.
+
+## [1.6.1] — 2026-10-19
+
+No skill changes. Ships the cross-surface consistency checks that landed after 1.6.0.
+
+- `scripts/validate_skills.py` gained `check_cross_surface()`: the skill count in
+  `README.md`, the card count in `docs/index.html`, and that file's per-section
+  counts must agree with the number of directories under `skills/`, and every skill
+  directory must appear in both the README table and the docs catalogue. Checked
+  against all four drift modes before merge.
+- `CONTRIBUTING.md` records what the checks enforce, so a contributor adding a skill
+  knows which surfaces move together.
+
+Background: 1.5.0 shipped with `docs/index.html` a skill behind the repo, and the gap
+went unnoticed until the 1.6.0 review. These checks make that break CI instead.
 
 ## [1.6.0] — 2026-10-17
 
@@ -64,6 +80,7 @@ First distributable release.
 - Added the plugin marketplace (`.claude-plugin/`), a dependency-free skill validator,
   CI, and contributor docs.
 
+[1.6.1]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.6.1
 [1.6.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.6.0
 [1.5.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.5.0
 [1.4.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.4.0
