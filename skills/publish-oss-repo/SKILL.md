@@ -54,10 +54,26 @@ true because the file that's supposed to produce it exists.
   version bump that lives only in a manifest file is invisible outside the
   diff — no `git tag` output, no entry under Releases — and the repo reads as
   abandoned even when the code is current. Every version bump gets a matching
-  git tag and release, not only the ones that feel significant. *(A plugin
+  git tag and release, not only the ones that feel significant. When you
+  backfill a tag for a version that shipped incrementally, target that
+  version's completion commit — the last commit still reading that version,
+  the parent of the bump to the next one — not the commit that introduced it.
+  The introduction commit holds only the first of the items the changelog
+  entry claims. *(A plugin
   manifest had been bumped through several versions with zero git tags and
   zero GitHub Releases behind them; the repo looked unmaintained until a tag
   and release were cut for each version.)*
+- **Tie the version bump and changelog entry to the gate that admits the
+  item.** A manifest version and a changelog are claims about contents, and
+  incremental merges that each skip updating them let the claim drift from
+  reality with nothing failing. The repo stays green, because CI validates the
+  items themselves and never compares them against what the version claims.
+  Make admitting an item and recording it the same gate: CI already enumerates
+  the real set for its other checks, so have it assert that a new entry in that
+  set comes with a version bump and a changelog line. *(A plugin manifest read
+  one version while its changelog stopped four items earlier; four merges had
+  each added an item without bumping or recording it, and the gap was invisible
+  until someone counted the directories.)*
 - **Set repo topics before anyone can find it by browsing.** GitHub's topic
   search and Explore surface only index repos with topics attached — zero
   topics means zero discoverability outside an exact-name search. Add topics
@@ -82,6 +98,8 @@ true because the file that's supposed to produce it exists.
       confirms the license is detected, not shown as "Other".
 - [ ] Every version bump in the manifest or changelog has a matching git tag
       and a platform release, not just a diff.
+- [ ] Admitting an item to the catalogue bumps the manifest version and adds a
+      changelog entry in the same change, enforced by CI rather than by habit.
 - [ ] The repo has topics set for its domain, language/framework, and the
       specific problem it solves — not zero.
 - [ ] CI enforces the artifact's structural contract (required sections,

@@ -37,10 +37,26 @@ assumption are wasted, and the assumption often only surfaces by accident.
 For privacy or data-egress decisions especially, confirm the transport
 reality first, then ask the policy question.
 
+The same holds when the load-bearing premise is a claim about history rather
+than a property of the system. What an earlier version shipped, what a past
+decision settled, what a previous section of the same document says — each is
+a claim about a record, and the record is almost always within reach: the
+entry directly below the one you are writing, the git log, the section above.
+Read it instead of recalling it. Recall feels most authoritative for exactly
+the facts that have been compressed, and when the claim lands in prose there
+is no validator downstream to catch it.
+
 **Real case (sanitized):** A user chose a local-looking CLI backend believing
 it ran inference on-device; it was always remote. Several downstream
 data-exposure answers collapsed once that single premise was corrected — the
 questions asked before the correction were wasted.
+
+**Real case (sanitized):** A changelog entry justified a new check by stating
+that the previous release had shipped a docs page one version behind. The
+entry immediately below it recorded the opposite: that release was the one
+that caught and fixed the lag, which had been introduced two releases earlier.
+The history was recalled rather than read, and the file holding the correction
+was already open.
 
 ## Pre-flight check — before asking downstream policy questions
 
@@ -49,6 +65,8 @@ questions asked before the correction were wasted.
       on it.
 - [ ] For any privacy/egress decision, you confirmed the transport reality
       (where the data actually goes) before asking the policy question.
+- [ ] Any claim about prior state — an earlier version, a past decision, a
+      previous section — was read from the record, not recalled.
 
 If any box is unchecked, you may be spending questions on a wrong premise —
 anchor it first.

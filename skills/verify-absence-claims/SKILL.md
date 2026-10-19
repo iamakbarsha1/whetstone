@@ -7,8 +7,9 @@ description: >
   citable and checkable; absence claims are only as good as the search pattern
   that produced them. Re-grep every "X does not exist" before building on it.
   Triggers on "no existing", "none found", "there's no", "doesn't exist",
-  "nothing does X", research/subagent handoffs, and any negative finding you
-  didn't verify yourself.
+  "nothing does X", "nothing references this", "safe to delete", "unused",
+  research/subagent handoffs, and any negative finding you didn't verify
+  yourself.
 ---
 
 # Verify Absence Claims
@@ -54,6 +55,14 @@ referenced — is a different problem: use `enumerate-artifacts-not-references`.
   helper. Absence found by one narrow query is not absence. *(Delegated
   research concluded no shared implementation of a calculation existed;
   grepping the operation instead of the function name found six inline copies.)*
+- **Prove the probe could have found it.** A malformed query and a true absence
+  return the same silence: a path that doesn't exist, a typo'd flag, a command
+  erroring to empty stdout. Before an empty result counts as evidence, run the
+  same probe against something you know is present, or inspect the level you're
+  querying. *(A versioned install tree was checked for skills at
+  `<cache>/<plugin>/skills`, came back empty, and was reported as an empty
+  install; the tree nests by version, so nothing was ever at that level and the
+  install was in fact complete.)*
 - **Distinguish "not found" from "not present".** A subagent or teammate can
   only report what their search covered. Rephrase their "X does not exist" as
   "X not found by <their method>" and check whether their scope even included
@@ -61,6 +70,16 @@ referenced — is a different problem: use `enumerate-artifacts-not-references`.
   *(Illustrative: A subagent reported no rate limiter existed after searching the
   application code only; the limiter lived in a shared middleware package
   outside its search path.)*
+- **Before deleting, check holders, not tombstones.** A status marker records
+  how something reached its current state (superseded, deprecated, orphaned at
+  a timestamp); it says nothing about who is holding the thing right now. Those
+  are different questions, and a well-formed query of the wrong evidence class
+  answers neither. Enumerate the real holders — lease files, open handles, lock
+  entries, live process IDs — and say which ones you checked and how you
+  established each was gone. *(A cache directory carried an "orphaned at"
+  timestamp and was reported as dead weight, safe to delete; the lease
+  directory beside it held four entries, three of them naming processes that
+  were still running.)*
 - **Label unverified absences as such.** When you must pass an absence claim
   onward without re-checking, mark it "verify: none found" rather than stating
   it as fact, so the next reader knows it's a search result, not a guarantee.
@@ -72,8 +91,12 @@ referenced — is a different problem: use `enumerate-artifacts-not-references`.
 
 - [ ] You re-ran the search yourself with multiple phrasings (name, synonyms,
       inline pattern), not just trusted the report.
+- [ ] The probe itself is known to work — you ran it against a known-present
+      instance, or confirmed the path and level you queried actually exist.
 - [ ] The search scope actually covered where X would live (all packages,
       generated code, tests, inline copies).
+- [ ] Before any deletion, you enumerated the live holders and named which you
+      checked, rather than trusting a marker describing how it got there.
 - [ ] Any absence you pass onward unverified is labeled "verify: none found",
       not stated as fact.
 
