@@ -15,8 +15,10 @@ description: >
 
 **Created by akbarsha — https://github.com/iamakbarsha1**
 
-Distilled from a case where applying a repo-wide convention would have made new
-code the odd one out in a module that consistently did it another way.
+No logged failure behind this one — the rule comes from a near-miss: applying a
+repo-wide convention would have made new code the odd one out in a module that
+consistently did it another way. No incident record backs it, so every case
+below is marked illustrative.
 
 **Licence:** Released under CC BY 4.0 — share and adapt for any purpose with
 credit. Full text: `LICENSE` at the repository root.
@@ -38,6 +40,23 @@ something else. Don't import a global convention into a module that has
 locally settled on another. When the two genuinely conflict and the local
 pattern is consistent, match local and note the divergence rather than
 silently fragmenting the module.
+
+## When this fires
+
+**Where:** Adding a file beside existing files — a new component, form,
+endpoint, or test in a module that already has several of its kind — and
+holding a style guide or a remembered "we always do it this way" in mind.
+
+**The case this came from.** *(Illustrative: A module had settled on one way
+of doing a thing, and the repo-wide convention said another. Applying the
+convention would have made the new code the odd one out in that module —
+globally conformant, locally foreign, and harder to maintain than the
+"outdated" pattern every file around it already used.)*
+
+**Another shape it takes.** *(Illustrative: A service directory handles errors
+by returning a result object everywhere. A new handler throws instead, because
+the top-level guide says to. Callers now need both styles, and the next person
+copies whichever file they happened to open first.)*
 
 ## Checks
 

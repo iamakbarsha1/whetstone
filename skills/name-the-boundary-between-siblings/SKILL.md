@@ -49,6 +49,24 @@ Turning a single failure into a skill in the first place is a different job:
 use `distill-the-scar` for producing the skill, this one for placing it beside
 the skills already installed.
 
+## When this fires
+
+**Where:** Writing or rewriting the description of a skill, command, or agent
+that will sit in a registry beside others — specifically the moment you start
+packing in every keyword someone might search for.
+
+**The case this came from.** A whole-repo security-audit skill was written and
+shipped into a library that already held a per-file one. Both descriptions
+matched a bare "security audit" request and neither file mentioned the other;
+one grep for the phrase before drafting would have caught it. When a pointer
+was finally added it went into the newer file only, leaving every request that
+matched the older description with no route across.
+
+**Another shape it takes.** *(Illustrative: Two deployment commands land in
+the same plugin, one for preview environments and one for production. Both
+descriptions say "deploy". The router picks on wording alone, and a
+production push goes out from what was meant as a preview request.)*
+
 ## Checks
 
 - **Grep your primary keywords against the installed set before you write the

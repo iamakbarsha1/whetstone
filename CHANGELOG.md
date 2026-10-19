@@ -3,7 +3,62 @@
 All notable changes to whetstone are recorded here. Versions track the plugin
 manifest (`.claude-plugin/plugin.json`) and follow [SemVer](https://semver.org):
 new skills are a minor bump, rule changes to an existing skill are a patch, and
-repo tooling or docs that ship with the plugin are a patch.
+repo tooling or docs that ship with the plugin are a patch. A change to the
+skill format contract itself — a new required section, a new CI gate a
+contributor must satisfy — is a minor bump, because work written against the
+previous version no longer merges.
+
+## [1.7.0] — 2026-10-19
+
+No new skills (still 27). Adds a required `## When this fires` section to the
+skill format, and backfills it across all 27.
+
+- Every `SKILL.md` gained `## When this fires`: a `**Where:**` line naming the
+  kind of work the skill belongs to, then the situation twice — `**The case
+  this came from.**`, retold from the failure the skill was distilled from, and
+  `**Another shape it takes.**`, a different domain marked
+  `*(Illustrative: …)*`. The frontmatter `description` tells a router when to
+  surface a skill; this tells a reader who already has it open where it applies.
+- `scripts/validate_skills.py` enforces the section: the three lead-ins appear
+  in order *inside* the section body, each followed by text, the section sits
+  between the core rule and the pre-flight, and the second example carries its
+  `*(Illustrative: …)*` marker. Heading lookups are anchored to line starts,
+  because skills quote their own anatomy in prose and an unanchored search
+  finds the mention instead of the heading.
+- All three catalogue surfaces now carry the example and CI requires it on each:
+  a non-empty Example cell per README row, and a `<p class="eg">` line per
+  `docs/index.html` card.
+- `CONTRIBUTING.md` and the README's "Anatomy of a skill" block record the new
+  section; the site's own anatomy list and code sample, which had been
+  describing the 1.6.1 shape, were updated to match.
+- `CONTRIBUTING.md` states the provenance rule outright: a case is lived or it
+  is marked `*(Illustrative: …)*`, and a file may not claim both of the same
+  case.
+
+Known limitation, narrowed: the example lives in three hand-maintained places —
+the `SKILL.md` section, the README row, and the site card. The README cell and
+the card are the same condensed sentence, so CI requires them to match exactly.
+The `SKILL.md` section is a longer retelling and cannot be compared
+mechanically; keeping that one honest is still on the author.
+
+Fixed while writing this release: five skills had a header calling a case lived
+while their own `## Checks` bullet marked the same case `*(Illustrative: …)*`.
+The first drafts of the new section inherited the header's side and restated it
+on two more surfaces. Three now draw only on material the file treats as lived.
+
+The other two — `findings-list-is-not-a-todo-list` and
+`consistency-is-local-first` — have no lived case anywhere in the file, so the
+required heading was compelling a claim they could not support. The format gets
+the same escape hatch the `## Checks` bullets already had: the first example may
+be marked `*(Illustrative: …)*`, and CI now *requires* that when every other
+grounding case in the file is illustrative. Both skills, and their catalogue
+entries, are marked accordingly.
+
+Both of those skills also opened with "Distilled from a case where …", a header
+older than this release that claimed a lived origin their own bullets
+contradict. The authoring notes behind both record a near-miss — something
+caught before it shipped — not an incident, and no record of one exists. The
+headers now say that, so the file no longer takes two sides on the same case.
 
 ## [1.6.1] — 2026-10-19
 
@@ -80,6 +135,7 @@ First distributable release.
 - Added the plugin marketplace (`.claude-plugin/`), a dependency-free skill validator,
   CI, and contributor docs.
 
+[1.7.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.7.0
 [1.6.1]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.6.1
 [1.6.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.6.0
 [1.5.0]: https://github.com/iamakbarsha1/whetstone/releases/tag/v1.5.0

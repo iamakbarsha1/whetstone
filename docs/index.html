@@ -373,6 +373,14 @@
     letter-spacing: 0.01em;
   }
   .skill p { color: var(--slate); font-size: 0.9rem; line-height: 1.52; }
+  .skill .eg {
+    margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--grit);
+    color: var(--slate-dim); font-size: 0.82rem; line-height: 1.5;
+  }
+  .skill .eg::before {
+    content: "e.g."; font-family: var(--font-mono); font-size: 0.75em;
+    letter-spacing: 0.06em; color: var(--spark); margin-right: 7px;
+  }
   .skill .arrow { color: var(--slate-dim); transition: color 0.2s, transform 0.2s; }
   .skill:hover .arrow { color: var(--spark); }
 
@@ -611,41 +619,49 @@
             <div class="slug">verify-through-the-real-path <span class="arrow">↗</span></div>
             <h4>Verify Through the Real Path</h4>
             <p>Before claiming something works, is done, safe, or fast — verify through the actual trigger, real data, and representative conditions, not a stand-in.</p>
+            <p class="eg">A direct-call check passed; the real hook ran from another working directory, never found the config, and silently never fired.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/prove-the-test-can-fail" target="_blank" rel="noopener">
             <div class="slug">prove-the-test-can-fail <span class="arrow">↗</span></div>
             <h4>Prove the Test Can Fail</h4>
             <p>After writing a test, or before trusting a green one — make it fail on purpose once, and confirm new branches are reachable by the mocks.</p>
+            <p class="eg">A green end-to-end test stayed green after a load-bearing step was disabled — it was asserting on the wrong layer.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/measure-the-delta-not-the-absolute" target="_blank" rel="noopener">
             <div class="slug">measure-the-delta-not-the-absolute <span class="arrow">↗</span></div>
             <h4>Measure the Delta, Not the Absolute</h4>
             <p>Judging whether your change is clean on a red or noisy baseline — prove it by stash-and-compare, not by which files appear in the failure list.</p>
+            <p class="eg">A red suite was about to be blamed on a diff; the identical command on the untouched base produced the same reds.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/test-fixture-realism" target="_blank" rel="noopener">
             <div class="slug">test-fixture-realism <span class="arrow">↗</span></div>
             <h4>Test-Fixture Realism</h4>
             <p>Writing tests against a shared store or fabricated fixtures — make fixtures mirror data reality and assertions unable to pass trivially.</p>
+            <p class="eg">A fixture's hardcoded parent id made the join return nothing, and the test happily asserted on the empty result.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/know-your-aggregate-command-scope" target="_blank" rel="noopener">
             <div class="slug">know-your-aggregate-command-scope <span class="arrow">↗</span></div>
             <h4>Know Your Aggregate Command's Scope</h4>
             <p>Before citing a test / lint / type-check / build script as proof — confirm what it actually runs, how it forwards args, and whether it caches.</p>
+            <p class="eg">A `--testPathPattern` was dropped by the wrapper, so the green came from the whole suite, served from cache.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/spike-falsification" target="_blank" rel="noopener">
             <div class="slug">spike-falsification <span class="arrow">↗</span></div>
             <h4>Spike Falsification</h4>
             <p>Validating a third-party dependency (API, SDK, contract, protocol) before building on it — execute against the real deployed artifact and try to falsify your design assumptions, don&rsquo;t just demo the happy path.</p>
+            <p class="eg">Research returned correct signatures; the deployed bytecode had 1-based indexing, and the "soulbound" token transferred.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/enumerate-artifacts-not-references" target="_blank" rel="noopener">
             <div class="slug">enumerate-artifacts-not-references <span class="arrow">↗</span></div>
             <h4>Enumerate Artifacts, Not References</h4>
             <p>Writing or reviewing a completeness gate — enumerate the real artifacts and check each is referenced, rather than scraping references out of prose and checking each resolves; keep a separate bounded pass for truncation.</p>
+            <p class="eg">A gate scraped nineteen illustrative paths out of a document's prose and reported each MISSING, burying the two real findings.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/running-long-background-jobs" target="_blank" rel="noopener">
             <div class="slug">running-long-background-jobs <span class="arrow">↗</span></div>
             <h4>Running Long Background Jobs</h4>
             <p>Launching or verifying a long-running / detached job, or reconciling a batch against a corpus other processes also write to.</p>
+            <p class="eg">A backfill&#x27;s residual of 151 was read as 151 failures; only 43 were real, the rest had arrived mid-run while a hook committed underneath it.</p>
           </a>
         </div>
       </div>
@@ -661,31 +677,37 @@
             <div class="slug">plan-cross-encoding-review <span class="arrow">↗</span></div>
             <h4>Plan Cross-Encoding Review</h4>
             <p>Reviewing a plan or spec — catch the bug where one intent is encoded twice and the copies quietly disagree.</p>
+            <p class="eg">The prose promised a rollback on failed retry; the pasted code skipped it, and the implementer transcribed the code.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/confirm-the-premise-first" target="_blank" rel="noopener">
             <div class="slug">confirm-the-premise-first <span class="arrow">↗</span></div>
             <h4>Confirm the Premise First</h4>
             <p>Designing when a choice depends on a technical property — state the ground truth (local vs remote, reversible vs not) before asking downstream questions.</p>
+            <p class="eg">A backend believed to run inference on-device was always remote — several data-exposure answers collapsed with the premise.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/audit-before-you-build" target="_blank" rel="noopener">
             <div class="slug">audit-before-you-build <span class="arrow">↗</span></div>
             <h4>Audit Before You Build</h4>
             <p>Starting from a ticket, checklist, or spec — grep for what already exists first; trackers record conversations, not deliverables.</p>
+            <p class="eg">A milestone item was already ~90% shipped as a side effect; one grep for the route name turned "build" into gap-closing.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/inject-ambient-inputs" target="_blank" rel="noopener">
             <div class="slug">inject-ambient-inputs <span class="arrow">↗</span></div>
             <h4>Inject Ambient Inputs</h4>
             <p>Writing logic that reads the clock, randomness, env, or handles — pass them in as parameters so the pure core tests with no mocking machinery.</p>
+            <p class="eg">Rules calling the clock would have needed fake timers in every test; passing the date in gave ~30 tests with no mocks.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/consistency-is-local-first" target="_blank" rel="noopener">
             <div class="slug">consistency-is-local-first <span class="arrow">↗</span></div>
             <h4>Consistency Is Local First</h4>
             <p>Adding code to an existing module — match the nearest sibling's pattern; a repo-wide convention is the default only when the module has none.</p>
+            <p class="eg">Illustrative: applying the repo-wide convention would have made the new code the only outlier in a module that had settled on another way.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/validate-the-users-proposed-mechanism" target="_blank" rel="noopener">
             <div class="slug">validate-the-users-proposed-mechanism <span class="arrow">↗</span></div>
             <h4>Validate the User's Proposed Mechanism</h4>
             <p>A user names a platform, tool, or library — treat it as a proposed mechanism; grep the artifact for disqualifiers before agreeing.</p>
+            <p class="eg">The requested serverless platform kills the long-lived `setInterval` workers the app depends on — one grep surfaced it.</p>
           </a>
         </div>
       </div>
@@ -701,26 +723,31 @@
             <div class="slug">grep-the-blast-radius <span class="arrow">↗</span></div>
             <h4>Grep the Blast Radius</h4>
             <p>Changing a shared contract (flag, column, type, endpoint) — the retired name is your consumer index; grep the whole workspace and run cross-boundary suites.</p>
+            <p class="eg">A shared union gained a member; a sibling package's exhaustive `switch` lost exhaustiveness while the editor's tests stayed green.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/diff-each-side-against-merge-base" target="_blank" rel="noopener">
             <div class="slug">diff-each-side-against-merge-base <span class="arrow">↗</span></div>
             <h4>Diff Each Side Against the Merge Base</h4>
             <p>Resolving a merge or rebase conflict — markers show where git gave up, not the full delta; auto-merge silently drops fields.</p>
+            <p class="eg">Auto-merge dropped struct fields present on both the base and one side, with nothing appearing between the conflict markers.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/verify-absence-claims" target="_blank" rel="noopener">
             <div class="slug">verify-absence-claims <span class="arrow">↗</span></div>
             <h4>Verify Absence Claims</h4>
             <p>Acting on a "none exists / not found" claim, especially from delegated research — re-grep it; absence is only as good as the search pattern.</p>
+            <p class="eg">Research said no shared implementation existed; grepping the operation instead of the function name found six inline copies.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/negative-invariant-testing" target="_blank" rel="noopener">
             <div class="slug">negative-invariant-testing <span class="arrow">↗</span></div>
             <h4>Negative-Invariant Testing</h4>
             <p>Protecting a "never does X" constraint — a behavioural test can't see an unused capability; assert structurally on the mechanism's existence.</p>
+            <p class="eg">A "never holds custody of funds" property had no test — nothing exercises custody, so nothing behavioural could go red.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/safe-data-export" target="_blank" rel="noopener">
             <div class="slug">safe-data-export <span class="arrow">↗</span></div>
             <h4>Safe Data Export</h4>
             <p>Exporting sensitive or large data into a path inside a git tree — make the destination uncommittable and verify it (gitignore first, then git check-ignore + git status) before the data exists on disk.</p>
+            <p class="eg">A memory dump carrying an email address, an org name and handles was aimed inside a public repo before any ignore rule existed.</p>
           </a>
         </div>
       </div>
@@ -736,21 +763,25 @@
             <div class="slug">read-the-real-failing-call <span class="arrow">↗</span></div>
             <h4>Read the Real Failing Call</h4>
             <p>Hardening against a failure mode — instrument the real failing call before and after, because a plausible hypothesis is not a diagnosis.</p>
+            <p class="eg">Timeout-and-retry was built for a two-thirds failure rate; the real cause was a context dump drowning the prompt.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/manufacture-review-independence" target="_blank" rel="noopener">
             <div class="slug">manufacture-review-independence <span class="arrow">↗</span></div>
             <h4>Manufacture Review Independence</h4>
             <p>Reviewing your own work (author == reviewer) — replace lost independence with scoped parallel passes and adversarial re-reads of the source.</p>
+            <p class="eg">Two reviewers split High vs Low on the same fact; the deciding evidence sat in a module outside both their scopes.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/findings-list-is-not-a-todo-list" target="_blank" rel="noopener">
             <div class="slug">findings-list-is-not-a-todo-list <span class="arrow">↗</span></div>
             <h4>A Findings List Is Not a To-Do List</h4>
             <p>Acting on a review or audit list — re-read each item's disposition and bucket them; some are marked no-fix, some need a human decision.</p>
+            <p class="eg">Illustrative: "fix the rest" nearly implemented several items the review had explicitly marked as requiring no change.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/scan-generated-files-for-artifacts" target="_blank" rel="noopener">
             <div class="slug">scan-generated-files-for-artifacts <span class="arrow">↗</span></div>
             <h4>Scan Generated Files for Artifacts</h4>
             <p>Reviewing or signing off a file an agent wrote with a tool — grep its head and tail for leaked harness residue (stray tags, fence fragments, content past EOF); passing tests don't cover non-code bytes.</p>
+            <p class="eg">An approved markdown file compiled and tested clean, then shipped with a leaked tool-call closing tag in its tail.</p>
           </a>
         </div>
       </div>
@@ -766,21 +797,25 @@
             <div class="slug">distill-the-scar <span class="arrow">↗</span></div>
             <h4>Distill the Scar</h4>
             <p>Turning a real failure into a reusable skill — capture the scar, extract one transferable invariant, write it in the anatomy, and gate it with the validator. The method that forged every skill here, made repeatable.</p>
+            <p class="eg">Nineteen skills existed and the method behind them did not — a contributor handed only the log could not produce a twentieth.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/name-the-boundary-between-siblings" target="_blank" rel="noopener">
             <div class="slug">name-the-boundary-between-siblings <span class="arrow">↗</span></div>
             <h4>Name the Boundary Between Siblings</h4>
             <p>Adding or renaming a skill that will sit beside others — keyword coverage makes it findable, not pickable; grep your trigger words against the installed set and write a reciprocal boundary line into both files.</p>
+            <p class="eg">A whole-repo security-audit skill shipped beside a per-file one; both matched "security audit", neither named the other.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/a-memory-is-not-a-trigger" target="_blank" rel="noopener">
             <div class="slug">a-memory-is-not-a-trigger <span class="arrow">↗</span></div>
             <h4>A Memory Is Not a Trigger</h4>
             <p>A stored memory, a recalled note, a session-start banner, a description-matched skill — the agent reads them, it doesn't run them. If an action must fire every session, gate it with a deterministic hook or forced invocation, not a note you hope gets recalled.</p>
+            <p class="eg">A must-do named in both a recalled memory and a startup banner went undone all session — nothing in the loop executed it.</p>
           </a>
           <a class="skill" href="https://github.com/iamakbarsha1/whetstone/tree/main/skills/publish-oss-repo" target="_blank" rel="noopener">
             <div class="slug">publish-oss-repo <span class="arrow">↗</span></div>
             <h4>Publish an OSS Repo</h4>
             <p>Publishing a repo, or auditing one that has working code but still reads as neglected — signal maintenance with a canonical (machine-detected) license, tagged releases, topics, and CI that enforces the artifact's contract, each verified through the platform's own API.</p>
+            <p class="eg">A hand-written licence summary made GitHub display "Other", and several version bumps had no tag or release behind them.</p>
           </a>
         </div>
       </div>
@@ -813,6 +848,13 @@
             </div>
           </li>
           <li>
+            <span class="step">where it lands</span>
+            <div>
+              <h4>When this fires</h4>
+              <p>The kind of work the rule belongs to, then the situation twice — the failure it was distilled from, and one more shape it takes elsewhere.</p>
+            </div>
+          </li>
+          <li>
             <span class="step">the cases</span>
             <div>
               <h4>Checks</h4>
@@ -840,6 +882,12 @@
 A convenient stand-in is not the thing
 you claimed works. Verify through the
 actual trigger, real data...
+
+<span class="c">## When this fires</span>
+<span class="h">Where:</span> before you say works,
+done, safe or fast...
+<span class="h">The case this came from.</span> ...
+<span class="h">Another shape it takes.</span> ...
 
 <span class="c">## Checks</span>
 - <span class="h">Real trigger, not a direct call.</span> ...

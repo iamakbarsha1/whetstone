@@ -40,6 +40,25 @@ fails on the mere existence of the mechanism — introspect the schema, the AST,
 the exports, the dependency list — so the guard trips the moment someone
 introduces X, before it's ever called.
 
+## When this fires
+
+**Where:** Hardening a property stated as a "never" — never holds funds,
+never logs secrets, never calls that API, never writes to that table — where
+the risk is a future edit adding the capability, not today's code using it.
+
+**The case this came from.** A design rested on the system never taking
+custody of funds — it was the reason the thing needed no money-transmitter
+posture at all. The test suite was thorough and every test passed, and none of
+them touched the property, because nothing in the code could hold a balance
+for a test to exercise. The guarantee the whole design leaned on was the one
+thing with no test behind it, and that only surfaced when someone asked which
+test would fail if it stopped being true.
+
+**Another shape it takes.** *(Illustrative: A service promises it never writes
+to the analytics database. A refactor imports the analytics client "just for
+reads", the write method comes along with it, and six months later a cleanup
+job uses it — no test could have gone red before that call existed.)*
+
 ## Checks
 
 - **Assert on existence, not on execution.** Write the test against the

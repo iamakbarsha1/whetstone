@@ -37,6 +37,24 @@ all. A `.gitignore` entry added after the write leaves a window, however
 short, where any commit sweep (`git add -A`, an IDE auto-stage, a CI bot)
 can pick the data up before you get back to it.
 
+## When this fires
+
+**Where:** Any task whose output is a data dump — DB rows, logs, memory
+observations, a migration extract — where the destination path resolves inside
+a git working tree.
+
+**The case this came from.** An agent exporting a project's persisted memory
+observations pointed the dump at a directory inside that project's public
+repo, before any ignore rule existed. The observations carried a personal
+email address, an organization name and GitHub handles, so the file sat
+trackable — one `git add -A` from being published — until the rule landed.
+
+**Another shape it takes.** *(Illustrative: A debugging session writes a
+production response capture to a `tmp/` directory at the repo root. The author
+remembers seeing `tmp/` in a `.gitignore` and does not check which one — it is
+`packages/api/.gitignore`, which governs nothing above itself. The capture,
+bearer token in its headers, is staged by the next `git add -A`.)*
+
 ## Checks
 
 - **`.gitignore` first, always.** Add the target directory or file path to

@@ -37,6 +37,25 @@ sides edited near the same region. Resolving a conflict by reading ONLY the
 non-trivial conflict, reconstruct the real change by comparing each side
 against the merge base by symbol/field inventory.
 
+## When this fires
+
+**Where:** In the middle of a merge or rebase with conflicts open, and again
+when reviewing a merge commit someone else resolved — especially where both
+branches edited the same file for different reasons.
+
+**The case this came from.** A 3-way auto-merge dropped several struct fields
+that existed on both the base and one side, because the other side had
+rewritten the surrounding block. Nothing appeared between conflict markers, so
+resolving only the marked regions would have shipped a file quietly missing
+content.
+
+**Another shape it takes.** *(Illustrative: Two branches each add a key to the
+same config map, in different places. Git merges both cleanly — no markers,
+nothing lost — but one branch also changed the map's default, and the other
+wrote its new key assuming the old one. The result is textually perfect and
+semantically wrong, which an inventory of symbols would not show either; only
+reading each side's intent against the base does.)*
+
 ## Checks
 
 - **Inventory ours, theirs, and base — not just the markers.** For a

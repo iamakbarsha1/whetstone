@@ -38,6 +38,25 @@ mechanism, satisfy the intent with a feasible mechanism, and push back
 explicitly on the conflict. Blindly implementing an infeasible choice throws
 away working code and ships something that can't run.
 
+## When this fires
+
+**Where:** A request arrives with the tool already chosen — "deploy this on
+X", "switch to library Y", "move the queue to Z" — and the thing already built
+may not fit it.
+
+**The case this came from.** A user asked to deploy on a serverless platform.
+The app relied on long-lived `setInterval` background workers that serverless
+functions kill, and the named database was a different family than the data
+layer was written for, so implementing the request verbatim would have thrown
+away working, tested code. One grep for the incompatible construct surfaced
+both conflicts before anything was committed to.
+
+**Another shape it takes.** *(Illustrative: A user asks to put a CDN in front
+of an API for speed. The endpoints are authenticated per-user and already
+sub-50ms; the intent — cheaper read traffic — is met by a response cache
+keyed on the user, while the CDN as named would serve one user's data to
+another.)*
+
 ## Checks
 
 - **Grep the artifact for disqualifying signals first.** Before agreeing to a

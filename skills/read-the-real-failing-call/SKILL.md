@@ -43,6 +43,22 @@ character context dump; the model was responding to the dump, not the task.
 Capping the dump dropped the failure rate from roughly two-thirds to about
 5% — a cause the timeout/retry theory never touched.
 
+## When this fires
+
+**Where:** A failure that is intermittent, partial, or carries a rate — and
+specifically the moment you are about to build a fix out of a theory about
+why, or have just shipped one that didn't move the number.
+
+**The case this came from.** The case above: a two-thirds failure rate was
+pre-diagnosed as timeout plus missing retry, the fix was built and tested, and
+the rate barely moved. One instrumented real call showed the prompt was
+drowning the input in a context dump the theory never mentioned.
+
+**Another shape it takes.** *(Illustrative: Checkout errors are attributed to
+the payment provider's latency, so a longer timeout and a retry ship. The rate
+does not move — the real failures are 422s from a validation rule on a field
+the mobile client stopped sending, and nobody had read one response body.)*
+
 ## Pre-flight check — before you call the failure fixed
 
 - [ ] You captured the raw output/error of a real failing invocation BEFORE

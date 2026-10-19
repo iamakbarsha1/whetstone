@@ -38,6 +38,23 @@ echo the input all produce green tests that verify nothing. Build fixtures that
 are real enough to exercise the code, and assertions specific enough to fail
 when it breaks.
 
+## When this fires
+
+**Where:** Building the setup for any non-trivial test — seeding a shared
+store, writing a factory, stubbing a client, crafting the fixture that is
+supposed to trip a guard.
+
+**The case this came from.** A test asserted on a total row count and flapped
+as another test's seed data landed. From the same cluster: a fixture used a
+hardcoded parent id, so the join returned nothing and the test happily
+asserted on an empty result; and a "reject when the field is missing" test
+used a fixture that still had the field, so the rejection path never ran.
+
+**Another shape it takes.** *(Illustrative: A test for a de-duplication
+routine seeds two records with distinct auto-generated UUIDs in the field that
+actually duplicates in production. Nothing ever collides, the dedupe branch
+never executes, and the suite reports the feature covered.)*
+
 ## Checks
 
 - **Assert on the rows YOU created, not aggregates.** Against a shared DB or

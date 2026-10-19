@@ -39,6 +39,22 @@ happen to appear in a failure list — a failure can reference a file you
 touched for a reason that predates you, and a failure in a file you never
 opened can still be yours.
 
+## When this fires
+
+**Where:** A check comes back red or noisy and someone has to say whether the
+current change caused it — an inherited failing suite, pre-existing lint or
+typecheck errors, a CI job with a flake history.
+
+**The case this came from.** A red suite was about to be blamed on a diff.
+Running the identical command against the untouched base produced the same
+reds: the change had added zero failures. Nothing about the failure list said
+so — it named files the diff had touched, for reasons that predated it.
+
+**Another shape it takes.** *(Illustrative: A nightly job starts failing the
+morning after a deploy, and the deploy is rolled back on the coincidence. The
+same job fails on the previous image too — a third-party certificate expired
+at midnight — so the rollback costs a day and the real cause goes untouched.)*
+
 ## Checks
 
 - **Stash-and-compare, or head-vs-base.** To decide whether a failure is

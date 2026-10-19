@@ -4,6 +4,12 @@ whetstone skills come from real failures, not general advice. A good skill
 names a specific thing that went wrong and the rule that would have prevented
 it — written so an agent (or human) can apply it without the original context.
 
+One rule outranks the rest: a case is lived or it is marked
+`*(Illustrative: …)*`, and nothing in the file may claim otherwise. A skill
+whose header calls a case lived while its own bullet marks the same case
+illustrative is a contradiction to fix, not a style choice — CI can check the
+marker is present, never that it is honest.
+
 ## The bar
 
 A skill belongs here if it is:
@@ -42,23 +48,44 @@ Match the structure of the existing skills:
 2. `**Created by**` attribution
 3. `**Licence:**` (CC BY 4.0) and `**Feedback & Support:**` lines
 4. **The core rule** — one paragraph
-5. **Checks** — the individual rules, each ending in a one-line sanitized real
+5. **When this fires** — a `**Where:**` line naming the kind of work the skill
+   belongs to, then the same situation twice: `**The case this came from.**`
+   (retold from the failure the skill was distilled from) and `**Another shape
+   it takes.**` (a different domain, marked `*(Illustrative: …)*`). Two
+   examples, because one case reads as a story about someone else's stack and
+   two read as a shape. Three rules CI enforces: the three lead-ins appear in
+   that order inside the section, each with text after it; the section sits
+   between the core rule and the pre-flight; and the second example carries the
+   `*(Illustrative: …)*` marker. Draw the first example only from material the
+   file treats as lived — if the matching `## Checks` bullet is marked
+   `*(Illustrative: …)*`, that case is not available to you here, and a second
+   example that is the first one with the nouns swapped is not a second
+   example. If the skill has no lived case at all, every grounding case in it
+   being illustrative, then mark the first example `*(Illustrative: …)*` too.
+   CI requires that rather than merely permitting it: a required heading with
+   no escape hatch makes the format manufacture a provenance claim the skill
+   cannot support, which is exactly how five of these went wrong on the first
+   pass.
+6. **Checks** — the individual rules, each ending in a one-line sanitized real
    case in the form `*(what went wrong)*`. A single-rule skill may fold that one
    rule and its case into **The core rule** and omit the `## Checks` section
    (see `confirm-the-premise-first`).
-6. **Pre-flight check** — a checklist that must all pass before claiming done.
+7. **Pre-flight check** — a checklist that must all pass before claiming done.
    Every check above needs a matching checkbox; an ungated check is a silent
    hole in the "fail loudly" guarantee.
 
 CI enforces the load-bearing parts of this contract (`scripts/validate_skills.py`):
-`## The core rule` is present, every `## Checks` bullet carries a grounding case
-`*(…)*` — a real one, or one marked `*(Illustrative: …)*` — and the pre-flight
+`## The core rule` is present, `## When this fires` is present with all three of
+its lines, every `## Checks` bullet carries a grounding case `*(…)*` — a real
+one, or one marked `*(Illustrative: …)*` — and the pre-flight
 has at least one checkbox per check. A skill that skips them can't merge. (CI
 checks the marker is present; it cannot tell a real case from a fabricated one,
 so honesty about which is which is on the author — see `distill-the-scar`.)
 
 It also checks that a new skill actually reaches the catalogue: every
-`skills/*/` directory needs a README table row and a card in `docs/index.html`,
+`skills/*/` directory needs a README table row — with a non-empty Example cell —
+and a card in `docs/index.html` carrying a `<p class="eg">` example line that
+matches the README cell word for word,
 every row and card must point at a directory that exists, and every declared
 skill count — the README badge, the site's meta tags, hero, spelled-out section
 header and per-section counts — must equal the number of directories. The count

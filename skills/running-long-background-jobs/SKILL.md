@@ -41,6 +41,24 @@ live from the running process's behaviour (not the file on disk), and verify
 completion against the corpus's current per-item state, not the job's own
 counters.
 
+## When this fires
+
+**Where:** Launching anything detached and multi-hour — a backfill, a batch
+migration, a bulk scrape, an overnight re-index — and again at the end, when
+deciding whether it actually finished.
+
+**The case this came from.** A detached backfill resolved `./config` against a
+working directory it never inherited and ran about six hours on defaults with
+no error. Host sleep then took roughly 40% of a 17-hour run. At the end it
+reported a residual of 151 "failures", of which only 43 were real: the rest
+had arrived mid-run, while a hook committed the job's partial output
+underneath it and left the job's own count reading low.
+
+**Another shape it takes.** *(Illustrative: An overnight re-index is launched
+over SSH without nohup. The VPN drops at 3am, the shell dies, and the job is
+killed a third of the way through. The morning check sees a clean working tree
+and reports success, because nothing ever recorded the expected item count.)*
+
 ## Checks
 
 - **Make every path absolute at launch.** A backgrounded or detached process is

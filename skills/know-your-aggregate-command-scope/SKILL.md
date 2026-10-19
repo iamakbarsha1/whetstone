@@ -37,6 +37,24 @@ open the script and confirm three things: WHICH targets it covers, HOW it
 forwards your arguments, and WHETHER it caches. A pass over the wrong scope is
 not evidence about the code you changed.
 
+## When this fires
+
+**Where:** Before citing `npm run test`, `lint`, `type-check`, `build`, or
+their CI equivalents as evidence that a change is clean — especially in a
+monorepo, and especially when you passed the command a filter.
+
+**The case this came from.** A `--testPathPattern` passed through a wrapper
+script was dropped, so the command ran the entire suite from cache instead of
+the one file intended, and the green said nothing about the change. In a
+second case the suite already had unrelated failures, so its exit code was
+nonzero before and after — "the tests are red" meant nothing until the failing
+names were diffed and one new failure traced back to the change.
+
+**Another shape it takes.** *(Illustrative: A monorepo `build` script fans out
+across packages and swallows child exit codes. One package's compile failure
+scrolls past in the middle of the log, the wrapper still exits 0, and the
+pipeline promotes an artifact that was never fully built.)*
+
 ## Checks
 
 - **Confirm which targets it covers.** In a monorepo/workspace, a top-level

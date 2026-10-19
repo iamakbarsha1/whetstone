@@ -58,6 +58,24 @@ that caught and fixed the lag, which had been introduced two releases earlier.
 The history was recalled rather than read, and the file holding the correction
 was already open.
 
+## When this fires
+
+**Where:** Early in a design or brainstorming exchange, the moment a user's
+choice rests on a property of the system they asserted rather than checked —
+or on a claim about what an earlier version or decision actually did.
+
+**The case this came from.** A user chose a local-looking CLI backend
+believing it ran inference on-device. It was always remote, and several
+downstream data-exposure answers collapsed the moment that one premise was
+corrected. The historical variant is above: a changelog entry justified a new
+check with a claim the entry directly below it contradicted.
+
+**Another shape it takes.** *(Illustrative: A team debates retention policy
+for a queue on the premise that messages are deleted on acknowledgement. The
+broker is configured for replay and holds them seven days, so every retention
+question asked before that is checked is answered about a system that does not
+exist.)*
+
 ## Pre-flight check — before asking downstream policy questions
 
 - [ ] You identified the technical property the user's choice depends on.

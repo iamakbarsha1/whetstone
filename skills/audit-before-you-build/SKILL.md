@@ -39,6 +39,24 @@ the codebase for the item's key nouns, cross-check the spec's own status
 markers, and only then decide whether the task is "build", "finish", or
 "verify and close".
 
+## When this fires
+
+**Where:** The first move on any implementation task handed over as a ticket,
+checklist line, milestone item, or spec row — before any design work, and
+before the first new file exists.
+
+**The case this came from.** A milestone item turned out to be roughly 90%
+implemented already, as a side effect of an earlier change. Grepping the
+feature's route name surfaced it immediately and turned "build" into a small
+gap-closing task — but only because the grep came before the design. The
+tracker still had the item open, and said nothing about the code.
+
+**Another shape it takes.** *(Illustrative: A sprint item reads "add
+pagination to the orders list". The endpoint already accepts `limit` and
+`cursor`, added months earlier for an internal tool and never documented, so
+the real work was wiring the UI — instead a second, incompatible page-number
+scheme lands in the same handler and both are maintained for a year.)*
+
 ## Checks
 
 - **Grep for the item's key nouns before designing.** Take the concrete terms

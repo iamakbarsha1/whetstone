@@ -41,6 +41,22 @@ only the test suite misses this whole class. So for every file an agent produced
 with a write tool, spend one cheap grep on its head and tail before sign-off,
 and confirm it ends exactly where it should.
 
+## When this fires
+
+**Where:** Signing off a change that includes files an agent wrote through a
+write tool — docs, READMEs, configs, fixtures, data files — where no test in
+the suite ever reads those bytes.
+
+**The case this came from.** A review approved a generated markdown file that
+compiled and tested clean. Its tail carried a leaked tool-call closing tag,
+and it shipped as visible garbage on the last screen any reader sees.
+
+**Another shape it takes.** *(Illustrative: An agent writes a CSV of seed
+data and prefixes it with the one-line explanation it would normally put in
+chat. Every importer treats line one as the header, so the columns are named
+after that sentence and each row lands one field out — a file that is valid
+CSV, parses without complaint, and is wrong in every row.)*
+
 ## Checks
 
 - **Grep the head and tail of every agent-written file for harness residue.**

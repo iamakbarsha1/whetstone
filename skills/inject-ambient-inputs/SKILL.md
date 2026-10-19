@@ -39,6 +39,22 @@ inside the decision logic. PASS ambient values in as parameters and keep a
 thin I/O shell that reads them once at the edge. The pure core then tests with
 plain inputs and plain assertions, no machinery.
 
+## When this fires
+
+**Where:** Writing or refactoring logic that branches on the clock, a random
+pick, an environment variable, the current user, or a live handle — and at the
+point where testing it starts to look like it needs a mocking framework.
+
+**The case this came from.** Business rules called the clock directly, which
+would have forced fake-timer setup into every test that touched them. Taking
+the current date as a passed-in field instead produced roughly thirty tests
+with no mocks at all.
+
+**Another shape it takes.** *(Illustrative: A quota check reads
+`process.env.TIER` deep inside the comparison. Tests pass by mutating the
+process environment, one of them forgets to restore it, and an unrelated
+suite that runs later starts failing on a tier it never set.)*
+
 ## Checks
 
 - **Take the value as an argument, don't read the global.** A function that

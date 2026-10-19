@@ -49,6 +49,26 @@ This is about the direction a check enumerates in, while you still control the
 check. If instead you are handed someone else's finished "X does not exist"
 and have to decide whether to trust it, use `verify-absence-claims`.
 
+## When this fires
+
+**Where:** Writing or reviewing a completeness gate — a link checker, a "did
+we ship every file we referenced" guard, an orphan check, anything that
+decides whether a delivery is whole.
+
+**The case this came from.** A pre-delivery gate grepped a staged document for
+`references/`-style paths and checked each against the staged set. Run against
+a document that teaches how those directories are laid out, it scraped
+nineteen illustrative paths and reported every one MISSING, burying the two
+true findings. Inverting it to an orphan-only pass then went green on the
+original truncation bug, because there was nothing staged to iterate.
+
+**Another shape it takes.** *(Illustrative: A dependency audit greps every
+`import` in the source and checks each one resolves in the lockfile. Imports
+inside commented-out code and inside a docstring's example block are candidates
+too, so it reports four packages as missing — while a package that sits in the
+lockfile and is imported nowhere goes unmentioned, because nothing ever
+enumerates the lockfile.)*
+
 ## Checks
 
 - **Enumerate the real set; never scrape an unbounded one.** Before writing the

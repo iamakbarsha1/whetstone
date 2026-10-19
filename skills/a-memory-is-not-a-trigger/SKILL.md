@@ -54,6 +54,24 @@ plus a hook that performs the deterministic half instead of merely mentioning
 it. The lesson generalizes to any recurring guardrail, log, or cleanup an agent
 is "supposed to remember."
 
+## When this fires
+
+**Where:** Any must-do that recurs every session or run — a log entry, a
+bookkeeping step, a cleanup, a guardrail check — where the plan for making it
+happen is "it's in the instructions" or "there's a memory for it".
+
+**The case this came from.** The case above: a required per-session
+bookkeeping step wired two passive ways at once, a recalled memory and a
+session-start hook that printed a reminder. Both fired every session and the
+step still went undone for the whole session, because nothing in the loop
+executed it.
+
+**Another shape it takes.** *(Illustrative: An incident review ends with
+"rotate the signing key every 90 days", written into the runbook and agreed by
+everyone present. The runbook is read during incidents, which is the one time
+nobody is rotating keys. Nothing expires the key and nothing refuses the old
+one, so it is still in use when the next review asks.)*
+
 ## Checks
 
 - **Separate advisory context from control flow.** A memory, a recalled note,

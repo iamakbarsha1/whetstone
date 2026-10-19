@@ -36,6 +36,24 @@ production artifact tells you its *behaviour*. A spike exists to try to
 impossible, forbidden, or already handled — not to demo the happy path. A spike
 that only shows the thing working has tested nothing you were worried about.
 
+## When this fires
+
+**Where:** Evaluating a third-party dependency — an API, SDK, published
+package, or deployed contract — in the window before a design hardens around
+its assumed behaviour.
+
+**The case this came from.** Web research returned correct contract
+signatures, so the design proceeded on them. Executing against the deployed
+bytecode on a fork surfaced 1-based indexing and a mandatory filter argument
+that no document mentioned, and a token the design assumed was soulbound
+turned out to be transferable.
+
+**Another shape it takes.** *(Illustrative: A vendor API is documented as
+idempotent on a client-supplied key, and the spike demos one successful
+create. Replaying the same key against the real endpoint would have shown the
+second call creating a duplicate — which the billing design had already
+written off as impossible.)*
+
 ## Checks
 
 - **Execute against the real deployed artifact, not a mock or a local

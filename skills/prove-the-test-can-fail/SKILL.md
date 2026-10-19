@@ -35,6 +35,22 @@ ON PURPOSE once: break the thing under test and confirm the SPECIFIC assertion
 you care about is the one that goes red. Then confirm the failure branches you
 added are actually reachable given the fixtures.
 
+## When this fires
+
+**Where:** Immediately after writing a test, and before citing a green suite
+as evidence — new failure branches, new mocks, and after-the-fact tests
+written over code that already shipped.
+
+**The case this came from.** An after-the-fact end-to-end test passed on its
+first run. Disabling a load-bearing step it supposedly covered left it still
+green: it was asserting on the wrong layer entirely. One deliberate sabotage
+run was all it took to show the pass meant nothing.
+
+**Another shape it takes.** *(Illustrative: A retry path is added to an upload
+client, with a test named for it. Every fixture returns 200 on the first call,
+so the retry branch never executes; the suite reports the path covered, and
+the first real timeout in production takes a route no test has ever run.)*
+
 ## Checks
 
 - **One sabotage run per assertion that matters.** Temporarily break the
