@@ -44,10 +44,20 @@ mechanically; keeping that one honest is still on the author.
 Fixed while writing this release: five skills had a header calling a case lived
 while their own `## Checks` bullet marked the same case `*(Illustrative: …)*`.
 The first drafts of the new section inherited the header's side and restated it
-on two more surfaces. The sections now draw only on material the file treats as
-lived. The underlying header-vs-bullet contradiction in
-`findings-list-is-not-a-todo-list` and `consistency-is-local-first` is older
-than this release and still open — those two have no unmarked case to stand on.
+on two more surfaces. Three now draw only on material the file treats as lived.
+
+The other two — `findings-list-is-not-a-todo-list` and
+`consistency-is-local-first` — have no lived case anywhere in the file, so the
+required heading was compelling a claim they could not support. The format gets
+the same escape hatch the `## Checks` bullets already had: the first example may
+be marked `*(Illustrative: …)*`, and CI now *requires* that when every other
+grounding case in the file is illustrative. Both skills, and their catalogue
+entries, are marked accordingly.
+
+Still open, and older than this release: both of those skills open with
+"Distilled from a case where …", which claims a lived origin their own bullets
+contradict. Resolving that means either producing the real case or rewording the
+line, and only the author can say which.
 
 ## [1.6.1] — 2026-10-19
 

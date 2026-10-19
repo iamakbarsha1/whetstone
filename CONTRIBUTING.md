@@ -60,7 +60,12 @@ Match the structure of the existing skills:
    file treats as lived — if the matching `## Checks` bullet is marked
    `*(Illustrative: …)*`, that case is not available to you here, and a second
    example that is the first one with the nouns swapped is not a second
-   example.
+   example. If the skill has no lived case at all, every grounding case in it
+   being illustrative, then mark the first example `*(Illustrative: …)*` too.
+   CI requires that rather than merely permitting it: a required heading with
+   no escape hatch makes the format manufacture a provenance claim the skill
+   cannot support, which is exactly how five of these went wrong on the first
+   pass.
 6. **Checks** — the individual rules, each ending in a one-line sanitized real
    case in the form `*(what went wrong)*`. A single-rule skill may fold that one
    rule and its case into **The core rule** and omit the `## Checks` section

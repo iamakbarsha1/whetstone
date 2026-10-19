@@ -120,6 +120,21 @@ def check_when_this_fires(rel, text):
     tail = body.partition(WHEN_LEADS[2])[2]
     if tail and "*(Illustrative:" not in tail:
         err(f"{rel}: `{WHEN_LEADS[2]}` must carry an `*(Illustrative: …)*` marker")
+    # `The case this came from.` is a provenance claim, and a required literal
+    # with no escape hatch would compel it from a skill that has no lived case
+    # to give. So the hatch exists — mark it illustrative like any other
+    # ungrounded example — and this check stops the file claiming otherwise:
+    # if nothing else in it is a lived case, this paragraph cannot be one.
+    lived_elsewhere = "**Real case (sanitized):**" in text or any(
+        "*(" in cb and "*(Illustrative:" not in cb for cb in check_bullets(text)
+    )
+    first = body.partition(WHEN_LEADS[1])[2].partition("\n" + WHEN_LEADS[2])[0]
+    if not lived_elsewhere and "*(Illustrative:" not in first:
+        err(
+            f"{rel}: every grounding case in this file is marked illustrative, "
+            f"so `{WHEN_LEADS[1]}` cannot claim a lived one — mark it "
+            f"`*(Illustrative: …)*` or ground the skill in a real case"
+        )
     # It explains the rule, so it sits after the rule and before the gate.
     # Anchor every heading lookup to a line start: skills quote their own
     # anatomy inline (distill-the-scar names `## Pre-flight check` in prose),
