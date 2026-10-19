@@ -15,8 +15,10 @@ description: >
 
 **Created by akbarsha — https://github.com/iamakbarsha1**
 
-Distilled from a case where applying a repo-wide convention would have made new
-code the odd one out in a module that consistently did it another way.
+No logged failure behind this one — the rule comes from a near-miss: applying a
+repo-wide convention would have made new code the odd one out in a module that
+consistently did it another way. No incident record backs it, so every case
+below is marked illustrative.
 
 **Licence:** Released under CC BY 4.0 — share and adapt for any purpose with
 credit. Full text: `LICENSE` at the repository root.

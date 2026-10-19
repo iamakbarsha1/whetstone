@@ -54,10 +54,11 @@ be marked `*(Illustrative: …)*`, and CI now *requires* that when every other
 grounding case in the file is illustrative. Both skills, and their catalogue
 entries, are marked accordingly.
 
-Still open, and older than this release: both of those skills open with
-"Distilled from a case where …", which claims a lived origin their own bullets
-contradict. Resolving that means either producing the real case or rewording the
-line, and only the author can say which.
+Both of those skills also opened with "Distilled from a case where …", a header
+older than this release that claimed a lived origin their own bullets
+contradict. The authoring notes behind both record a near-miss — something
+caught before it shipped — not an incident, and no record of one exists. The
+headers now say that, so the file no longer takes two sides on the same case.
 
 ## [1.6.1] — 2026-10-19
 

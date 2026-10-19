@@ -16,9 +16,10 @@ description: >
 
 **Created by akbarsha — https://github.com/iamakbarsha1**
 
-Distilled from a case where "fix the rest of the findings" was nearly satisfied
-by implementing every item — including ones the review itself had marked "no
-fix required."
+No logged failure behind this one — the rule comes from a near-miss: "fix the
+rest of the findings" read as a flat queue, and items the review itself had
+marked "no fix required" were nearly implemented with the real ones. No incident
+record backs it, so every case below is marked illustrative.
 
 **Licence:** Released under CC BY 4.0 — share and adapt for any purpose with
 credit. Full text: `LICENSE` at the repository root.
