@@ -84,6 +84,21 @@ nightly run fails auth and writes a zero-row file nobody opens for a month.)*
   because that upstream always populated the field — confirmed against tens
   of thousands of live rows, zero nulls — which is empirical, not
   guaranteed.)*
+- **Call the resolver; don't ask the component.** Before designing any check,
+  ask whether the system exposes the decision point itself — a resolver
+  function, a dry-run, a plan output, an explain mode, a config dump. If it
+  does, call it and read the value it computes. Asking a component to describe
+  itself is self-report: it is bounded by what the component can see and cannot
+  tell a correctly-applied setting from a coincidentally-matching one. Fall
+  back to self-report only when no such surface exists, and label the result as
+  self-report when you quote it. Then close the loop — confirm the resolver you
+  called is the one the real path uses, not a parallel reimplementation beside
+  it. *(Three of four checks on a model-routing config dispatched an agent and
+  asked it to report its own model. The fourth found the resolver the
+  dispatcher actually calls, ran it against the real config, and read the value
+  that would have been passed: the same question, a categorically stronger
+  answer, no more expensive — and the resolver had been available the whole
+  time.)*
 - **`--help` can execute.** Before running an unfamiliar CLI subcommand "just
   to see the flags", confirm the arg parser's unknown-flag behaviour first
   (read the dispatch code or grep for `--help`/usage). A parser that ignores
@@ -106,6 +121,9 @@ intended:
       upper bound.
 - [ ] Any "safe/unreachable/cosmetic" verdict names its invariant and states
       whether that invariant is locally enforced or only empirically true.
+- [ ] You checked whether the system exposes its own resolver, dry-run, or
+      explain mode and called it, rather than asking a component to report on
+      itself — and any self-report quoted is labeled as such.
 - [ ] Any unfamiliar CLI probed for its flags used a guaranteed-safe route
       (`--version`, a confirmed dry-run, or reading source), never `--help` on a
       mutating subcommand whose arg parser might execute it.

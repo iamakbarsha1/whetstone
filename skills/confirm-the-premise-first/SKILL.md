@@ -6,7 +6,12 @@ description: >
   property before asking downstream questions built on it. Triggers on
   "should we use X or Y", design trade-off discussions, privacy/data-egress
   decisions, and any choice that hinges on local-vs-remote, free-vs-paid,
-  sync-vs-async, or reversible-vs-not.
+  sync-vs-async, or reversible-vs-not. Also use before calling a generated
+  artifact broken — a symlink, lockfile, build output, compiled config, or
+  migration — since "this points at the wrong thing" is a premise about intent
+  that only the declaration can confirm. Triggers on "this is wired wrong",
+  "the install is broken", "that symlink points at the wrong target", and any
+  bug report written from derived state.
 ---
 
 # Confirm the Premise First
@@ -76,6 +81,23 @@ broker is configured for replay and holds them seven days, so every retention
 question asked before that is checked is answered about a system that does not
 exist.)*
 
+## Checks
+
+- **Read the declaration, not the artifact it generated.** When a derived
+  thing looks wrong — a symlink, a lockfile, a build output, a compiled config,
+  a migration — read the declaration that produced it before calling it a
+  defect, and specifically check whether the target you believe it *should*
+  point at exists at all. "This is wired to the wrong thing" is a claim about
+  intent, and intent lives in the manifest, not in the output. If declaration
+  and artifact agree, what you have is at most a naming or ergonomics
+  complaint, which is a different and much weaker report. *(A package's
+  installed binary symlinked to a different entry point than its name
+  suggested, and that was written up as a mis-wired install naming the "real"
+  target it should have used. The manifest showed the mapping was explicit and
+  deliberate, the supposed correct target was not shipped at all, and the alias
+  worked when invoked properly — the wrong conclusion had already reached a
+  written report bound for an upstream tracker.)*
+
 ## Pre-flight check — before asking downstream policy questions
 
 - [ ] You identified the technical property the user's choice depends on.
@@ -85,6 +107,8 @@ exist.)*
       (where the data actually goes) before asking the policy question.
 - [ ] Any claim about prior state — an earlier version, a past decision, a
       previous section — was read from the record, not recalled.
+- [ ] Before calling any generated artifact a defect, you read the declaration
+      that produced it and confirmed the target you expected actually exists.
 
 If any box is unchecked, you may be spending questions on a wrong premise —
 anchor it first.
