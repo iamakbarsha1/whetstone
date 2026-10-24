@@ -36,6 +36,11 @@ production artifact tells you its *behaviour*. A spike exists to try to
 impossible, forbidden, or already handled — not to demo the happy path. A spike
 that only shows the thing working has tested nothing you were worried about.
 
+This is about whether a dependency you already have behaves the way its docs
+claim once you build on it; whether you can install and wire that tool up at
+all on a host that fails one of its declared constraints is a different
+problem — use `third-party-tool-onboarding`.
+
 ## When this fires
 
 **Where:** Evaluating a third-party dependency — an API, SDK, published

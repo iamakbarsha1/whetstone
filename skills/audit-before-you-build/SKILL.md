@@ -39,6 +39,15 @@ the codebase for the item's key nouns, cross-check the spec's own status
 markers, and only then decide whether the task is "build", "finish", or
 "verify and close".
 
+This is an existence check on the deliverable inside your own codebase; a
+viability check on an external tool that must run on a host failing one of its
+declared constraints is a different first step — use
+`third-party-tool-onboarding`.
+
+This also audits code against a task handed to you; auditing an existing whole
+configuration against an external write-up — a per-surface
+COVERED/PARTIAL/MISSING delta — is `harness-config-audit`.
+
 ## When this fires
 
 **Where:** The first move on any implementation task handed over as a ticket,

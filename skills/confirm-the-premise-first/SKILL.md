@@ -63,6 +63,10 @@ that caught and fixed the lag, which had been introduced two releases earlier.
 The history was recalled rather than read, and the file holding the correction
 was already open.
 
+This establishes the ground truth of a single asserted property a design choice
+rests on; auditing a whole document's claims about an installed product,
+surface by surface, is `harness-config-audit`.
+
 ## When this fires
 
 **Where:** Early in a design or brainstorming exchange, the moment a user's
