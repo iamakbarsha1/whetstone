@@ -51,6 +51,11 @@ Read it instead of recalling it. Recall feels most authoritative for exactly
 the facts that have been compressed, and when the claim lands in prose there
 is no validator downstream to catch it.
 
+"Should we use X or Y" also reaches `diff-the-install-footprint`, and one axis
+separates them: this skill establishes the ground truth a choice hinges on
+before the choice is debated; that one reads what a specific tool's installer
+writes into config you already run, once a candidate is on the table.
+
 **Real case (sanitized):** A user chose a local-looking CLI backend believing
 it ran inference on-device; it was always remote. Several downstream
 data-exposure answers collapsed once that single premise was corrected — the

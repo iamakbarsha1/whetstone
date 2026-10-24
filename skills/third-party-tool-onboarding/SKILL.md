@@ -61,9 +61,12 @@ the user named a mechanism the existing code cannot support, is a third —
 use `validate-the-users-proposed-mechanism`; here the choice is settled and
 the work is finding the layer that permits it.
 
-One nearer neighbour. `verify-absence-claims` governs a negative finding
+Two nearer neighbours. `verify-absence-claims` governs a negative finding
 someone else handed you ("nothing enforces this"); this skill governs a
 positive probe of your own over-generalised into a universal permission.
+`diff-the-install-footprint` reads what an installer writes into config you
+already run; this skill asks whether the installer delivered the artifact you
+actually intended, rather than a version silently reselected to fit your host.
 
 ## When this fires
 

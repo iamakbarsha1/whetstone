@@ -68,6 +68,9 @@ makes a required step fire reliably; reach for it after this audit names a gap,
 not instead of it. `confirm-the-premise-first` establishes the ground truth of
 a single asserted property a design choice rests on; here the premise under
 test is a whole document's claims about an installed product.
+`diff-the-install-footprint` asks what one tool's installer wrote into config
+you already run — one tool's footprint, where this takes an inventory of every
+surface against a reference.
 
 ## When this fires
 

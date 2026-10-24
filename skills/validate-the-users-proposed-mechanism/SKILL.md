@@ -43,6 +43,11 @@ while the named mechanism can still be replaced. Once the choice is settled
 and the work is getting that tool running on a host that fails one of its
 declared constraints, use `third-party-tool-onboarding`.
 
+That axis is your code against the named mechanism. When the named thing
+installs into your environment instead of hosting your code — a plugin,
+framework, agent harness, shared preset — the question is what its config
+displaces: use `diff-the-install-footprint`.
+
 ## When this fires
 
 **Where:** A request arrives with the tool already chosen — "deploy this on
