@@ -80,6 +80,20 @@ one, so it is still in use when the next review asks.)*
   in the path, classify the action as "may not happen" and design accordingly.
   *(A per-session logging step named in both a recalled memory and a startup
   banner was read every session and skipped anyway.)*
+- **Enumerate the host's control points before designing a mechanism.** Before
+  building anything to enforce a behaviour, list the control points the
+  platform already exposes for it and their precedence order. Split the desired
+  behaviour in two: the part native config already governs belongs in config,
+  because config fires without being recalled and an authored artifact is only
+  a weaker duplicate of it; the part nothing exposes is usually unreachable by
+  an authored skill or hook too, and the honest output is naming that limit
+  rather than shipping an advisory stand-in. *(A request to build a skill that
+  selects which model runs for a task split cleanly in two on inspection, and
+  neither half wanted a skill: the enforceable half was already native config
+  with a documented precedence chain, and the other half — switching the
+  running session's model — is reachable by no hook or skill at all. Writing
+  the skill would have reproduced the exact advisory-not-control-flow failure
+  it was meant to fix, while appearing to solve it.)*
 - **Split "remind" from "perform".** A hook that only injects a reminder is
   still advisory. If the mechanism can execute the deterministic half of the
   work itself, execute it there and leave only the judgment to the agent — a
@@ -97,6 +111,9 @@ one, so it is still in use when the next review asks.)*
 
 ## Pre-flight check — before you trust a recurring action to fire
 
+- [ ] You **enumerated the host platform's native control points** for the
+      behaviour and their precedence before authoring a mechanism, and used
+      config where config already governs it.
 - [ ] Every action that must happen each session/run has a **deterministic
       trigger** (a hook or a forced invocation), not only a passively-recalled
       memory, note, or banner.

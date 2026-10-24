@@ -8,6 +8,34 @@ skill format contract itself — a new required section, a new CI gate a
 contributor must satisfy — is a minor bump, because work written against the
 previous version no longer merges.
 
+## [1.7.1] — 2026-10-25
+
+No new skills (still 27). Four existing skills gain checks distilled from a
+backlog of observations logged during real sessions.
+
+- `verify-absence-claims` now covers three more shapes of the same weakness,
+  not just a negative claim handed over by a subagent: a setting missing from
+  one config layer while a higher-precedence layer supplies it at runtime, a
+  sweep whose count came back short, and an issue absent from a tracker that
+  has since been archived or renamed. The description and trigger list were
+  widened to match, so the router can reach the new material.
+- `a-memory-is-not-a-trigger` gains a check that runs before you author any
+  enforcement mechanism: enumerate the control points the host actually
+  exposes, and pick from that list, rather than designing a mechanism and
+  hoping the host has a seam for it.
+- `verify-through-the-real-path` gains an evidence ranking. Calling the
+  resolver that computes a value beats asking a component to describe itself:
+  self-report is bounded by what the component can see and cannot tell a
+  correct configuration from a coincidence.
+- `confirm-the-premise-first` gains a `## Checks` section whose first rule is
+  to read the declaration that produced a generated artifact before calling
+  the artifact a defect. "This is wired to the wrong thing" is a claim about
+  intent, and intent lives in the manifest.
+
+The four edits were authored against a plugin mirror four merges behind this
+repo and merged back three-way, not copied — a copy would have reverted the
+upstream work those files had picked up in between.
+
 ## [1.7.0] — 2026-10-19
 
 No new skills (still 27). Adds a required `## When this fires` section to the
