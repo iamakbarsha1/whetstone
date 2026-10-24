@@ -2,7 +2,7 @@
 
 [![validate-skills](https://github.com/iamakbarsha1/whetstone/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/iamakbarsha1/whetstone/actions/workflows/validate-skills.yml)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-blue.svg)](LICENSE)
-[![skills](https://img.shields.io/badge/skills-27-brightgreen.svg)](#skills)
+[![skills](https://img.shields.io/badge/skills-30-brightgreen.svg)](#skills)
 
 Agent skills honed on real work. Each skill is a short, self-contained rule set
 distilled from **one concrete failure** — written so an AI coding agent (or a
@@ -62,6 +62,7 @@ second one carries its `*(Illustrative: …)*` marker.
 | [`know-your-aggregate-command-scope`](skills/know-your-aggregate-command-scope) | Before citing a `test`/`lint`/`type-check`/`build` script as proof — confirm what it actually runs, how it forwards args, and whether it caches. | A `--testPathPattern` was dropped by the wrapper, so the green came from the whole suite, served from cache. |
 | [`enumerate-artifacts-not-references`](skills/enumerate-artifacts-not-references) | Writing or reviewing a completeness gate — enumerate the real artifacts and check each is referenced, rather than scraping references out of prose and checking each resolves; keep a separate bounded pass for truncation. | A gate scraped nineteen illustrative paths out of a document's prose and reported each MISSING, burying the two real findings. |
 | [`running-long-background-jobs`](skills/running-long-background-jobs) | Launching or verifying a long-running/detached job, or reconciling a batch against a corpus other processes also write to. | A backfill's residual of 151 was read as 151 failures; only 43 were real, the rest had arrived mid-run while a hook committed underneath it. |
+| [`third-party-tool-onboarding`](skills/third-party-tool-onboarding) | Standing up a third-party tool on a host that fails one of its declared constraints — one probe that works proves one layer, not the rule; verify the artifact you received, and probe install, configure and run separately. | A pinned smoke test passed on an unsupported runtime, so the version floor was written off; the next unpinned install exited 0 with a build years out of date. |
 
 ### Plan & design
 
@@ -73,6 +74,7 @@ second one carries its `*(Illustrative: …)*` marker.
 | [`inject-ambient-inputs`](skills/inject-ambient-inputs) | Writing logic that reads the clock, randomness, env, or handles — pass them in as parameters so the pure core tests with no mocking machinery. | Rules calling the clock would have needed fake timers in every test; passing the date in gave ~30 tests with no mocks. |
 | [`consistency-is-local-first`](skills/consistency-is-local-first) | Adding code to an existing module — match the nearest sibling's pattern; a repo-wide convention is the default only when the module has none. | Illustrative: applying the repo-wide convention would have made the new code the only outlier in a module that had settled on another way. |
 | [`validate-the-users-proposed-mechanism`](skills/validate-the-users-proposed-mechanism) | A user names a platform/tool/library — treat it as a proposed mechanism; grep the artifact for disqualifiers before agreeing, separate intent from mechanism. | The requested serverless platform kills the long-lived `setInterval` workers the app depends on — one grep surfaced it. |
+| [`harness-config-audit`](skills/harness-config-audit) | Applying an external write-up to a configuration you already run — produce a per-surface COVERED/PARTIAL/MISSING delta, and verify every name, version and command the guide cites against the installed build. | An improvised audit against an article found zero permission rules defined while the prompt gating unrestricted execution was off — and the article named a model id the install did not have. |
 
 ### Change safely
 
@@ -92,6 +94,7 @@ second one carries its `*(Illustrative: …)*` marker.
 | [`manufacture-review-independence`](skills/manufacture-review-independence) | Reviewing your own work (author == reviewer) — replace lost independence with scoped parallel passes and adversarial re-reads of the source. | Two reviewers split High vs Low on the same fact; the deciding evidence sat in a module outside both their scopes. |
 | [`findings-list-is-not-a-todo-list`](skills/findings-list-is-not-a-todo-list) | Acting on a review/audit/recommendation list — re-read each item's disposition and bucket them; some are marked no-fix, some need a human decision. | Illustrative: "fix the rest" nearly implemented several items the review had explicitly marked as requiring no change. |
 | [`scan-generated-files-for-artifacts`](skills/scan-generated-files-for-artifacts) | Reviewing or signing off a file an agent wrote with a tool — grep its head and tail for leaked harness residue (stray tags, fence fragments, content past EOF); passing tests don't cover non-code bytes. | An approved markdown file compiled and tested clean, then shipped with a leaked tool-call closing tag in its tail. |
+| [`macos-malware-triage`](skills/macos-malware-triage) | Checking a running macOS machine for compromise or unwanted persistence — walk fixed coverage axes instead of recall, hand back the checks your privileges can't reach, and separate malicious findings from stale and privacy-relevant ones. | A "scan my Mac" check improvised from recall reported clean — the two root-only checks it skipped were never named in the output. |
 
 ### Author & distill
 

@@ -49,6 +49,12 @@ Turning a single failure into a skill in the first place is a different job:
 use `distill-the-scar` for producing the skill, this one for placing it beside
 the skills already installed.
 
+A sibling that already claims your keywords is the visible failure. The
+invisible one is a target class no sibling covers at all — the router matches
+nothing, the agent improvises, and the output still looks complete. Audit the
+registry by target, not by topic; `macos-malware-triage` exists because three
+skills all saying "security" left the running host uncovered.
+
 ## When this fires
 
 **Where:** Writing or rewriting the description of a skill, command, or agent

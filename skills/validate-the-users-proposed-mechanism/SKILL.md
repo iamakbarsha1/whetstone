@@ -38,6 +38,11 @@ mechanism, satisfy the intent with a feasible mechanism, and push back
 explicitly on the conflict. Blindly implementing an infeasible choice throws
 away working code and ships something that can't run.
 
+The axis here is whether the tool choice is still open: this skill applies
+while the named mechanism can still be replaced. Once the choice is settled
+and the work is getting that tool running on a host that fails one of its
+declared constraints, use `third-party-tool-onboarding`.
+
 ## When this fires
 
 **Where:** A request arrives with the tool already chosen — "deploy this on

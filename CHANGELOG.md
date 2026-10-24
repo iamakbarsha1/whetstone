@@ -8,6 +8,39 @@ skill format contract itself — a new required section, a new CI gate a
 contributor must satisfy — is a minor bump, because work written against the
 previous version no longer merges.
 
+## [1.8.0] — 2026-10-25
+
+Three new skills (27 → 30), each distilled from an observation that had been
+sitting open in the log. All three came out of the same kind of failure: the
+agent had no rule for the situation, improvised, and produced output that read
+as a completed task.
+
+- `third-party-tool-onboarding` — standing up a tool whose declared constraint
+  the host does not satisfy. One declared version range produced three
+  behaviours at three layers: a silent install downgrade that exited 0 with a
+  years-old build, a hard refusal from the tool's own setup command, and
+  correct operation of the server itself. The rule is to verify the artifact
+  you received rather than the installer's exit status, and to probe install,
+  configure and run as separate layers.
+- `macos-malware-triage` — checking a running machine rather than a source
+  repository. The library had three security skills, all repo-scoped, so a
+  host sweep was improvised from recall and the two root-only checks it
+  skipped were never named in the output. Walk fixed coverage axes, hand back
+  what your privileges cannot reach, and separate malicious findings from
+  stale ones and from legitimate-but-privacy-relevant ones.
+- `harness-config-audit` — applying an external write-up to a configuration
+  you already run. The deliverable is a per-surface COVERED/PARTIAL/MISSING
+  delta, not a restatement of the guide, and every name, version and command
+  the guide cites is verified against the installed build before being
+  repeated.
+
+Reciprocal boundary lines were written into the seven siblings that share
+trigger words with the new three: `spike-falsification`,
+`validate-the-users-proposed-mechanism`, `verify-absence-claims`,
+`audit-before-you-build`, `a-memory-is-not-a-trigger`,
+`name-the-boundary-between-siblings` and `confirm-the-premise-first`. Each
+names one axis, in both directions.
+
 ## [1.7.1] — 2026-10-25
 
 No new skills (still 27). Four existing skills gain checks distilled from a

@@ -54,6 +54,10 @@ plus a hook that performs the deterministic half instead of merely mentioning
 it. The lesson generalizes to any recurring guardrail, log, or cleanup an agent
 is "supposed to remember."
 
+This picks the mechanism that makes a required step fire reliably once you know
+a gap exists; enumerating an existing configuration's surfaces against an
+external reference to find which gaps exist is `harness-config-audit`.
+
 ## When this fires
 
 **Where:** Any must-do that recurs every session or run — a log entry, a

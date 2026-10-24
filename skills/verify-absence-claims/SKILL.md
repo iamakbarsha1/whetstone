@@ -57,6 +57,18 @@ which direction a check *you* are writing should enumerate in — scrape
 references and test each resolves, or list the real artifacts and test each is
 referenced — is a different problem: use `enumerate-artifacts-not-references`.
 
+This is about a negative finding someone else produced. The mirror case — your
+own single successful probe, read as proof that a declared constraint is not
+enforced anywhere — is `third-party-tool-onboarding`.
+
+Two more neighbours sit on the far side of the same question. When the negative
+is one you are producing yourself about a running machine — a host that scanned
+clean — what supports it is the coverage list you walked, not the searches you
+remember running: use `macos-malware-triage`. And deciding which configuration
+surfaces to inspect at all, each reported as a COVERED/PARTIAL/MISSING delta
+against an external write-up, is `harness-config-audit` — run this skill on
+each MISSING verdict it produces.
+
 ## When this fires
 
 **Where:** Acting on a negative finding you did not produce yourself — a
